@@ -68,14 +68,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               child: SizedBox(
                 height: 50,
                 child: TabBar(
+                  controller: _tabController,
                   indicatorColor: Colors.transparent,
                   unselectedLabelColor: Color(0xFF1B5E20),
                   labelColor: Color(0xFF1B5E20),
-                  controller: _tabController,
                   indicator: BoxDecoration(
-                      color: Color(0xFFB9F6CA),
+                      gradient: LinearGradient(
+                          colors: [Color(0xFF2E7D32), Color(0xFFB9F6CA)]
+                      ),
+//                    color: Color(0xFFB9F6CA),
 //                    borderRadius: BorderRadius.only(topRight: Radius.circular(30), bottomLeft: Radius.circular(30)),
-                      borderRadius: BorderRadius.circular(30)
+                      borderRadius: BorderRadius.circular(50)
                   ),
                   tabs: <Widget>[
                     Tab(
