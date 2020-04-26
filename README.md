@@ -1,4 +1,4 @@
-# todoapp
+# TodoListApp
 
 A greatful Todo App for your life
 
