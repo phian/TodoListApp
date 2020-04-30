@@ -1,4 +1,4 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:bubbled_navigation_bar/bubbled_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,7 +10,7 @@ MaterialColor _focusedIconColor1;
 MaterialColor _focusedIconColor2;
 MaterialColor _focusedIconColor3;
 MaterialColor _focusedIconColor4;
-int _lastFocusedIndex = -1; // biến để check xem Icon thứ mấy dc focus trc đó
+int _lastFocusedIndex = 0; // biến để check xem Icon thứ mấy dc focus trc đó
 
 GlobalKey _bottomMenuKey = GlobalKey();
 
@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 //              ),
 //            )),
       body: Container(
-        color: Color.fromRGBO(56, 43, 59, 5),
+        color: Color(0xFFFAF3F0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -59,8 +59,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 style: GoogleFonts.courgette(
                     fontWeight: FontWeight.bold,
                     fontSize: 50,
-                    color: Color(0xFF00E676)
-                ),
+                    color: Color(0xFF00E676)),
               ),
             ),
             Padding(
@@ -74,8 +73,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   labelColor: Color(0xFF1B5E20),
                   indicator: BoxDecoration(
                       gradient: LinearGradient(
-                          colors: [Color(0xFF2E7D32), Color(0xFFB9F6CA)]
-                      ),
+                          colors: [Color(0xFF2E7D32), Color(0xFFB9F6CA)]),
 //                    color: Color(0xFFB9F6CA),
 //                    borderRadius: BorderRadius.only(topRight: Radius.circular(30), bottomLeft: Radius.circular(30)),
                       borderRadius: BorderRadius.circular(50)
@@ -131,7 +129,49 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: CurvedNavigationBar(
+      bottomNavigationBar: BubbledNavigationBar(
+        animationDuration: Duration(milliseconds: 500),
+        defaultBubbleColor: Colors.blue,
+        backgroundColor: Color(0xFFFAF3F0),
+        initialIndex: 0,
+        onTap: (index) {
+          // handle tap
+        },
+        items: <BubbledNavigationBarItem>[
+          BubbledNavigationBarItem(
+            icon:       Icon(CupertinoIcons.tags, size: 30, color: Colors.red),
+            activeIcon: Icon(CupertinoIcons.tags, size: 30, color: Colors.white),
+            title: Text('Tasks', style: TextStyle(color: Colors.white, fontSize: 15),),
+          ),
+          BubbledNavigationBarItem(
+            icon:       Icon(CupertinoIcons.check_mark_circled_solid, size: 30, color: Colors.purple),
+            activeIcon: Icon(CupertinoIcons.check_mark_circled_solid, size: 30, color: Colors.white),
+            title: Text('Goals', style: TextStyle(color: Colors.white, fontSize: 15),),
+          ),
+          BubbledNavigationBarItem(
+            icon:       Icon(CupertinoIcons.profile_circled, size: 30, color: Colors.teal),
+            activeIcon: Icon(CupertinoIcons.profile_circled, size: 30, color: Colors.white),
+            title: Text('Profile', style: TextStyle(color: Colors.white, fontSize: 15),),
+          ),
+          BubbledNavigationBarItem(
+            icon:       Icon(CupertinoIcons.settings, size: 30, color: Colors.cyan),
+            activeIcon: Icon(CupertinoIcons.settings, size: 30, color: Colors.white),
+            title: Text('Settings', style: TextStyle(color: Colors.white, fontSize: 15),),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _changePage(int value) {
+    setState(() {
+      _lastFocusedIndex = value;
+    });
+  }
+}
+
+/*
+CurvedNavigationBar(
         height: 60,
         animationDuration: Duration(milliseconds: 500),
         backgroundColor: Color.fromRGBO(46, 35, 49, 10),
@@ -156,6 +196,4 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         ],
         onTap: (index) {},
       ),
-    );
-  }
-}
+* */
