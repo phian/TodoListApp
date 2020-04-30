@@ -36,13 +36,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
-  bubbled_navigation_bar:
+  bubble_bottom_bar:
     dependency: "direct main"
     description:
-      name: bubbled_navigation_bar
+      name: bubble_bottom_bar
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.4"
+    version: "1.2.0"
   charcode:
     dependency: transitive
     description:
