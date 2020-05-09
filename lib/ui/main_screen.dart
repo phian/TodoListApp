@@ -327,7 +327,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void _changePage(int value) {
     setState(() {
       _lastFocusedIndex = value;
-
     });
   }
 
