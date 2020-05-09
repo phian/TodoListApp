@@ -2,18 +2,11 @@ import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import './dates_list.dart';
-import 'tasks_icon.dart';
 
-// Màu dùng cho các nút đang dc focus
-MaterialColor _focusedIconColor1;
-MaterialColor _focusedIconColor2;
-MaterialColor _focusedIconColor3;
-MaterialColor _focusedIconColor4;
 int _lastFocusedIndex = 0; // biến để check xem Icon thứ mấy dc focus trc đó
-String _dayName,
-    _dateNumber,
-    _month; // variables for displaying time in Calendar
+String _dayName; // variables for displaying time in Calendar
 
 GlobalKey _bottomMenuKey = GlobalKey();
 
@@ -24,6 +17,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   TabController _tabController;
+  List<String> _weekDates = [];
+  List<Widget> _dateCardList = [];
+  List<Widget> _dateNameList = [];
+  List<String> _weekDateNames = ["S", "M", "T", "W", "T", "F", "S"];
 
   @override
   void initState() {
@@ -32,6 +29,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     _tabController = TabController(vsync: this, length: 3);
     _initCalendarTime();
+
+    for (int i = 0; i < 7; i++) {
+      _weekDates.add(
+          DateFormat('dd').format(DateTime.now().add(new Duration(days: i))));
+    }
+
+    for (int i = 0; i < 7; i++) {
+      _dateCardList.add(_dateCard(_weekDates[i].toString()));
+    }
+
+    for (int i = 0; i < 7; i++) {
+      _dateNameList.add(_weekDateName(_weekDateNames[i].toString()));
+    }
+
+    setState(() {});
   }
 
   @override
@@ -46,10 +58,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               child: Padding(
                 padding: const EdgeInsets.only(top: 7.0),
                 child: Container(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width,
+                  width: MediaQuery.of(context).size.width,
                   height: 250,
                   decoration: BoxDecoration(
                       color: Color(0xFFFAF3F0),
@@ -84,26 +93,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 padding: const EdgeInsets.only(
                                     left: 20.0, top: 25.0),
                                 child: Text(
-                                  'Tuesday ',
-                                  textDirection: TextDirection.ltr,
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 30, color: Colors.white),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 25.0),
-                                child: Text(
-                                  '25,',
-                                  textDirection: TextDirection.ltr,
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 30, color: Colors.white),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 25.0),
-                                child: Text(
-                                  ' Dec',
-                                  textDirection: TextDirection.ltr,
+                                  '$_dayName',
                                   style: GoogleFonts.roboto(
                                       fontSize: 30, color: Colors.white),
                                 ),
@@ -151,48 +141,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceEvenly,
                                   children: <Widget>[
-                                    Text(
-                                      "S",
-                                      textDirection: TextDirection.ltr,
-                                      style: GoogleFonts.roboto(
-                                          fontSize: 17, color: Colors.white),
-                                    ),
-                                    Text(
-                                      "M",
-                                      textDirection: TextDirection.ltr,
-                                      style: GoogleFonts.roboto(
-                                          fontSize: 17, color: Colors.white),
-                                    ),
-                                    Text(
-                                      "T",
-                                      textDirection: TextDirection.ltr,
-                                      style: GoogleFonts.roboto(
-                                          fontSize: 17, color: Colors.white),
-                                    ),
-                                    Text(
-                                      "W",
-                                      textDirection: TextDirection.ltr,
-                                      style: GoogleFonts.roboto(
-                                          fontSize: 17, color: Colors.white),
-                                    ),
-                                    Text(
-                                      "T",
-                                      textDirection: TextDirection.ltr,
-                                      style: GoogleFonts.roboto(
-                                          fontSize: 17, color: Colors.white),
-                                    ),
-                                    Text(
-                                      "F",
-                                      textDirection: TextDirection.ltr,
-                                      style: GoogleFonts.roboto(
-                                          fontSize: 17, color: Colors.white),
-                                    ),
-                                    Text(
-                                      "S",
-                                      textDirection: TextDirection.ltr,
-                                      style: GoogleFonts.roboto(
-                                          fontSize: 17, color: Colors.white),
-                                    ),
+                                    _dateNameList[0],
+                                    _dateNameList[1],
+                                    _dateNameList[2],
+                                    _dateNameList[3],
+                                    _dateNameList[4],
+                                    _dateNameList[5],
+                                    _dateNameList[6],
                                   ],
                                 ),
                               ),
@@ -203,125 +158,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   mainAxisAlignment:
                                   MainAxisAlignment.spaceEvenly,
                                   children: <Widget>[
-                                    Container(
-                                      width: 50,
-                                      height: 70,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.circular(15),
-                                          color: Color(0xFFBDBDBD)),
-                                      child: Center(
-                                        child: Text(
-                                          "Ngày",
-                                          textDirection: TextDirection.ltr,
-                                          style: GoogleFonts.roboto(
-                                              fontSize: 17.0,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 50,
-                                      height: 70,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.circular(15),
-                                          color: Color(0xFFBDBDBD)),
-                                      child: Center(
-                                        child: Text(
-                                          "Ngày",
-                                          textDirection: TextDirection.ltr,
-                                          style: GoogleFonts.roboto(
-                                              fontSize: 17.0,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 50,
-                                      height: 70,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.circular(15),
-                                          color: Color(0xFFBDBDBD)),
-                                      child: Center(
-                                        child: Text(
-                                          "Ngày",
-                                          textDirection: TextDirection.ltr,
-                                          style: GoogleFonts.roboto(
-                                              fontSize: 17.0,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 50,
-                                      height: 70,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.circular(15),
-                                          color: Color(0xFFBDBDBD)),
-                                      child: Center(
-                                        child: Text(
-                                          "Ngày",
-                                          textDirection: TextDirection.ltr,
-                                          style: GoogleFonts.roboto(
-                                              fontSize: 17.0,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 50,
-                                      height: 70,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.circular(15),
-                                          color: Color(0xFFBDBDBD)),
-                                      child: Center(
-                                        child: Text(
-                                          "Ngày",
-                                          textDirection: TextDirection.ltr,
-                                          style: GoogleFonts.roboto(
-                                              fontSize: 17.0,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 50,
-                                      height: 70,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.circular(15),
-                                          color: Color(0xFFBDBDBD)),
-                                      child: Center(
-                                        child: Text(
-                                          "Ngày",
-                                          textDirection: TextDirection.ltr,
-                                          style: GoogleFonts.roboto(
-                                              fontSize: 17.0,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 50,
-                                      height: 70,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                          BorderRadius.circular(15),
-                                          color: Color(0xFFBDBDBD)),
-                                      child: Center(
-                                        child: Text(
-                                          "Ngày",
-                                          textDirection: TextDirection.ltr,
-                                          style: GoogleFonts.roboto(
-                                              fontSize: 17.0,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
+                                    _dateCardList[0],
+                                    _dateCardList[1],
+                                    _dateCardList[2],
+                                    _dateCardList[3],
+                                    _dateCardList[4],
+                                    _dateCardList[5],
+                                    _dateCardList[6],
                                   ],
                                 ),
                               ),
@@ -442,26 +285,27 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               activeIcon:
               Icon(CupertinoIcons.tags, size: 30, color: Colors.indigo),
               title: Text(
-                "Tasks",
-                style: TextStyle(color: Colors.red.shade900),)),
+                "Recent",
+                style: TextStyle(color: Colors.red.shade900),
+              )),
           BubbleBottomBarItem(
               backgroundColor: Colors.deepPurple,
               icon: Icon(CupertinoIcons.check_mark_circled_solid,
                   size: 30, color: Colors.purple),
               activeIcon: Icon(CupertinoIcons.check_mark_circled_solid,
                   size: 30, color: Colors.indigo),
-              title: Text("Goals",
-                style: TextStyle(
-                    color: Colors.deepPurple.shade900
-                ),)),
+              title: Text(
+                "Goals",
+                style: TextStyle(color: Colors.deepPurple.shade900),
+              )),
           BubbleBottomBarItem(
               backgroundColor: Colors.teal,
-              icon: Icon(CupertinoIcons.profile_circled,
+              icon: Icon(CupertinoIcons.book,
                   size: 30, color: Colors.teal),
-              activeIcon: Icon(CupertinoIcons.profile_circled,
+              activeIcon: Icon(CupertinoIcons.book,
                   size: 30, color: Colors.indigo),
               title: Text(
-                "Profile",
+                "Tasks List",
                 style: TextStyle(
                   color: Colors.teal.shade900,
                 ),
@@ -471,10 +315,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               icon: Icon(CupertinoIcons.settings, size: 30, color: Colors.cyan),
               activeIcon:
               Icon(CupertinoIcons.settings, size: 30, color: Colors.indigo),
-              title: Text("Settings",
-                style: TextStyle(
-                    color: Colors.green.shade900
-                ),))
+              title: Text(
+                "Settings",
+                style: TextStyle(color: Colors.green.shade900),
+              ))
         ],
       ),
     );
@@ -486,5 +330,35 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
   }
 
-  void _initCalendarTime() {}
+  void _initCalendarTime() {
+    // Lấy ngày hiện tại để hiển thị lên header ngày
+    String formattedDate = DateFormat('EEEEEEEE dd MMM').format(DateTime.now());
+    setState(() {
+      _dayName = formattedDate;
+    });
+  }
+
+  // Widget để hiển thị số trên Calendar
+  Widget _dateCard(String dateNum) {
+    return Container(
+      width: 50,
+      height: 70,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15), color: Color(0xFFBDBDBD)),
+      child: Center(
+        child: Text(
+          "$dateNum",
+          style: GoogleFonts.roboto(fontSize: 17.0, color: Colors.white),
+        ),
+      ),
+    );
+  }
+
+  // Widget để hiển thị viết tắt của thứ trên Calendar
+  Widget _weekDateName(String dateName) {
+    return Text(
+      "$dateName",
+      style: GoogleFonts.roboto(fontSize: 17, color: Colors.white),
+    );
+  }
 }
