@@ -17,10 +17,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   TabController _tabController;
-  List<String> _weekDates = [];
-  List<Widget> _dateCardList = [];
-  List<Widget> _dateNameList = [];
-  List<String> _weekDateNames = ["S", "M", "T", "W", "T", "F", "S"];
+  List<String> _weekDates = []; // List để lưu 7 ngày trong tuần đó để hiển thị
+  List<Widget> _dateCardList = []; // List chứa các widget hiển thị card ngày trên Calendar
+  List<Widget> _dateNameList = []; // List chứa các widget để hiển thị
+  List<String> _weekDateNames = ["S", "M", "T", "W", "T", "F", "S"]; // List để chứa các chữ cái đầu của tên của thứ trong tuần
+
+  int _currentDateIndex; // Biến để chứa vị trí của ngày hiện tại trong tuần
 
   @override
   void initState() {
@@ -39,8 +41,28 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       _dateCardList.add(_dateCard(_weekDates[i].toString()));
     }
 
-    for (int i = 0; i < 7; i++) {
-      _dateNameList.add(_weekDateName(_weekDateNames[i].toString()));
+    // Gọi hàm để check thứ tự ngày hiện tãi trong tuần
+    _currentDateIndex = _currentDateNum();
+
+    ///
+    /// Xét xem ngày hiện tại là thứ mấy
+    /// + Nếu là chủ nhất thì add week name theo thứ tự mặc định trong list
+    /// + Ngược lại thì chia ra 2 làm 2 vòng lặp, vòng lặp 1 để add từ vị trí
+    /// hiện tại đến hết list và vòng lặp 2 để swap các ngày trc ngày hiện tại
+    /// ra phía sau
+    ///
+    if (_currentDateIndex == 7) {
+      for (int i = 0; i < 7; i++) {
+        _dateNameList.add(_weekDateName(_weekDateNames[i].toString()));
+      }
+    } else {
+      for (int j = _currentDateIndex; j < 7; j++) {
+        _dateNameList.add(_weekDateName(_weekDateNames[j].toString()));
+      }
+
+      for (int i = 0; i < _currentDateIndex; i++) {
+        _dateNameList.add(_weekDateName(_weekDateNames[i].toString()));
+      }
     }
 
     setState(() {});
@@ -324,12 +346,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  // Hàm để cập nhật vị trí tab hiện tại của bottom bar
   void _changePage(int value) {
     setState(() {
       _lastFocusedIndex = value;
     });
   }
 
+  // Hàm để khởi tạo format ngày để hiển thị trên header ngày
   void _initCalendarTime() {
     // Lấy ngày hiện tại để hiển thị lên header ngày
     String formattedDate = DateFormat('EEEEEEEE dd MMM').format(DateTime.now());
@@ -344,7 +368,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       width: 50,
       height: 70,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15), color: Color(0xFFBDBDBD)),
+          borderRadius: BorderRadius.circular(15), color: Color(0xFFBDBDBD).withOpacity(0.3)),
       child: Center(
         child: Text(
           "$dateNum",
@@ -360,5 +384,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       "$dateName",
       style: GoogleFonts.roboto(fontSize: 17, color: Colors.white),
     );
+  }
+
+  // Hàm để xét xem ngày hiện tại đang là thứ mấy
+  int _currentDateNum() {
+    int currentIndex;
+
+    currentIndex = DateTime.now().weekday;
+
+    return currentIndex;
   }
 }
