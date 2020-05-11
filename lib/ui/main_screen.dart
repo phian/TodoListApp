@@ -23,6 +23,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   List<String> _weekDateNames = ["S", "M", "T", "W", "T", "F", "S"]; // List để chứa các chữ cái đầu của tên của thứ trong tuần
 
   int _currentDateIndex; // Biến để chứa vị trí của ngày hiện tại trong tuần
+  int _increaseClickedTime = 0; // Biến để check xem ng dùng đã chuyển qua bao nhiêu tuần
+  int _decreaseClickedTime = 0; // Biến để check xem ng dùng đã chuyển qua bao nhiêu tuần
 
   @override
   void initState() {
@@ -129,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       width: 50,
                                       height: 50,
                                       child: FlatButton(
-                                        onPressed: () {},
+                                        onPressed: _decreaseWeekDates,
                                         child: Icon(
                                           Icons.arrow_back_ios,
                                           color: Colors.white,
@@ -143,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       width: 50,
                                       height: 50,
                                       child: FlatButton(
-                                        onPressed: () {},
+                                        onPressed: _increaseWeekDates,
                                         child: Icon(
                                           Icons.arrow_forward_ios,
                                           color: Colors.white,
@@ -393,5 +395,49 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     currentIndex = DateTime.now().weekday;
 
     return currentIndex;
+  }
+
+  // Hàm để chuyển ngày thành số ngày của tuần kế tiếp
+  void _increaseWeekDates() {
+    setState(() {
+      // Nếu chiều nào tăng thì chiều còn lại sẽ giảm
+      _increaseClickedTime++;
+      _decreaseClickedTime--;
+
+      // Reset các list về rỗng để add dữ liệu mới
+      _weekDates = [];
+      _dateCardList = [];
+
+      for (int i = 0; i < 7; i++) {
+        _weekDates.add(
+            DateFormat('dd').format(DateTime.now().add(new Duration(days: i + 7*_increaseClickedTime))));
+      }
+
+      for (int i = 0; i < 7; i++) {
+        _dateCardList.add(_dateCard(_weekDates[i].toString()));
+      }
+    });
+  }
+
+  // Hàm để chuyển ngày thành số ngày của tuần kế tiếp
+  void _decreaseWeekDates() {
+    setState(() {
+      // Nếu chiều nào tăng thì chiều còn lại sẽ giảm
+      _decreaseClickedTime++;
+      _increaseClickedTime--;
+
+      // Reset các list về rỗng để add dữ liệu mới
+      _weekDates = [];
+      _dateCardList = [];
+
+      for (int i = 0; i < 7; i++) {
+        _weekDates.add(
+            DateFormat('dd').format(DateTime.now().add(new Duration(days: i - 7*_decreaseClickedTime))));
+      }
+
+      for (int i = 0; i < 7; i++) {
+        _dateCardList.add(_dateCard(_weekDates[i].toString()));
+      }
+    });
   }
 }
