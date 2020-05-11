@@ -40,7 +40,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     }
 
     for (int i = 0; i < 7; i++) {
-      _dateCardList.add(_dateCard(_weekDates[i].toString()));
+      double opacity = i == 0 ? 0.85 : 0.3;
+      _dateCardList.add(_dateCard(_weekDates[i].toString(), opacity));
     }
 
     // Gọi hàm để check thứ tự ngày hiện tãi trong tuần
@@ -365,12 +366,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   // Widget để hiển thị số trên Calendar
-  Widget _dateCard(String dateNum) {
+  Widget _dateCard(String dateNum, double opacity) {
     return Container(
       width: 50,
       height: 70,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15), color: Color(0xFFBDBDBD).withOpacity(0.3)),
+          borderRadius: BorderRadius.circular(15), color: Color(0xFFBDBDBD).withOpacity(opacity)),
       child: Center(
         child: Text(
           "$dateNum",
@@ -414,7 +415,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       }
 
       for (int i = 0; i < 7; i++) {
-        _dateCardList.add(_dateCard(_weekDates[i].toString()));
+        double opacity = 0;
+        if (_increaseClickedTime == 0) { // Nếu đang ở tuần hiện tại
+          opacity = i == 0 ? 0.85 : 0.3;
+          _dateCardList.add(_dateCard(_weekDates[i].toString(), opacity));
+        } else {
+          opacity = 0.3;
+          _dateCardList.add(_dateCard(_weekDates[i].toString(), opacity));
+        }
       }
     });
   }
@@ -436,7 +444,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       }
 
       for (int i = 0; i < 7; i++) {
-        _dateCardList.add(_dateCard(_weekDates[i].toString()));
+        double opacity = 0;
+        if (_increaseClickedTime == 0) { // Nếu đang ở tuần hiện tại
+          opacity = i == 0 ? 0.85 : 0.3;
+          _dateCardList.add(_dateCard(_weekDates[i].toString(), opacity));
+        } else {
+          opacity = 0.3;
+          _dateCardList.add(_dateCard(_weekDates[i].toString(), opacity));
+        }
       }
     });
   }
