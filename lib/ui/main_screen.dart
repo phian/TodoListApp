@@ -18,13 +18,26 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   TabController _tabController;
   List<String> _weekDates = []; // List để lưu 7 ngày trong tuần đó để hiển thị
-  List<Widget> _dateCardList = []; // List chứa các widget hiển thị card ngày trên Calendar
+  List<Widget> _dateCardList =
+      []; // List chứa các widget hiển thị card ngày trên Calendar
   List<Widget> _dateNameList = []; // List chứa các widget để hiển thị
-  List<String> _weekDateNames = ["S", "M", "T", "W", "T", "F", "S"]; // List để chứa các chữ cái đầu của tên của thứ trong tuần
+  List<String> _weekDateNames = [
+    "S",
+    "M",
+    "T",
+    "W",
+    "T",
+    "F",
+    "S"
+  ]; // List để chứa các chữ cái đầu của tên của thứ trong tuần
 
   int _currentDateIndex; // Biến để chứa vị trí của ngày hiện tại trong tuần
-  int _increaseClickedTime = 0; // Biến để check xem ng dùng đã chuyển qua bao nhiêu tuần
-  int _decreaseClickedTime = 0; // Biến để check xem ng dùng đã chuyển qua bao nhiêu tuần
+  int _increaseClickedTime =
+      0; // Biến để check xem ng dùng đã chuyển qua bao nhiêu tuần
+  int _decreaseClickedTime =
+      0; // Biến để check xem ng dùng đã chuyển qua bao nhiêu tuần
+
+  DateTime _pickedDate;
 
   @override
   void initState() {
@@ -99,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       Container(
                         decoration: BoxDecoration(
                             borderRadius:
-                            BorderRadius.all(Radius.circular(30))),
+                                BorderRadius.all(Radius.circular(30))),
                         height: 250,
                         child: ClipRRect(
                           child: Image.asset(
@@ -125,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 55.0, top: 25.0),
+                                    left: 35.0, top: 25.0),
                                 child: Row(
                                   children: <Widget>[
                                     Container(
@@ -140,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 15,
+                                      width: 12,
                                     ),
                                     Container(
                                       width: 50,
@@ -164,7 +177,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 padding: const EdgeInsets.only(top: 20.0),
                                 child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceEvenly,
                                   children: <Widget>[
                                     _dateNameList[0],
                                     _dateNameList[1],
@@ -181,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     left: 20.0, right: 20.0, top: 15.0),
                                 child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceEvenly,
                                   children: <Widget>[
                                     _dateCardList[0],
                                     _dateCardList[1],
@@ -197,7 +210,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           ),
                           Center(
                             child: FlatButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showDatePicker(
+                                    context: context,
+                                    initialDate: _pickedDate == null ? DateTime.now() : _pickedDate,
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime(2200)).then((date) {
+                                      setState(() {
+                                        _pickedDate = date;
+                                      });
+                                });
+                              },
                               child: Padding(
                                 padding: const EdgeInsets.only(top: 5.0),
                                 child: Stack(
@@ -250,14 +273,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
                     Tab(
                         child: Icon(
-                          Icons.event,
-                          size: 30,
-                        )),
+                      Icons.event,
+                      size: 30,
+                    )),
                     Tab(
                         child: Icon(
-                          Icons.assistant_photo,
-                          size: 30,
-                        )),
+                      Icons.assistant_photo,
+                      size: 30,
+                    )),
                   ],
                 ),
               ),
@@ -308,7 +331,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               backgroundColor: Colors.redAccent,
               icon: Icon(CupertinoIcons.tags, size: 30, color: Colors.red),
               activeIcon:
-              Icon(CupertinoIcons.tags, size: 30, color: Colors.indigo),
+                  Icon(CupertinoIcons.tags, size: 30, color: Colors.indigo),
               title: Text(
                 "Recent",
                 style: TextStyle(color: Colors.red.shade900),
@@ -325,10 +348,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               )),
           BubbleBottomBarItem(
               backgroundColor: Colors.teal,
-              icon: Icon(CupertinoIcons.book,
-                  size: 30, color: Colors.teal),
-              activeIcon: Icon(CupertinoIcons.book,
-                  size: 30, color: Colors.indigo),
+              icon: Icon(CupertinoIcons.book, size: 30, color: Colors.teal),
+              activeIcon:
+                  Icon(CupertinoIcons.book, size: 30, color: Colors.indigo),
               title: Text(
                 "Tasks List",
                 style: TextStyle(
@@ -339,7 +361,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               backgroundColor: Colors.green,
               icon: Icon(CupertinoIcons.settings, size: 30, color: Colors.cyan),
               activeIcon:
-              Icon(CupertinoIcons.settings, size: 30, color: Colors.indigo),
+                  Icon(CupertinoIcons.settings, size: 30, color: Colors.indigo),
               title: Text(
                 "Settings",
                 style: TextStyle(color: Colors.green.shade900),
@@ -371,7 +393,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       width: 50,
       height: 70,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15), color: Color(0xFFBDBDBD).withOpacity(opacity)),
+          borderRadius: BorderRadius.circular(15),
+          color: Color(0xFFBDBDBD).withOpacity(opacity)),
       child: Center(
         child: Text(
           "$dateNum",
@@ -410,13 +433,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       _dateCardList = [];
 
       for (int i = 0; i < 7; i++) {
-        _weekDates.add(
-            DateFormat('dd').format(DateTime.now().add(new Duration(days: i + 7*_increaseClickedTime))));
+        _weekDates.add(DateFormat('dd').format(DateTime.now()
+            .add(new Duration(days: i + 7 * _increaseClickedTime))));
       }
 
       for (int i = 0; i < 7; i++) {
         double opacity = 0;
-        if (_increaseClickedTime == 0) { // Nếu đang ở tuần hiện tại
+        if (_increaseClickedTime == 0) {
+          // Nếu đang ở tuần hiện tại
           opacity = i == 0 ? 0.85 : 0.3;
           _dateCardList.add(_dateCard(_weekDates[i].toString(), opacity));
         } else {
@@ -439,13 +463,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       _dateCardList = [];
 
       for (int i = 0; i < 7; i++) {
-        _weekDates.add(
-            DateFormat('dd').format(DateTime.now().add(new Duration(days: i - 7*_decreaseClickedTime))));
+        _weekDates.add(DateFormat('dd').format(DateTime.now()
+            .add(new Duration(days: i - 7 * _decreaseClickedTime))));
       }
 
       for (int i = 0; i < 7; i++) {
         double opacity = 0;
-        if (_increaseClickedTime == 0) { // Nếu đang ở tuần hiện tại
+        if (_increaseClickedTime == 0) {
+          // Nếu đang ở tuần hiện tại
           opacity = i == 0 ? 0.85 : 0.3;
           _dateCardList.add(_dateCard(_weekDates[i].toString(), opacity));
         } else {
