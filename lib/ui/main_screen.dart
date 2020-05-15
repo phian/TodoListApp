@@ -126,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Row(
+                          Stack(
                             children: <Widget>[
                               Padding(
                                 padding: const EdgeInsets.only(
@@ -139,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(
-                                    left: 35.0, top: 25.0),
+                                    left: 300.0, top: 20.0),
                                 child: Row(
                                   children: <Widget>[
                                     Container(
@@ -257,6 +257,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     .then((date) {
                                   setState(() {
                                     _pickedDate = date;
+
+                                    if (_pickedDate.month - DateTime.now().month == 0) {
+                                      if (_pickedDate.day - DateTime.now().day >= 0 && _pickedDate.day - DateTime.now().day < 7) {
+                                        for (int i = 0; i < 7; i++) {
+                                          if (int.parse(_weekDates[i]) == _pickedDate.day) {
+                                            _changeFocusedCardColor(i);
+                                            break;
+                                          }
+                                        }
+                                      } else if (_pickedDate.day - DateTime.now().day > 7) {
+                                        _increaseTimeToSelectedDate(0);
+                                      } else {
+                                        _decreaseTimeToSelectedDate(0);
+                                      }
+                                    } else if (_pickedDate.month - DateTime.now().month > 0) {
+                                      _increaseTimeToSelectedDate(_pickedDate.month - DateTime.now().month);
+                                    } else {
+                                      _decreaseTimeToSelectedDate(DateTime.now().month - _pickedDate.month);
+                                    }
                                   });
                                 });
                               },
@@ -480,7 +499,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       // Add hiển thị của card ra screen
       for (int i = 0; i < 7; i++) {
         double opacity = 0;
-        opacity = _lastFocusDate == int.parse(_weekDates[i]) ? 0.85 : 0.3; // Nếu ngày đang focus có trong tuần đang xem
+        opacity = _lastFocusDate == int.parse(_weekDates[i])
+            ? 0.85
+            : 0.3; // Nếu ngày đang focus có trong tuần đang xem
         _dateCardList
             .add(_dateCard(_weekDates[i].toString(), opacity, Colors.white));
       }
@@ -524,18 +545,34 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   // Hàm sự kiện để thay đổi màu thẻ khi thẻ được focus
-  void _changeFocusedCardColor(int selectedIndex) {
+  void _changeFocusedCardColor(int selectedIndex, [bool isIncreaseOrDecrease]) {
     setState(() {
       // Nếu ng dùng đang dừng ở tuần khác hiện tại
       if (_increaseClickedTime != 0 && _decreaseClickedTime != 0) {
-        if (int.parse(_weekDates[selectedIndex]) != _lastFocusDate) {
-          _dateCardList[selectedIndex] =
-              _dateCard(_weekDates[selectedIndex], 0.85);
-          _lastFocusDate = int.parse(_weekDates[selectedIndex]);
+        if (isIncreaseOrDecrease == null) { // Nếu ng dùng ko dùng Calendar để chọn ngày
+          if (int.parse(_weekDates[selectedIndex]) != _lastFocusDate) {
+            _dateCardList[selectedIndex] =
+                _dateCard(_weekDates[selectedIndex], 0.85);
+            _lastFocusDate = int.parse(_weekDates[selectedIndex]);
 
-          for (int i = 0; i < 7; i++) {
-            if (selectedIndex != i) {
-              _dateCardList[i] = _dateCard(_weekDates[i], 0.3);
+            for (int i = 0; i < 7; i++) {
+              if (selectedIndex != i) {
+                _dateCardList[i] = _dateCard(_weekDates[i], 0.3);
+              }
+            }
+          }
+        } else {
+          if (isIncreaseOrDecrease) { // Nếu ng dùng có dùng Calendar để chọn ngày
+            if (int.parse(_weekDates[selectedIndex]) == _lastFocusDate) {
+              _dateCardList[selectedIndex] =
+                  _dateCard(_weekDates[selectedIndex], 0.85);
+              _lastFocusDate = int.parse(_weekDates[selectedIndex]);
+
+              for (int i = 0; i < 7; i++) {
+                if (selectedIndex != i) {
+                  _dateCardList[i] = _dateCard(_weekDates[i], 0.3);
+                }
+              }
             }
           }
         }
@@ -566,5 +603,142 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         }
       }
     });
+  }
+
+  // Hàm để tăng thời gian đến ngày ng dùng chọn
+  void _increaseTimeToSelectedDate(int monthDistance) {
+    bool _reachedDate = false; // Biến để check xem đã đến dc ngày mà ng dùng pick hay chưa?
+    int checkMonthDistance = 0; // biến để check xem đã đến đúng tháng ng dùng chọn hay chưa
+    int focusIndex = -1; // Biến để check xem ngày ở vị trí nào của date card list cần thay đổi màu focus
+
+    if (monthDistance == 0) {
+      _increaseClickedTime = 0;
+      _decreaseClickedTime = 0;
+
+      while (true) {
+        _weekDates = [];
+        _dateCardList = [];
+
+        for (int i = 0; i < 7; i++) {
+          _weekDates.add(DateFormat('dd').format(DateTime.now()
+              .add(new Duration(days: i + 7 * _increaseClickedTime))));
+          _dateCardList.add(_dateCard(_weekDates[i], 0.3));
+          if (int.parse(_weekDates[i]) == _pickedDate.day) {
+            _reachedDate = true;
+            focusIndex = i;
+          }
+        }
+
+        if (_reachedDate) {
+          _lastFocusDate = int.parse(_weekDates[focusIndex]);
+          _changeFocusedCardColor(focusIndex, true);
+          return;
+        } else {
+          _increaseClickedTime++;
+          _decreaseClickedTime--;
+        }
+      }
+    } else {
+      _increaseClickedTime = 0;
+      _decreaseClickedTime = 0;
+
+      while (true) {
+        _weekDates = [];
+        _dateCardList = [];
+
+        for (int i = 0; i < 7; i++) {
+          _weekDates.add(DateFormat('dd').format(DateTime.now()
+              .add(new Duration(days: i + 7 * _increaseClickedTime))));
+          _dateCardList.add(_dateCard(_weekDates[i], 0.3));
+          if (int.parse(_weekDates[i]) == _pickedDate.day) {
+            if (checkMonthDistance == monthDistance) {
+              _reachedDate = true;
+              focusIndex = i;
+            } else if (DateTime.now()
+                .add(new Duration(days: i + 7 * _increaseClickedTime)).month != DateTime.now().month)
+              checkMonthDistance++;
+          }
+          if (_reachedDate && i > 6) {
+            break;
+          }
+        }
+
+        if (_reachedDate == true) {
+          _lastFocusDate = int.parse(_weekDates[focusIndex]);
+          _changeFocusedCardColor(focusIndex, true);
+          return;
+        } else {
+          _increaseClickedTime++;
+          _decreaseClickedTime--;
+        }
+      }
+    }
+  }
+
+  // Hàm đẻ giảm ngày đến ngày mà ng dùng chọn
+  void _decreaseTimeToSelectedDate(int monthDistance) {
+    bool _reachedDate = false; // Biến để check xem đã đến dc ngày mà ng dùng pick hay chưa?
+    int checkMonthDistance = 0; // biến để check xem đã đến đúng tháng ng dùng chọn hay chưa
+    int focusIndex;
+
+    if (monthDistance == 0) {
+      _increaseClickedTime = 0;
+      _decreaseClickedTime = 0;
+
+      while (true) {
+        _weekDates = [];
+        _dateCardList = [];
+
+        for (int i = 0; i < 7; i++) {
+          _weekDates.add(DateFormat('dd').format(_pickedDate
+              .add(new Duration(days: i - 7 * _decreaseClickedTime))));
+          _dateCardList.add(_dateCard(_weekDates[i], 0.3));
+          if (int.parse(_weekDates[i]) == _pickedDate.day) {
+            _reachedDate = true;
+            focusIndex = i;
+          }
+        }
+
+        if (_reachedDate == true) {
+          _lastFocusDate = int.parse(_weekDates[focusIndex]);
+          _changeFocusedCardColor(focusIndex, true);
+          break;
+        } else {
+          _decreaseClickedTime++;
+          _increaseClickedTime--;
+        }
+      }
+    } else {
+      _increaseClickedTime = 0;
+      _decreaseClickedTime = 0;
+
+      while (true) {
+        _weekDates = [];
+        _dateCardList = [];
+
+        for (int i = 0; i < 7; i++) {
+          _weekDates.add(DateFormat('dd').format(_pickedDate
+              .add(new Duration(days: i - 7 * _decreaseClickedTime))));
+          _dateCardList.add(_dateCard(_weekDates[i], 0.3));
+          if (int.parse(_weekDates[i]) == _pickedDate.day) {
+            if (checkMonthDistance == monthDistance) {
+              _reachedDate = true;
+              focusIndex = i;
+            } else if (_pickedDate
+                .add(new Duration(days: i - 7 * _decreaseClickedTime)).month != DateTime.now().month)
+              checkMonthDistance++;
+          }
+        }
+
+        if (_reachedDate == true) {
+          _lastFocusDate = int.parse(_weekDates[focusIndex]);
+          _changeFocusedCardColor(focusIndex, true);
+          break;
+        } else {
+          _decreaseClickedTime++;
+          _increaseClickedTime--;
+        }
+      }
+    }
   }
 }
