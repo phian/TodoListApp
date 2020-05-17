@@ -27,9 +27,20 @@ class _HomeScreenState extends State<HomeScreen> {
   int _settingsScreenIndex =
   -1; // Biến để check nếu ng dùng mở màn hình settings thì sẽ cho app tiếp tục focus vào màn hình trc đó
 
-  double _marginTop = 0.0; // Hai biến để thay đổi margin khi ng dùng chọn màn hình settings
+  double _marginTop =
+  0.0; // Hai biến để thay đổi margin khi ng dùng chọn màn hình settings
   double _marginBottom = 0.0;
-  double _transitionX = 0.0; // Biến để dời screen hiện tại qua bên trái màn hình
+  double _transitionX =
+  0.0; // Biến để dời screen hiện tại qua bên trái màn hình
+  double _blur; // Biến để thay đổi độ đậm của shadowbox
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _blur = 0.0;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,18 +52,27 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             SettingsScreen(),
             Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: _blur,
+                  ),
+                ],),
               transform: Matrix4.translationValues(_transitionX, 0.0, 0.0),
               margin: EdgeInsets.only(top: _marginTop, bottom: _marginBottom),
               child: InkWell(
                 child: _screenList[_lastFocusedIconIndex],
                 onTap: () {
                   setState(() {
-                    _changePage(_lastFocusedIconIndex); // Quay lại màn hình trc đó ng dùng focus
+                    _changePage(
+                        _lastFocusedIconIndex); // Quay lại màn hình trc đó ng dùng focus
 
                     _transitionX = 0.0;
 
                     _marginTop = 0.0;
                     _marginBottom = 0.0;
+
+                    _blur = 0.0;
                   });
                 },
               ),
@@ -151,12 +171,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
         _marginTop = 0.0;
         _marginBottom = 0.0;
+
+        _blur = 0.0;
       } else {
         _settingsScreenIndex = 3;
 
         _transitionX = -350.0;
         _marginTop = 60;
         _marginBottom = 60;
+
+        _blur = 2.5;
       }
     });
   }
