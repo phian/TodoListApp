@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:todoapp/ui/about_screen.dart';
+
+int _lastFocusScreen;
 
 class SettingsScreen extends StatefulWidget {
+  SettingsScreen([int lastFocusScreen]) {
+    _lastFocusScreen = lastFocusScreen;
+  }
+
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
@@ -100,6 +107,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           InkWell(
             onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => AboutScreen(_lastFocusScreen),
+              ));
               _changeFocusMenuWidgetColor(3, false);
             },
             onTapCancel: () {
