@@ -10,13 +10,8 @@ import 'package:todoapp/ui/tasks_list_screen.dart';
 import 'package:todoapp/ui/tasks_screen.dart';
 
 GlobalKey _bottomMenuKey = GlobalKey();
-int _lastFocusScreen; // Biến để lưu page trc đó ng dùng đang focus để khi ng dùng back lại từ trang khác thi có thể giữ nguyên page đó
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen([int lastFocusScreen]) {
-    _lastFocusScreen = lastFocusScreen;
-  }
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -44,9 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
 
-    // TH nếu back về từ trang khác or ngược lại
-    if (_lastFocusScreen != null) _changePage(_lastFocusScreen);
-    else _blur = 0.0;
+    _blur = 0.0;
   }
 
   @override
@@ -57,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Stack(
           overflow: Overflow.clip,
           children: <Widget>[
-            SettingsScreen(_settingsScreenIndex == -1 ? _lastFocusedIconIndex : _settingsScreenIndex),
+            SettingsScreen(),
             Container(
               decoration: BoxDecoration(
                 boxShadow: [
@@ -98,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
               print('Tapped');
 
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => AddTaskScreen(_settingsScreenIndex == -1 ? _lastFocusedIconIndex : _settingsScreenIndex),
+                builder: (context) => AddTaskScreen(),
               ));
             },
           ),
