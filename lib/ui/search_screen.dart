@@ -39,7 +39,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   child: FlatButton(
                     child: Icon(
                       Icons.arrow_back,
-                      color: Colors.cyanAccent,
+                      color: Colors.lightBlueAccent,
                       size: 40.0,
                     ),
                     onPressed: () {
@@ -56,8 +56,9 @@ class _SearchScreenState extends State<SearchScreen> {
                   child: Text(
                     "Search",
                     style: GoogleFonts.adamina(
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.lightBlueAccent
                     ),
                   ),
                 ),

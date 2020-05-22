@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todoapp/ui/about_screen.dart';
 import 'package:todoapp/ui/help_screen.dart';
+import 'package:todoapp/ui/preference_screen.dart';
 import 'package:todoapp/ui/search_screen.dart';
+
+import 'account_screen.dart';
+import 'getting_started_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _SettingsScreenState extends State<SettingsScreen> with SingleTickerProviderStateMixin {
   List<IconData> _settingMenuIcons = [
     Icons.brightness_7,
     Icons.search,
@@ -52,6 +56,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           InkWell(
             onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => PreferenceScreen(),
+              ));
+
               _changeFocusMenuWidgetColor(0, false);
             },
             onTapCancel: () {
@@ -130,6 +138,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           InkWell(
             onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => GettingStartedScreen(),
+              ));
+
               _changeFocusMenuWidgetColor(4, false);
             },
             onTapCancel: () {
@@ -147,6 +159,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           InkWell(
             onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => AccountScreen(),
+              ));
+
               _changeFocusMenuWidgetColor(5, false);
             },
             onTapCancel: () {

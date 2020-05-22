@@ -23,6 +23,7 @@ dependencies:
   animated_text_kit: ^2.0.0
   intl: ^0.16.0
   bubble_bottom_bar: ^1.2.0
+  package_info: ^0.4.0+16
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

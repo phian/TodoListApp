@@ -22,7 +22,7 @@ class _AboutScreenState extends State<AboutScreen> {
                 child: FlatButton(
                   child: Icon(
                     Icons.arrow_back,
-                    color: Colors.cyanAccent,
+                    color: Colors.lightBlueAccent,
                     size: 40.0,
                   ),
                   onPressed: () {
@@ -38,10 +38,11 @@ class _AboutScreenState extends State<AboutScreen> {
                 padding: const EdgeInsets.only(top: 13.0),
                 child: Center(
                   child: Text(
-                    "About",
+                    "ABOUT",
                     style: GoogleFonts.roboto(
-                      fontSize: 35.0,
-                      fontWeight: FontWeight.w500,
+                        fontSize: 35.0,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.lightBlueAccent
                     ),
                   ),
                 ),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../presentation/facebook_icon.dart';
+import 'package:package_info/package_info.dart';
 
 class HelpScreen extends StatefulWidget {
   @override
@@ -14,11 +15,14 @@ class HelpScreen extends StatefulWidget {
 class _HelpScreenState extends State<HelpScreen> {
   static double _begin = 1.0, _end = 1.1;
   Tween<double> _scaleButtonTween;
+  String _appVersion = ""; // Biến để lấy version của app để hiển thị
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    _getAppVersion();
   }
 
   @override
@@ -34,7 +38,7 @@ class _HelpScreenState extends State<HelpScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
+                  padding: const EdgeInsets.only(top: 10.0),
                   child: FlatButton(
                     onPressed: () {
                       if (Navigator.canPop(context)) {
@@ -45,7 +49,7 @@ class _HelpScreenState extends State<HelpScreen> {
                     },
                     child: Icon(
                       Icons.arrow_back,
-                      color: Colors.cyanAccent,
+                      color: Colors.lightBlueAccent,
                       size: 32.0,
                     ),
                   ),
@@ -56,7 +60,7 @@ class _HelpScreenState extends State<HelpScreen> {
                     "HELP",
                     style: GoogleFonts.roboto(
                       fontSize: 30.0,
-                      color: Colors.cyanAccent,
+                      color: Colors.lightBlueAccent,
                     ),
                   ),
                 ),
@@ -66,7 +70,7 @@ class _HelpScreenState extends State<HelpScreen> {
                     'images/help.gif',
                     width: 50.0,
                     height: 50.0,
-                    color: Colors.cyanAccent,
+                    color: Colors.lightBlueAccent,
                   ),
                 )
               ],
@@ -231,9 +235,28 @@ class _HelpScreenState extends State<HelpScreen> {
                 ),
               ],
             ),
+
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Text(
+                "Version $_appVersion",
+                style: GoogleFonts.roboto(
+                  fontSize: 28.0,
+                  fontWeight: FontWeight.w100,
+                  color: Colors.black,
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  // Hàm để lấy version hiện tại của app
+  void _getAppVersion() async {
+    PackageInfo _packageInfo = await PackageInfo.fromPlatform();
+
+    _appVersion = _packageInfo.version;
   }
 }
