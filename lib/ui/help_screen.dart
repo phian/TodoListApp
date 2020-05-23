@@ -12,10 +12,16 @@ class HelpScreen extends StatefulWidget {
   _HelpScreenState createState() => _HelpScreenState();
 }
 
-class _HelpScreenState extends State<HelpScreen> {
+class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
   static double _begin = 1.0, _end = 1.1;
   Tween<double> _scaleButtonTween;
   String _appVersion = ""; // Biến để lấy version của app để hiển thị
+
+  List<AnimationController> _controllers = [];
+  List<double> _scales = [];
+  double _opacity;
+
+  int _tappedWidgetIndex = 0;
 
   @override
   void initState() {
@@ -23,11 +29,17 @@ class _HelpScreenState extends State<HelpScreen> {
     super.initState();
 
     _getAppVersion();
+    _initForWidgetInHelpScreen();
+
+    _opacity = 1.0;
   }
 
   @override
   Widget build(BuildContext context) {
     _scaleButtonTween = Tween<double>(begin: _begin, end: _end);
+    for (int i = 0; i < 4; i++) {
+      _scales[i] = 1 - _controllers[i].value;
+    }
 
     return Scaffold(
       body: Container(
@@ -81,15 +93,7 @@ class _HelpScreenState extends State<HelpScreen> {
                   top: MediaQuery.of(context).size.height / 5,
                   left: MediaQuery.of(context).size.width / 3,
                   child: TweenAnimationBuilder(
-                    onEnd: () {
-                      setState(() {
-                        _begin = 1.1;
-                        _end = 1.0;
-
-                        // reset kích thước lại cho widget
-                        _scaleButtonTween = Tween<double>(begin: _begin, end: _end);
-                      });
-                    },
+                    onEnd: _onEnd,
                     tween: _scaleButtonTween,
                     duration: Duration(milliseconds: 500),
                     builder: (context, scale, child) {
@@ -98,20 +102,36 @@ class _HelpScreenState extends State<HelpScreen> {
                         child: child,
                       );
                     },
-                    child: Container(
-                      width: 200.0,
-                      height: 200.0,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(360)),
-                        color: Colors.greenAccent.shade400,
-                      ),
-                      child: Center(
-                        child: Text(
-                          "CONTACT SUPPORT",
-                          style: GoogleFonts.roboto(
-                              fontSize: 20.0,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
+                    child: GestureDetector(
+                      onTapCancel: () {
+                        _onTapCancel(0);
+                      },
+                      onTapDown: (details) {
+                        _onTapDown(details, 0);
+                      },
+                      onTapUp: (details) {
+                        _onTapUp(details, 0);
+                      },
+                      child: Transform.scale(
+                        scale: _scales[0],
+                        child: Container(
+                          width: 200.0,
+                          height: 200.0,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(360)),
+                            color: Colors.greenAccent.shade400
+                                .withOpacity(_opacity),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "CONTACT SUPPORT",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 20.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -121,15 +141,7 @@ class _HelpScreenState extends State<HelpScreen> {
                   top: MediaQuery.of(context).size.height / 2.25,
                   left: MediaQuery.of(context).size.width / 3.1,
                   child: TweenAnimationBuilder(
-                    onEnd: () {
-                      setState(() {
-                        _begin = 1.1;
-                        _end = 1.0;
-
-                        // reset kích thước lại cho widget
-                        _scaleButtonTween = Tween<double>(begin: _begin, end: _end);
-                      });
-                    },
+                    onEnd: _onEnd,
                     tween: _scaleButtonTween,
                     duration: Duration(milliseconds: 700),
                     builder: (context, scale, child) {
@@ -138,18 +150,33 @@ class _HelpScreenState extends State<HelpScreen> {
                         child: child,
                       );
                     },
-                    child: Container(
-                      width: 80.0,
-                      height: 80.0,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(360)),
-                          color: Colors.blue),
-                      child: Center(
-                          child: Icon(
-                            FacebookIcon.facebook,
-                            size: 35.0,
-                            color: Colors.white,
-                          )),
+                    child: GestureDetector(
+                      onTapCancel: () {
+                        _onTapCancel(1);
+                      },
+                      onTapDown: (details) {
+                        _onTapDown(details, 1);
+                      },
+                      onTapUp: (details) {
+                        _onTapUp(details, 1);
+                      },
+                      child: Transform.scale(
+                        scale: _scales[1],
+                        child: Container(
+                          width: 80.0,
+                          height: 80.0,
+                          decoration: BoxDecoration(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(360)),
+                              color: Colors.blue),
+                          child: Center(
+                              child: Icon(
+                                FacebookIcon.facebook,
+                                size: 35.0,
+                                color: Colors.white,
+                              )),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -157,15 +184,7 @@ class _HelpScreenState extends State<HelpScreen> {
                   top: MediaQuery.of(context).size.height / 2.15,
                   left: MediaQuery.of(context).size.width / 1.9,
                   child: TweenAnimationBuilder(
-                    onEnd: () {
-                      setState(() {
-                        _begin = 1.1;
-                        _end = 1.0;
-
-                        // reset kích thước lại cho widget
-                        _scaleButtonTween = Tween<double>(begin: _begin, end: _end);
-                      });
-                    },
+                    onEnd: _onEnd,
                     tween: _scaleButtonTween,
                     duration: Duration(milliseconds: 900),
                     builder: (context, scale, child) {
@@ -174,20 +193,35 @@ class _HelpScreenState extends State<HelpScreen> {
                         child: child,
                       );
                     },
-                    child: Container(
-                      width: 130.0,
-                      height: 130.0,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(360)),
-                        color: Colors.purpleAccent.shade400,
-                      ),
-                      child: Center(
-                        child: Text(
-                          "FAQ",
-                          style: GoogleFonts.roboto(
-                              fontSize: 20.0,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
+                    child: GestureDetector(
+                      onTapCancel: () {
+                        _onTapCancel(2);
+                      },
+                      onTapDown: (details) {
+                        _onTapDown(details, 2);
+                      },
+                      onTapUp: (details) {
+                        _onTapUp(details, 2);
+                      },
+                      child: Transform.scale(
+                        scale: _scales[2],
+                        child: Container(
+                          width: 130.0,
+                          height: 130.0,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(360)),
+                            color: Colors.purpleAccent.shade400,
+                          ),
+                          child: Center(
+                            child: Text(
+                              "FAQ",
+                              style: GoogleFonts.roboto(
+                                  fontSize: 20.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -197,15 +231,7 @@ class _HelpScreenState extends State<HelpScreen> {
                   top: MediaQuery.of(context).size.height / 1.82,
                   left: MediaQuery.of(context).size.width / 8,
                   child: TweenAnimationBuilder(
-                    onEnd: () {
-                      setState(() {
-                        _begin = 1.1;
-                        _end = 1.0;
-
-                        // reset kích thước lại cho widget
-                        _scaleButtonTween = Tween<double>(begin: _begin, end: _end);
-                      });
-                    },
+                    onEnd: _onEnd,
                     tween: _scaleButtonTween,
                     duration: Duration(milliseconds: 1400),
                     builder: (context, scale, child) {
@@ -214,20 +240,35 @@ class _HelpScreenState extends State<HelpScreen> {
                         child: child,
                       );
                     },
-                    child: Container(
-                      width: 175.0,
-                      height: 175.0,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(360)),
-                          color: Colors.pinkAccent),
-                      child: Center(
-                        child: Text(
-                          'FEATURE REQUEST',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.roboto(
-                              fontSize: 20.0,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
+                    child: GestureDetector(
+                      onTapCancel: () {
+                        _onTapCancel(3);
+                      },
+                      onTapDown: (details) {
+                        _onTapDown(details, 3);
+                      },
+                      onTapUp: (details) {
+                        _onTapUp(details, 3);
+                      },
+                      child: Transform.scale(
+                        scale: _scales[3],
+                        child: Container(
+                          width: 175.0,
+                          height: 175.0,
+                          decoration: BoxDecoration(
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(360)),
+                              color: Colors.pinkAccent),
+                          child: Center(
+                            child: Text(
+                              'FEATURE REQUEST',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.roboto(
+                                  fontSize: 20.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -235,7 +276,6 @@ class _HelpScreenState extends State<HelpScreen> {
                 ),
               ],
             ),
-
             Align(
               alignment: Alignment.bottomCenter,
               child: Text(
@@ -258,5 +298,62 @@ class _HelpScreenState extends State<HelpScreen> {
     PackageInfo _packageInfo = await PackageInfo.fromPlatform();
 
     _appVersion = _packageInfo.version;
+  }
+
+  // Hàm để bắt sự kiện khi người dùng án vào widget trong help screen
+  void _onTapDown(TapDownDetails details, int tappedIndex) {
+    setState(() {
+      _tappedWidgetIndex = tappedIndex;
+      _opacity = 1.0;
+
+      _controllers[tappedIndex].forward();
+    });
+  }
+
+  // Hàm để bắt sự kiện khi người dùng ko ấn widget trong help screen nữa
+  void _onTapUp(TapUpDetails details, int tappedIndex) {
+    setState(() {
+      _tappedWidgetIndex = tappedIndex;
+      _opacity = 1.0;
+
+      _controllers[tappedIndex].reverse();
+    });
+  }
+
+  // Hàm để check nếu ng dùng ko còn hover trên widget nữa
+  void _onTapCancel(int tappedIndex) {
+    setState(() {
+      _tappedWidgetIndex = tappedIndex;
+      _opacity = 1.0;
+
+      _controllers[tappedIndex].reverse();
+    });
+  }
+
+  // Hàm để reset kích thước của widget trong hrlp screen khi animation đã hoàn tất
+  void _onEnd() {
+    setState(() {
+      _begin = 1.1;
+      _end = 1.0;
+
+      // reset kích thước lại cho widget
+      _scaleButtonTween = Tween<double>(begin: _begin, end: _end);
+    });
+  }
+
+  // Hàm khởi tạo các controller và animation cho các widget
+  void _initForWidgetInHelpScreen() {
+    for (int i = 0; i < 4; i++) {
+      _controllers.add(AnimationController(
+          vsync: this,
+          duration: Duration(milliseconds: 100),
+          lowerBound: 0.0,
+          upperBound: 0.2)
+        ..addListener(() {
+          setState(() {});
+        }));
+
+      _scales.add(1 - _controllers[i].value);
+    }
   }
 }
