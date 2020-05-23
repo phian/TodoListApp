@@ -19,7 +19,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
 
   List<AnimationController> _controllers = [];
   List<double> _scales = [];
-  double _opacity;
+  List<double> _opacities = [];
 
   int _tappedWidgetIndex = 0;
 
@@ -31,7 +31,9 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
     _getAppVersion();
     _initForWidgetInHelpScreen();
 
-    _opacity = 1.0;
+    for (int i = 0 ; i < 4; i++) {
+      _opacities.add(1.0);
+    }
   }
 
   @override
@@ -121,7 +123,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
                             borderRadius:
                             BorderRadius.all(Radius.circular(360)),
                             color: Colors.greenAccent.shade400
-                                .withOpacity(_opacity),
+                                .withOpacity(_opacities[0]),
                           ),
                           child: Center(
                             child: Text(
@@ -168,7 +170,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
                           decoration: BoxDecoration(
                               borderRadius:
                               BorderRadius.all(Radius.circular(360)),
-                              color: Colors.blue),
+                              color: Colors.blue.withOpacity(_opacities[1])),
                           child: Center(
                               child: Icon(
                                 FacebookIcon.facebook,
@@ -211,7 +213,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
                           decoration: BoxDecoration(
                             borderRadius:
                             BorderRadius.all(Radius.circular(360)),
-                            color: Colors.purpleAccent.shade400,
+                            color: Colors.purpleAccent.shade400.withOpacity(_opacities[2]),
                           ),
                           child: Center(
                             child: Text(
@@ -258,7 +260,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
                           decoration: BoxDecoration(
                               borderRadius:
                               BorderRadius.all(Radius.circular(360)),
-                              color: Colors.pinkAccent),
+                              color: Colors.pinkAccent.withOpacity(_opacities[3])),
                           child: Center(
                             child: Text(
                               'FEATURE REQUEST',
@@ -304,7 +306,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
   void _onTapDown(TapDownDetails details, int tappedIndex) {
     setState(() {
       _tappedWidgetIndex = tappedIndex;
-      _opacity = 1.0;
+      _opacities[tappedIndex] = 0.25;
 
       _controllers[tappedIndex].forward();
     });
@@ -314,7 +316,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
   void _onTapUp(TapUpDetails details, int tappedIndex) {
     setState(() {
       _tappedWidgetIndex = tappedIndex;
-      _opacity = 1.0;
+      _opacities[tappedIndex] = 1.0;
 
       _controllers[tappedIndex].reverse();
     });
@@ -324,7 +326,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
   void _onTapCancel(int tappedIndex) {
     setState(() {
       _tappedWidgetIndex = tappedIndex;
-      _opacity = 1.0;
+      _opacities[tappedIndex] = 1.0;
 
       _controllers[tappedIndex].reverse();
     });
