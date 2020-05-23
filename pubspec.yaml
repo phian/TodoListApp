@@ -86,3 +86,6 @@ flutter:
     - family:  FacebookIcon
       fonts:
         - asset: fonts/FacebookIcon.ttf
+    - family:  ForwardArrow
+      fonts:
+      - asset: fonts/ForwardArrow.ttf

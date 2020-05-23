@@ -37,6 +37,16 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+
+    for (int i = 0; i < _controllers.length; i++) {
+      _controllers[i].dispose();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     _scaleButtonTween = Tween<double>(begin: _begin, end: _end);
     for (int i = 0; i < 4; i++) {
