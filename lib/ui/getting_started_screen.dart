@@ -263,7 +263,7 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
     setState(() {
       _buttonWidth = MediaQuery.of(context).size.width;
       _buttonHeight = MediaQuery.of(context).size.height;
-      _durationForButtonAni = 200;
+      _durationForButtonAni = 250;
 
       _resetMarginBottom = 0.0;
       _buttonBorder = 0.0;
