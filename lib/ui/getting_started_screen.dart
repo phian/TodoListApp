@@ -12,7 +12,7 @@ class GettingStartedScreen extends StatefulWidget {
 class _GettingStartedScreenState extends State<GettingStartedScreen>
     with TickerProviderStateMixin {
   // Các biến để chạy animation cho button
-  double _buttonWidth, _buttonHeight, _resetMarginBottom, _temp;
+  double _buttonWidth, _buttonHeight, _resetMarginBottom;
   static double _beginForButtonAni, _endForButtonAni;
   int _durationForButtonAni;
   Tween<double> _scaleButtonTween;
@@ -50,7 +50,6 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
         .of(context)
         .size
         .height * 0.09;
-    _temp = _marginBottom;
 
     return Scaffold(
       backgroundColor: Colors.cyanAccent.shade400,
