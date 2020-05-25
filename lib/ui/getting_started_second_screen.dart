@@ -106,7 +106,9 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
                   child: Column(
                     children: <Widget>[
                       TweenAnimationBuilder(
-                        onEnd: _onEndForCardAnimation,
+                        onEnd: () {
+                          _updateCardsOpacity(0);
+                        },
                         tween: _scaleCaredTween,
                         duration: Duration(milliseconds: _durationForCardAni),
                         builder: (context, scale, child) {
@@ -125,7 +127,9 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
                         height: 5.0,
                       ),
                       TweenAnimationBuilder(
-                        onEnd: _onEndForCardAnimation,
+                        onEnd: () {
+                          _updateCardsOpacity(2);
+                        },
                         duration: Duration(milliseconds: _durationForCardAni1),
                         tween: _scaleCaredTween1,
                         builder: (context, scale, child) {
@@ -444,9 +448,9 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
 
           _controllerForCardColumn.forward();
 
-          _initAnimationForCards();
-
-          Future.delayed(Duration(milliseconds: 500), () {});
+          Future.delayed(Duration(milliseconds: 500), () {
+            _initAnimationForCards();
+          });
         }
       });
 
@@ -504,17 +508,10 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
   }
 
   // Hàm đê thay đổi độ mờ của 2 card thu nhỏ hơn
-  void _updateCardsOpacity() {
+  void _updateCardsOpacity(int changeIndex) {
     setState(() {
-      _cardList[0] =
-          _todoCard(_cardTitles[0], _cardDeadlines[0], _cardNotes[0], 0.5);
-      _cardList[2] =
-          _todoCard(_cardTitles[2], _cardDeadlines[2], _cardNotes[2], 0.5);
+      _cardList[changeIndex] =
+          _todoCard(_cardTitles[changeIndex], _cardDeadlines[changeIndex], _cardNotes[changeIndex], 0.5);
     });
-  }
-
-  // Hàm để gọi hàm ở trên
-  void _onEndForCardAnimation() {
-    _updateCardsOpacity();
   }
 }

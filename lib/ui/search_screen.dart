@@ -1,9 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'main_screen.dart';
+
+int _lastFocusedScreen;
+
 class SearchScreen extends StatefulWidget {
+  SearchScreen({Key key, int lastFocusScreen}) {
+    _lastFocusedScreen = lastFocusScreen;
+  }
+
   @override
   _SearchScreenState createState() => _SearchScreenState();
 }
@@ -26,126 +33,138 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: Color(0xFFFAF3F0),
-        child: Stack(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: FlatButton(
-                    child: Icon(
-                      Icons.arrow_back,
-                      color: Colors.lightBlueAccent,
-                      size: 40.0,
+    return WillPopScope(
+      // ignore: missing_return
+      onWillPop: () async {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => HomeScreen(isBack: true, lastFocusedScreen: _lastFocusedScreen,),
+        ));
+      },
+      child: Scaffold(
+        body: Container(
+          color: Color(0xFFFAF3F0),
+          child: Stack(
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: FlatButton(
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.lightBlueAccent,
+                        size: 40.0,
+                      ),
+                      onPressed: () {
+//                      if (Navigator.canPop(context)) {
+//                        Navigator.pop(context);
+//                      } else {
+//                        SystemNavigator.pop();
+//                      }
+
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => HomeScreen(isBack: true, lastFocusedScreen: _lastFocusedScreen,),
+                        ));
+                      },
                     ),
-                    onPressed: () {
-                      if (Navigator.canPop(context)) {
-                        Navigator.pop(context);
-                      } else {
-                        SystemNavigator.pop();
-                      }
-                    },
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: Text(
-                    "Search",
-                    style: GoogleFonts.adamina(
-                        fontSize: 30.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.lightBlueAccent
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      "Search",
+                      style: GoogleFonts.adamina(
+                          fontSize: 30.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.lightBlueAccent
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: Image.asset(
-                    'images/search.gif',
-                    width: 150.0,
-                    height: 150.0,
-                    fit: BoxFit.cover,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Image.asset(
+                      'images/search.gif',
+                      width: 150.0,
+                      height: 150.0,
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ),
-              ],
-            ),
-            Center(
-              child: AnimatedContainer(
-                curve: Curves.easeInOutSine,
-                duration: Duration(milliseconds: 500),
-                child:  Text(
-                  "Type to search your action titles and note",
-                  style: GoogleFonts.roboto(
-                    fontSize: 15.0,
+                ],
+              ),
+              Center(
+                child: AnimatedContainer(
+                  curve: Curves.easeInOutSine,
+                  duration: Duration(milliseconds: 500),
+                  child:  Text(
+                    "Type to search your action titles and note",
+                    style: GoogleFonts.roboto(
+                      fontSize: 15.0,
+                    ),
                   ),
                 ),
               ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: 150.0,
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: TextField(
-                        controller: _controller,
-                        autofocus: true,
-                        decoration: InputDecoration(
-                            labelText: "Search for tasks",
-                            hintText: "Search",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                              borderSide: BorderSide(
-                                color: Colors.lightBlueAccent,
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: 150.0,
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: TextField(
+                          controller: _controller,
+                          autofocus: true,
+                          decoration: InputDecoration(
+                              labelText: "Search for tasks",
+                              hintText: "Search",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                borderSide: BorderSide(
+                                  color: Colors.lightBlueAccent,
+                                ),
+                                gapPadding: 10.0,
+                              )),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                            color: Colors.cyan,
+                          ),
+                          height: 50.0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              InkWell(
+                                child: _userChoicesCards[0],
+                                onTap: () {
+                                  _changeFocusChoiceCardColor(0, _lastFocusChoiceIndex);
+                                },
                               ),
-                              gapPadding: 10.0,
-                            )),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          color: Colors.cyan,
-                        ),
-                        height: 50.0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            InkWell(
-                              child: _userChoicesCards[0],
-                              onTap: () {
-                                _changeFocusChoiceCardColor(0, _lastFocusChoiceIndex);
-                              },
-                            ),
-                            InkWell(
-                              child: _userChoicesCards[1],
-                              onTap: () {
-                                _changeFocusChoiceCardColor(1, _lastFocusChoiceIndex);
-                              },
-                            ),
-                            InkWell(
-                              child: _userChoicesCards[2],
-                              onTap: () {
-                                _changeFocusChoiceCardColor(2, _lastFocusChoiceIndex);
-                              },
-                            ),
-                          ],
+                              InkWell(
+                                child: _userChoicesCards[1],
+                                onTap: () {
+                                  _changeFocusChoiceCardColor(1, _lastFocusChoiceIndex);
+                                },
+                              ),
+                              InkWell(
+                                child: _userChoicesCards[2],
+                                onTap: () {
+                                  _changeFocusChoiceCardColor(2, _lastFocusChoiceIndex);
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

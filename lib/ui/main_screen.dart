@@ -10,8 +10,16 @@ import 'package:todoapp/ui/tasks_list_screen.dart';
 import 'package:todoapp/ui/tasks_screen.dart';
 
 GlobalKey _bottomMenuKey = GlobalKey();
+bool _isBack = false;
+int _lastFocusedScreen;
 
 class HomeScreen extends StatefulWidget {
+  HomeScreen({Key key, bool isBack = false, int lastFocusedScreen})
+      : super(key: key) {
+    _isBack = isBack;
+    _lastFocusedScreen = lastFocusedScreen;
+  }
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -40,6 +48,16 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
 
     _blur = 0.0;
+
+    // check xem có phải ng dùng vừa từ screen khác trong setting screen menu về hay không?
+    setState(() {
+      if (_isBack) {
+        _settingsScreenIndex = 3;
+        _changePage(_settingsScreenIndex);
+
+        _lastFocusedIconIndex = _lastFocusedScreen;
+      }
+    });
   }
 
   @override
@@ -50,8 +68,11 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Stack(
           overflow: Overflow.clip,
           children: <Widget>[
-            SettingsScreen(),
-            Container(
+            SettingsScreen(
+              lastFocusScreen: _lastFocusedIconIndex,
+            ),
+            AnimatedContainer(
+              duration: Duration(milliseconds: 300),
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
