@@ -19,7 +19,8 @@ class SettingsScreen extends StatefulWidget {
   _SettingsScreenState createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> with SingleTickerProviderStateMixin {
+class _SettingsScreenState extends State<SettingsScreen>
+    with SingleTickerProviderStateMixin {
   List<IconData> _settingMenuIcons = [
     Icons.brightness_7,
     Icons.search,
@@ -56,10 +57,8 @@ class _SettingsScreenState extends State<SettingsScreen> with SingleTickerProvid
     _initSettingMenuWidget(); // Gọi hàm để khởi tạo
 
     return Container(
-      color: Color(0xFFFAF3F0),
-      padding: EdgeInsets.only(
-          top: MediaQuery.of(context).size.width - 120.0,
-          left: MediaQuery.of(context).size.width / 2 - 120.0),
+      width: MediaQuery.of(context).size.width / 2.5,
+      height: MediaQuery.of(context).size.height / 3,
       child: Align(
         alignment: AlignmentDirectional(0.0, 0.7),
         child: Transform.translate(
@@ -80,7 +79,9 @@ class _SettingsScreenState extends State<SettingsScreen> with SingleTickerProvid
               InkWell(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => PreferenceScreen(lastFocusScreen: _lastFocusScreen,),
+                    builder: (context) => PreferenceScreen(
+                      lastFocusScreen: _lastFocusScreen,
+                    ),
                   ));
 
                   _changeFocusMenuWidgetColor(0, false);
@@ -101,7 +102,9 @@ class _SettingsScreenState extends State<SettingsScreen> with SingleTickerProvid
               InkWell(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => SearchScreen(lastFocusScreen: _lastFocusScreen,),
+                    builder: (context) => SearchScreen(
+                      lastFocusScreen: _lastFocusScreen,
+                    ),
                   ));
 
                   _changeFocusMenuWidgetColor(1, false);
@@ -122,7 +125,9 @@ class _SettingsScreenState extends State<SettingsScreen> with SingleTickerProvid
               InkWell(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => HelpScreen(lastFocusedScreen: _lastFocusScreen,),
+                    builder: (context) => HelpScreen(
+                      lastFocusedScreen: _lastFocusScreen,
+                    ),
                   ));
                   _changeFocusMenuWidgetColor(2, false);
                 },
@@ -142,7 +147,9 @@ class _SettingsScreenState extends State<SettingsScreen> with SingleTickerProvid
               InkWell(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => AboutScreen(lastFocusedScreen: _lastFocusScreen,),
+                    builder: (context) => AboutScreen(
+                      lastFocusedScreen: _lastFocusScreen,
+                    ),
                   ));
                   _changeFocusMenuWidgetColor(3, false);
                 },
@@ -162,7 +169,9 @@ class _SettingsScreenState extends State<SettingsScreen> with SingleTickerProvid
               InkWell(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => GettingStartedScreen(lastFocusedScreen: _lastFocusScreen,),
+                    builder: (context) => GettingStartedScreen(
+                      lastFocusedScreen: _lastFocusScreen,
+                    ),
                   ));
 
                   _changeFocusMenuWidgetColor(4, false);
@@ -183,7 +192,9 @@ class _SettingsScreenState extends State<SettingsScreen> with SingleTickerProvid
               InkWell(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => AccountScreen(lastFocusedScreen: _lastFocusScreen,),
+                    builder: (context) => AccountScreen(
+                      lastFocusedScreen: _lastFocusScreen,
+                    ),
                   ));
 
                   _changeFocusMenuWidgetColor(5, false);
@@ -266,11 +277,11 @@ class _SettingsScreenState extends State<SettingsScreen> with SingleTickerProvid
     _beginForDOITMenu = -150.0;
     _endForDOITMenu = 0.0;
     _animationForDOITMenu =
-    Tween<double>(begin: _beginForDOITMenu, end: _endForDOITMenu)
-        .animate(_controllerForDOITMenu)
-      ..addListener(() {
-        setState(() {});
-      });
+        Tween<double>(begin: _beginForDOITMenu, end: _endForDOITMenu)
+            .animate(_controllerForDOITMenu)
+              ..addListener(() {
+                setState(() {});
+              });
 
     _controllerForDOITMenu.forward();
   }
