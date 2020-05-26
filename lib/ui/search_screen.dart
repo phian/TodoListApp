@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../data/data.dart';
 import 'main_screen.dart';
 
 int _lastFocusedScreen;
@@ -36,8 +37,9 @@ class _SearchScreenState extends State<SearchScreen> {
     return WillPopScope(
       // ignore: missing_return
       onWillPop: () async {
+        Data data = Data(isBack: true, lastFocusedScreen: _lastFocusedScreen);
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => HomeScreen(isBack: true, lastFocusedScreen: _lastFocusedScreen,),
+          builder: (context) => HomeScreen(data: data,),
         ));
       },
       child: Scaffold(
@@ -63,8 +65,9 @@ class _SearchScreenState extends State<SearchScreen> {
 //                        SystemNavigator.pop();
 //                      }
 
+                        Data data = Data(isBack: true, lastFocusedScreen: _lastFocusedScreen);
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => HomeScreen(isBack: true, lastFocusedScreen: _lastFocusedScreen,),
+                          builder: (context) => HomeScreen(data: data,),
                         ));
                       },
                     ),
@@ -74,9 +77,9 @@ class _SearchScreenState extends State<SearchScreen> {
                     child: Text(
                       "Search",
                       style: GoogleFonts.adamina(
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.lightBlueAccent
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.lightBlueAccent
                       ),
                     ),
                   ),
@@ -96,7 +99,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   curve: Curves.easeInOutSine,
                   duration: Duration(milliseconds: 500),
                   child:  Text(
-                    "Type to search your action titles and note",
+                      "Type to search your action titles and note",
                     style: GoogleFonts.roboto(
                       fontSize: 15.0,
                     ),

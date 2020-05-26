@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todoapp/ui/getting_started_second_screen.dart';
+import '../data/data.dart';
 import '../presentation/forward_arrow_icon.dart';
 import 'main_screen.dart';
 
@@ -61,8 +62,10 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
     return WillPopScope(
       // ignore: missing_return
       onWillPop: () async {
+        Data data = Data(isBack: true, lastFocusedScreen: _lastFocusedScreen);
+        
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => HomeScreen(isBack: true, lastFocusedScreen: _lastFocusedScreen,),
+          builder: (context) => HomeScreen(data: data,),
         ));
       },
       child: Scaffold(
@@ -180,7 +183,7 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
 
   // Hàm để khởi tạo animtion cho dòng text 1
   void _initAnimationForFirstText() {
-    // Animation cho dòng chữ 1
+  // Animation cho dòng chữ 1
     _durationForFirstText = 1000;
     _controllerForFirstText = AnimationController(
         vsync: this, duration: Duration(milliseconds: _durationForFirstText));

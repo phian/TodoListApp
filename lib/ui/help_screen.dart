@@ -3,6 +3,7 @@ import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../data/data.dart';
 import '../presentation/facebook_icon.dart';
 import 'package:package_info/package_info.dart';
 
@@ -11,7 +12,7 @@ import 'main_screen.dart';
 int _lastFocusedScreen;
 
 class HelpScreen extends StatefulWidget {
-  HelpScreen({Key key, int lastFocusedScreen}) : super(key : key) {
+  HelpScreen({Key key, int lastFocusedScreen}) : super(key: key) {
     _lastFocusedScreen = lastFocusedScreen;
   }
 
@@ -38,7 +39,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
     _getAppVersion();
     _initForWidgetInHelpScreen();
 
-    for (int i = 0 ; i < 4; i++) {
+    for (int i = 0; i < 4; i++) {
       _opacities.add(1.0);
     }
   }
@@ -63,8 +64,9 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
     return WillPopScope(
       // ignore: missing_return
       onWillPop: () async {
+        Data data = Data(isBack: true, lastFocusedScreen: _lastFocusedScreen);
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => HomeScreen(isBack: true, lastFocusedScreen: _lastFocusedScreen,),
+          builder: (context) => HomeScreen(data: data,),
         ));
       },
       child: Scaffold(
@@ -85,8 +87,13 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
 //                        SystemNavigator.pop();
 //                      }
 
+                        Data data = Data(
+                            isBack: true,
+                            lastFocusedScreen: _lastFocusedScreen);
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => HomeScreen(isBack: true, lastFocusedScreen: _lastFocusedScreen,),
+                          builder: (context) => HomeScreen(
+                            data: data,
+                          ),
                         ));
                       },
                       child: Icon(
@@ -149,7 +156,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
                             height: 200.0,
                             decoration: BoxDecoration(
                               borderRadius:
-                              BorderRadius.all(Radius.circular(360)),
+                                  BorderRadius.all(Radius.circular(360)),
                               color: Colors.greenAccent.shade400
                                   .withOpacity(_opacities[0]),
                             ),
@@ -197,14 +204,14 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
                             height: 80.0,
                             decoration: BoxDecoration(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(360)),
+                                    BorderRadius.all(Radius.circular(360)),
                                 color: Colors.blue.withOpacity(_opacities[1])),
                             child: Center(
                                 child: Icon(
-                                  FacebookIcon.facebook,
-                                  size: 35.0,
-                                  color: Colors.white,
-                                )),
+                              FacebookIcon.facebook,
+                              size: 35.0,
+                              color: Colors.white,
+                            )),
                           ),
                         ),
                       ),
@@ -240,8 +247,9 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
                             height: 130.0,
                             decoration: BoxDecoration(
                               borderRadius:
-                              BorderRadius.all(Radius.circular(360)),
-                              color: Colors.purpleAccent.shade400.withOpacity(_opacities[2]),
+                                  BorderRadius.all(Radius.circular(360)),
+                              color: Colors.purpleAccent.shade400
+                                  .withOpacity(_opacities[2]),
                             ),
                             child: Center(
                               child: Text(
@@ -287,8 +295,9 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
                             height: 175.0,
                             decoration: BoxDecoration(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(360)),
-                                color: Colors.pinkAccent.withOpacity(_opacities[3])),
+                                    BorderRadius.all(Radius.circular(360)),
+                                color: Colors.pinkAccent
+                                    .withOpacity(_opacities[3])),
                             child: Center(
                               child: Text(
                                 'FEATURE REQUEST',

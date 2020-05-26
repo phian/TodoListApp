@@ -2,12 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../data/data.dart';
 import 'main_screen.dart';
 
 int _lastFocusedScreen;
 
 class AboutScreen extends StatefulWidget {
-  AboutScreen({Key key, int lastFocusedScreen}) : super(key : key) {
+  AboutScreen({Key key, int lastFocusedScreen}) : super(key: key) {
     _lastFocusedScreen = lastFocusedScreen;
   }
 
@@ -21,8 +22,9 @@ class _AboutScreenState extends State<AboutScreen> {
     return WillPopScope(
       // ignore: missing_return
       onWillPop: () async {
+        Data data = Data(isBack: true, lastFocusedScreen: _lastFocusedScreen);
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => HomeScreen(isBack: true, lastFocusedScreen: _lastFocusedScreen,),
+          builder: (context) => HomeScreen(data: data,),
         ));
       },
       child: Scaffold(
@@ -46,8 +48,12 @@ class _AboutScreenState extends State<AboutScreen> {
 //                      SystemNavigator.pop();
 //                    }
 
+                      Data data = Data(isBack: true, lastFocusedScreen: _lastFocusedScreen);
+
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => HomeScreen(isBack: true, lastFocusedScreen: _lastFocusedScreen,),
+                        builder: (context) => HomeScreen(
+                          data: data,
+                        ),
                       ));
                     },
                   ),
@@ -60,8 +66,7 @@ class _AboutScreenState extends State<AboutScreen> {
                       style: GoogleFonts.roboto(
                           fontSize: 35.0,
                           fontWeight: FontWeight.w500,
-                          color: Colors.lightBlueAccent
-                      ),
+                          color: Colors.lightBlueAccent),
                     ),
                   ),
                 ),
@@ -91,15 +96,11 @@ class _AboutScreenState extends State<AboutScreen> {
                       ),
                       Text(
                         "DOIT",
-                        style: GoogleFonts.abrilFatface(
-                            fontSize: 40.0
-                        ),
+                        style: GoogleFonts.abrilFatface(fontSize: 40.0),
                       ),
                       Text(
                         "D & A studio",
-                        style: GoogleFonts.robotoCondensed(
-                            fontSize: 30.0
-                        ),
+                        style: GoogleFonts.robotoCondensed(fontSize: 30.0),
                       )
                     ],
                   ),
@@ -107,9 +108,7 @@ class _AboutScreenState extends State<AboutScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 240.0),
-                child: Text(
-                    "© DOIT, D & A Todo App"
-                ),
+                child: Text("© DOIT, D & A Todo App"),
               )
             ],
           ),
