@@ -10,19 +10,11 @@ import 'package:todoapp/ui/settings_screen.dart';
 import 'package:todoapp/ui/tasks_list_screen.dart';
 import 'package:todoapp/ui/tasks_screen.dart';
 
-GlobalKey _bottomMenuKey = GlobalKey();
-// bool _isBack, _isFirstTime;
-// int _lastFocusedScreen;
-
 class HomeScreen extends StatefulWidget {
   final Data data;
-  // final bool isBack;
-  // final int lastFocusedScreen;
   bool isFirstTime = false;
 
   HomeScreen({this.data}) {
-    // this.isBack = isBack;
-    // this.lastFocusedScreen = lastFocusedScreen;
 
     if (this.data.isBack == false) {
       this.isFirstTime = true;
@@ -33,7 +25,7 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>{
+class _HomeScreenState extends State<HomeScreen> {
   List<Widget> _screenList = [
     TasksScreen(),
     GoalsScreen(),
@@ -79,6 +71,8 @@ class _HomeScreenState extends State<HomeScreen>{
     if (widget.isFirstTime) {
       _lastFocusedIconIndex = 0;
       _settingsScreenIndex = -1;
+
+      _transitionXForMenuScreen = MediaQuery.of(context).size.width;
 
       widget.isFirstTime = false;
     }
