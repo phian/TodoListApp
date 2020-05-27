@@ -4,6 +4,10 @@ import 'package:todoapp/presentation/forward_arrow_icon.dart';
 import 'package:todoapp/ui/getting_started_screen.dart';
 
 class GettingStartedSecondScreen extends StatefulWidget {
+  final int lastFocusedScreen;
+  
+  GettingStartedSecondScreen({this.lastFocusedScreen});
+
   @override
   _GettingStartedSecondScreenState createState() =>
       _GettingStartedSecondScreenState();
@@ -85,140 +89,142 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
     _initCards();
     final _marginBottom = MediaQuery.of(context).size.height * 0.09;
 
-    return WillPopScope(
-      // ignore: missing_return
-      onWillPop: () async {
-        Navigator.of(context).push(PageRouteBuilder(
-          pageBuilder: (context, animation1, animation2) => GettingStartedScreen(),
-        ));
-      },
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        body: Container(
-          child: Stack(children: <Widget>[
-            Align(
-              alignment: AlignmentDirectional(0.0, 0.7),
-              child: Container(
-                margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height / 7),
-                child: Transform.translate(
-                  offset: Offset(0.0, _animationForCardColumn.value),
-                  child: Column(
-                    children: <Widget>[
-                      TweenAnimationBuilder(
-                        onEnd: () {
-                          _updateCardsOpacity(0);
-                        },
-                        tween: _scaleCaredTween,
-                        duration: Duration(milliseconds: _durationForCardAni),
-                        builder: (context, scale, child) {
-                          return Transform.scale(
-                            scale: scale,
-                            child: child,
-                          );
-                        },
-                        child: _cardList[0],
-                      ),
-                      SizedBox(
-                        height: 5.0,
-                      ),
-                      _cardList[1],
-                      SizedBox(
-                        height: 5.0,
-                      ),
-                      TweenAnimationBuilder(
-                        onEnd: () {
-                          _updateCardsOpacity(2);
-                        },
-                        duration: Duration(milliseconds: _durationForCardAni1),
-                        tween: _scaleCaredTween1,
-                        builder: (context, scale, child) {
-                          return Transform.scale(
-                            scale: scale,
-                            child: child,
-                          );
-                        },
-                        child: _cardList[2],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Align(
-                  alignment: AlignmentDirectional(0.0, 0.7),
+    return SafeArea(
+          child: WillPopScope(
+        // ignore: missing_return
+        onWillPop: () async {
+          Navigator.of(context).push(PageRouteBuilder(
+            pageBuilder: (context, animation1, animation2) => GettingStartedScreen(lastFocusedScreen: widget.lastFocusedScreen,),
+          ));
+        },
+        child: Scaffold(
+          backgroundColor: Colors.black,
+          body: Container(
+            child: Stack(children: <Widget>[
+              Align(
+                alignment: AlignmentDirectional(0.0, 0.7),
+                child: Container(
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height / 7),
                   child: Transform.translate(
-                    offset: Offset(0.0, _animationForFirstText.value),
-                    child: Text(
-                      "DOIT Cards",
-                      style: GoogleFonts.roboto(
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                    offset: Offset(0.0, _animationForCardColumn.value),
+                    child: Column(
+                      children: <Widget>[
+                        TweenAnimationBuilder(
+                          onEnd: () {
+                            _updateCardsOpacity(0);
+                          },
+                          tween: _scaleCaredTween,
+                          duration: Duration(milliseconds: _durationForCardAni),
+                          builder: (context, scale, child) {
+                            return Transform.scale(
+                              scale: scale,
+                              child: child,
+                            );
+                          },
+                          child: _cardList[0],
+                        ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        _cardList[1],
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        TweenAnimationBuilder(
+                          onEnd: () {
+                            _updateCardsOpacity(2);
+                          },
+                          duration: Duration(milliseconds: _durationForCardAni1),
+                          tween: _scaleCaredTween1,
+                          builder: (context, scale, child) {
+                            return Transform.scale(
+                              scale: scale,
+                              child: child,
+                            );
+                          },
+                          child: _cardList[2],
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                Align(
-                  alignment: AlignmentDirectional(0.0, 0.7),
-                  child: Transform.translate(
-                    offset: Offset(0.0, _animationForSecondText.value),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * (2 / 2.5),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Align(
+                    alignment: AlignmentDirectional(0.0, 0.7),
+                    child: Transform.translate(
+                      offset: Offset(0.0, _animationForFirstText.value),
                       child: Text(
-                        "Remember things you want to do by creating a DOIT Card. You can add notes and reminders",
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 3,
-                        textAlign: TextAlign.center,
+                        "DOIT Cards",
                         style: GoogleFonts.roboto(
-                            fontSize: 16.0, color: Colors.white),
+                            fontSize: 30.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: TweenAnimationBuilder(
-                onEnd: _onEnd,
-                tween: _scaleButtonTween,
-                duration: Duration(milliseconds: _durationForButtonAni),
-                builder: (context, scale, child) {
-                  return Transform.scale(
-                    scale: scale,
-                    child: child,
-                  );
-                },
-                child: GestureDetector(
-                  child: AnimatedContainer(
-                    duration: Duration(milliseconds: _durationForButtonAni),
-                    margin: EdgeInsets.only(bottom: _marginBottom),
-                    width: _buttonWidth,
-                    height: _buttonHeight,
-                    decoration: BoxDecoration(
-                      borderRadius:
-                      BorderRadius.all(Radius.circular(_buttonBorder)),
-                      color: Colors.grey,
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Align(
+                    alignment: AlignmentDirectional(0.0, 0.7),
+                    child: Transform.translate(
+                      offset: Offset(0.0, _animationForSecondText.value),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * (2 / 2.5),
+                        child: Text(
+                          "Remember things you want to do by creating a DOIT Card. You can add notes and reminders",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 3,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.roboto(
+                              fontSize: 16.0, color: Colors.white),
+                        ),
+                      ),
                     ),
-                    alignment: Alignment.bottomCenter,
-                    child: Center(
-                      child: Icon(
-                        ForwardArrow.arrow_forward,
-                        size: 25.0,
-                        color: Colors.white.withOpacity(_buttonOpacity),
+                  ),
+                ],
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: TweenAnimationBuilder(
+                  onEnd: _onEnd,
+                  tween: _scaleButtonTween,
+                  duration: Duration(milliseconds: _durationForButtonAni),
+                  builder: (context, scale, child) {
+                    return Transform.scale(
+                      scale: scale,
+                      child: child,
+                    );
+                  },
+                  child: GestureDetector(
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: _durationForButtonAni),
+                      margin: EdgeInsets.only(bottom: _marginBottom),
+                      width: _buttonWidth,
+                      height: _buttonHeight,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(_buttonBorder)),
+                        color: Colors.grey,
+                      ),
+                      alignment: Alignment.bottomCenter,
+                      child: Center(
+                        child: Icon(
+                          ForwardArrow.arrow_forward,
+                          size: 25.0,
+                          color: Colors.white.withOpacity(_buttonOpacity),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ]),
+            ]),
+          ),
         ),
       ),
     );
@@ -328,31 +334,31 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
     _beginForFirstText = 300.0;
     _endForFirstText = 150.0;
     _animationForFirstText =
-    Tween<double>(begin: _beginForFirstText, end: _endForFirstText)
-        .animate(_controllerForFirstText)
-      ..addListener(() {
-        setState(() {});
-      })
-      ..addStatusListener((AnimationStatus status) {
-        if (status == AnimationStatus.completed) {
-          _beginForFirstText = 150.0;
-          _endForFirstText = 160.0;
-          _durationForFirstText = 200;
+        Tween<double>(begin: _beginForFirstText, end: _endForFirstText)
+            .animate(_controllerForFirstText)
+              ..addListener(() {
+                setState(() {});
+              })
+              ..addStatusListener((AnimationStatus status) {
+                if (status == AnimationStatus.completed) {
+                  _beginForFirstText = 150.0;
+                  _endForFirstText = 160.0;
+                  _durationForFirstText = 200;
 
-          _controllerForFirstText = AnimationController(
-              vsync: this,
-              duration: Duration(milliseconds: _durationForFirstText));
+                  _controllerForFirstText = AnimationController(
+                      vsync: this,
+                      duration: Duration(milliseconds: _durationForFirstText));
 
-          _animationForFirstText = Tween<double>(
-              begin: _beginForFirstText, end: _endForFirstText)
-              .animate(_controllerForFirstText)
-            ..addListener(() {
-              setState(() {});
-            });
+                  _animationForFirstText = Tween<double>(
+                          begin: _beginForFirstText, end: _endForFirstText)
+                      .animate(_controllerForFirstText)
+                        ..addListener(() {
+                          setState(() {});
+                        });
 
-          _controllerForFirstText.forward();
-        }
-      });
+                  _controllerForFirstText.forward();
+                }
+              });
 
     _controllerForFirstText.forward();
   }
@@ -367,31 +373,31 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
     _beginForSecondText = 300.0;
     _endForSecondText = 150.0;
     _animationForSecondText =
-    Tween<double>(begin: _beginForSecondText, end: _endForSecondText)
-        .animate(_controllerForSecondText)
-      ..addListener(() {
-        setState(() {});
-      })
-      ..addStatusListener((AnimationStatus status) {
-        if (status == AnimationStatus.completed) {
-          _beginForSecondText = 150.0;
-          _endForSecondText = 160.0;
-          _durationForSecondText = 200;
+        Tween<double>(begin: _beginForSecondText, end: _endForSecondText)
+            .animate(_controllerForSecondText)
+              ..addListener(() {
+                setState(() {});
+              })
+              ..addStatusListener((AnimationStatus status) {
+                if (status == AnimationStatus.completed) {
+                  _beginForSecondText = 150.0;
+                  _endForSecondText = 160.0;
+                  _durationForSecondText = 200;
 
-          _controllerForSecondText = AnimationController(
-              vsync: this,
-              duration: Duration(milliseconds: _durationForSecondText));
+                  _controllerForSecondText = AnimationController(
+                      vsync: this,
+                      duration: Duration(milliseconds: _durationForSecondText));
 
-          _animationForSecondText = Tween<double>(
-              begin: _beginForSecondText, end: _endForSecondText)
-              .animate(_controllerForSecondText)
-            ..addListener(() {
-              setState(() {});
-            });
+                  _animationForSecondText = Tween<double>(
+                          begin: _beginForSecondText, end: _endForSecondText)
+                      .animate(_controllerForSecondText)
+                        ..addListener(() {
+                          setState(() {});
+                        });
 
-          _controllerForSecondText.forward();
-        }
-      });
+                  _controllerForSecondText.forward();
+                }
+              });
 
     _controllerForSecondText.forward();
   }
@@ -424,35 +430,35 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
     _beginForCardColumn = 300.0;
     _endForCardColumn = -20.0;
     _animationForCardColumn =
-    Tween<double>(begin: _beginForCardColumn, end: _endForCardColumn)
-        .animate(_controllerForCardColumn)
-      ..addListener(() {
-        setState(() {});
-      })
-      ..addStatusListener((AnimationStatus status) {
-        if (status == AnimationStatus.completed) {
-          _beginForCardColumn = -20.0;
-          _endForCardColumn = 0.0;
-          _durationForCardColumn = 200;
+        Tween<double>(begin: _beginForCardColumn, end: _endForCardColumn)
+            .animate(_controllerForCardColumn)
+              ..addListener(() {
+                setState(() {});
+              })
+              ..addStatusListener((AnimationStatus status) {
+                if (status == AnimationStatus.completed) {
+                  _beginForCardColumn = -20.0;
+                  _endForCardColumn = 0.0;
+                  _durationForCardColumn = 200;
 
-          _controllerForCardColumn = AnimationController(
-              vsync: this,
-              duration: Duration(milliseconds: _durationForCardColumn));
+                  _controllerForCardColumn = AnimationController(
+                      vsync: this,
+                      duration: Duration(milliseconds: _durationForCardColumn));
 
-          _animationForCardColumn = Tween<double>(
-              begin: _beginForCardColumn, end: _endForCardColumn)
-              .animate(_controllerForCardColumn)
-            ..addListener(() {
-              setState(() {});
-            });
+                  _animationForCardColumn = Tween<double>(
+                          begin: _beginForCardColumn, end: _endForCardColumn)
+                      .animate(_controllerForCardColumn)
+                        ..addListener(() {
+                          setState(() {});
+                        });
 
-          _controllerForCardColumn.forward();
+                  _controllerForCardColumn.forward();
 
-          Future.delayed(Duration(milliseconds: 500), () {
-            _initAnimationForCards();
-          });
-        }
-      });
+                  Future.delayed(Duration(milliseconds: 500), () {
+                    _initAnimationForCards();
+                  });
+                }
+              });
 
     _controllerForCardColumn.forward();
   }

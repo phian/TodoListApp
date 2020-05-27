@@ -9,7 +9,7 @@ import 'main_screen.dart';
 int _lastFocusedScreen;
 
 class GettingStartedScreen extends StatefulWidget {
-  GettingStartedScreen({Key key, int lastFocusedScreen}) {
+  GettingStartedScreen({int lastFocusedScreen}) {
     _lastFocusedScreen = lastFocusedScreen;
   }
 
@@ -59,98 +59,100 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
         .size
         .height * 0.09;
 
-    return WillPopScope(
-      // ignore: missing_return
-      onWillPop: () async {
-        Data data = Data(isBack: true, lastFocusedScreen: _lastFocusedScreen);
-        
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => HomeScreen(data: data,),
-        ));
-      },
-      child: Scaffold(
-        backgroundColor: Colors.cyanAccent.shade400,
-        body: Container(
-          child: Stack(
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Align(
-                    alignment: AlignmentDirectional(0.0, 0.7),
-                    child: Transform.translate(
-                      offset: Offset(0.0, _animationForFirstText.value),
-                      child: Text(
-                        "Welcome to DOIT",
-                        style: GoogleFonts.roboto(
-                            fontSize: 30.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.brown),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Align(
-                    alignment: AlignmentDirectional(0.0, 0.7),
-                    child: Transform.translate(
-                      offset: Offset(0.0, _animationForSecondText.value),
-                      child: Container(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * (2 / 2.5),
+    return SafeArea(
+          child: WillPopScope(
+        // ignore: missing_return
+        onWillPop: () async {
+          Data data = Data(isBack: true, lastFocusedScreen: _lastFocusedScreen);
+          
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => HomeScreen(data: data,),
+          ));
+        },
+        child: Scaffold(
+          backgroundColor: Colors.cyanAccent.shade400,
+          body: Container(
+            child: Stack(
+              children: <Widget>[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Align(
+                      alignment: AlignmentDirectional(0.0, 0.7),
+                      child: Transform.translate(
+                        offset: Offset(0.0, _animationForFirstText.value),
                         child: Text(
-                          "Keep on top of everything in your head, whether it's movies to watch or the details of your next big project",
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 3,
-                          textAlign: TextAlign.center,
+                          "Welcome to DOIT",
                           style: GoogleFonts.roboto(
-                              fontSize: 16.0, color: Colors.brown),
+                              fontSize: 30.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.brown),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: TweenAnimationBuilder(
-                  onEnd: _onEnd,
-                  tween: _scaleButtonTween,
-                  duration: Duration(milliseconds: _durationForButtonAni),
-                  builder: (context, scale, child) {
-                    return Transform.scale(
-                      scale: scale,
-                      child: child,
-                    );
-                  },
-                  child: GestureDetector(
-                    onTapDown: _onTapDown,
-                    child: AnimatedContainer(
-                      onEnd: _onEndForTransitionScreenEvent,
-                      duration: Duration(milliseconds: _durationForButtonAni),
-                      margin: EdgeInsets.only(bottom: _resetMarginBottom == -1 ? _marginBottom : _resetMarginBottom),
-                      width: _buttonWidth,
-                      height: _buttonHeight,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(_buttonBorder)),
-                        color: Colors.black,
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Align(
+                      alignment: AlignmentDirectional(0.0, 0.7),
+                      child: Transform.translate(
+                        offset: Offset(0.0, _animationForSecondText.value),
+                        child: Container(
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width * (2 / 2.5),
+                          child: Text(
+                            "Keep on top of everything in your head, whether it's movies to watch or the details of your next big project",
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 3,
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.roboto(
+                                fontSize: 16.0, color: Colors.brown),
+                          ),
+                        ),
                       ),
-                      alignment: Alignment.bottomCenter,
-                      child: Center(
-                        child: Icon(
-                          ForwardArrow.arrow_forward,
-                          size: 25.0,
-                          color: Colors.white.withOpacity(_buttonOpacity),
+                    ),
+                  ],
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: TweenAnimationBuilder(
+                    onEnd: _onEnd,
+                    tween: _scaleButtonTween,
+                    duration: Duration(milliseconds: _durationForButtonAni),
+                    builder: (context, scale, child) {
+                      return Transform.scale(
+                        scale: scale,
+                        child: child,
+                      );
+                    },
+                    child: GestureDetector(
+                      onTapDown: _onTapDown,
+                      child: AnimatedContainer(
+                        onEnd: _onEndForTransitionScreenEvent,
+                        duration: Duration(milliseconds: _durationForButtonAni),
+                        margin: EdgeInsets.only(bottom: _resetMarginBottom == -1 ? _marginBottom : _resetMarginBottom),
+                        width: _buttonWidth,
+                        height: _buttonHeight,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(_buttonBorder)),
+                          color: Colors.black,
+                        ),
+                        alignment: Alignment.bottomCenter,
+                        child: Center(
+                          child: Icon(
+                            ForwardArrow.arrow_forward,
+                            size: 25.0,
+                            color: Colors.white.withOpacity(_buttonOpacity),
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -175,7 +177,7 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
       setState(() {
         // Here you can write your code for open new view
         Navigator.of(context).push(PageRouteBuilder(
-          pageBuilder: (context, animation1, animation2) => GettingStartedSecondScreen(),
+          pageBuilder: (context, animation1, animation2) => GettingStartedSecondScreen(lastFocusedScreen: _lastFocusedScreen,),
         ));
       });
     });
