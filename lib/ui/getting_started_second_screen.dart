@@ -5,7 +5,7 @@ import 'package:todoapp/ui/getting_started_screen.dart';
 
 class GettingStartedSecondScreen extends StatefulWidget {
   final int lastFocusedScreen;
-  
+
   GettingStartedSecondScreen({this.lastFocusedScreen});
 
   @override
@@ -90,11 +90,14 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
     final _marginBottom = MediaQuery.of(context).size.height * 0.09;
 
     return SafeArea(
-          child: WillPopScope(
+      child: WillPopScope(
         // ignore: missing_return
         onWillPop: () async {
           Navigator.of(context).push(PageRouteBuilder(
-            pageBuilder: (context, animation1, animation2) => GettingStartedScreen(lastFocusedScreen: widget.lastFocusedScreen,),
+            pageBuilder: (context, animation1, animation2) =>
+                GettingStartedScreen(
+              lastFocusedScreen: widget.lastFocusedScreen,
+            ),
           ));
         },
         child: Scaffold(
@@ -135,7 +138,8 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
                           onEnd: () {
                             _updateCardsOpacity(2);
                           },
-                          duration: Duration(milliseconds: _durationForCardAni1),
+                          duration:
+                              Duration(milliseconds: _durationForCardAni1),
                           tween: _scaleCaredTween1,
                           builder: (context, scale, child) {
                             return Transform.scale(
@@ -240,9 +244,9 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
         child: Stack(children: <Widget>[
           Container(
             margin: EdgeInsets.only(
-                left: MediaQuery.of(context).size.width / 6,
-                right: MediaQuery.of(context).size.width / 6),
-            child: Row(
+                left: MediaQuery.of(context).size.width / 7,
+                right: MediaQuery.of(context).size.width / 7),
+            child: Stack(
               children: <Widget>[
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -298,11 +302,14 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 70.0),
-                  child: Icon(
-                    Icons.more_horiz,
-                    color: Colors.grey,
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    padding: EdgeInsets.only(right: MediaQuery.of(context).size.width / 30),
+                    child: Icon(
+                      Icons.more_horiz,
+                      color: Colors.grey,
+                    ),
                   ),
                 ),
               ],
@@ -516,8 +523,8 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
   // Hàm đê thay đổi độ mờ của 2 card thu nhỏ hơn
   void _updateCardsOpacity(int changeIndex) {
     setState(() {
-      _cardList[changeIndex] =
-          _todoCard(_cardTitles[changeIndex], _cardDeadlines[changeIndex], _cardNotes[changeIndex], 0.5);
+      _cardList[changeIndex] = _todoCard(_cardTitles[changeIndex],
+          _cardDeadlines[changeIndex], _cardNotes[changeIndex], 0.5);
     });
   }
 }

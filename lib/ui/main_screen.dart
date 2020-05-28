@@ -51,8 +51,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
 
     _blur = 0.0;
-
-    _checkIsBack();
   }
 
   // Hàm để check nếu ng dùng quay về main screen từ các screen trong setting
@@ -63,6 +61,8 @@ class _HomeScreenState extends State<HomeScreen> {
       _changePage(_settingsScreenIndex);
 
       _lastFocusedIconIndex = widget.data.lastFocusedScreen;
+
+      widget.data.isBack = false;
     }
   }
 
@@ -80,6 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _checkIsBack();
     _checkFirstTime();
 
     return SafeArea(
@@ -96,8 +97,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: AnimatedContainer(
                   duration: Duration(milliseconds: 300),
                   padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.width - 120.0,
-                      left: MediaQuery.of(context).size.width / 2 - 120.0),
+                      top: MediaQuery.of(context).size.height / 3,
+                      left: MediaQuery.of(context).size.width - (MediaQuery.of(context).size.width * 0.75) + 10.0
+                      ),
                   transform: Matrix4.translationValues(
                       _transitionXForMenuScreen, 0.0, 0.0),
                   child: SettingsScreen(
@@ -237,7 +239,7 @@ class _HomeScreenState extends State<HomeScreen> {
       } else {
         _settingsScreenIndex = 3;
 
-        _transitionXForMainScreen = -350.0;
+        _transitionXForMainScreen = -(MediaQuery.of(context).size.width * 0.75);
         _marginTop = 60;
         _marginBottom = 60;
 

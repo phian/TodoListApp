@@ -20,7 +20,7 @@ class _AboutScreenState extends State<AboutScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-          child: WillPopScope(
+      child: WillPopScope(
         // ignore: missing_return
         onWillPop: () async {
           Data data = Data(isBack: true, lastFocusedScreen: _lastFocusedScreen);
@@ -36,30 +36,34 @@ class _AboutScreenState extends State<AboutScreen> {
             child: Stack(
               children: <Widget>[
                 Stack(children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: FlatButton(
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Colors.lightBlueAccent,
-                        size: 40.0,
-                      ),
-                      onPressed: () {
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Container(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: FlatButton(
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: Colors.lightBlueAccent,
+                          size: 40.0,
+                        ),
+                        onPressed: () {
 //                    if (Navigator.canPop(context)) {
 //                      Navigator.pop(context);
 //                    } else {
 //                      SystemNavigator.pop();
 //                    }
 
-                        Data data = Data(
-                            isBack: true, lastFocusedScreen: _lastFocusedScreen);
+                          Data data = Data(
+                              isBack: true,
+                              lastFocusedScreen: _lastFocusedScreen);
 
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => HomeScreen(
-                            data: data,
-                          ),
-                        ));
-                      },
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => HomeScreen(
+                              data: data,
+                            ),
+                          ));
+                        },
+                      ),
                     ),
                   ),
                   Padding(
@@ -75,13 +79,16 @@ class _AboutScreenState extends State<AboutScreen> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 345.0),
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.tag_faces,
-                        size: 50.0,
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Container(
+                      padding: EdgeInsets.only(right: 15.0),
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.tag_faces,
+                          size: 50.0,
+                        ),
                       ),
                     ),
                   )

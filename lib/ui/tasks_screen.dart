@@ -8,11 +8,12 @@ class TasksScreen extends StatefulWidget {
   _TasksScreenState createState() => _TasksScreenState();
 }
 
-class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin {
+class _TasksScreenState extends State<TasksScreen>
+    with TickerProviderStateMixin {
   TabController _tabController;
   List<String> _weekDates = []; // List để lưu 7 ngày trong tuần đó để hiển thị
   List<Widget> _dateCardList =
-  []; // List chứa các widget hiển thị card ngày trên Calendar
+      []; // List chứa các widget hiển thị card ngày trên Calendar
   List<Widget> _dateNameList = []; // List chứa các widget để hiển thị
   List<String> _weekDateNames = [
     "S",
@@ -26,11 +27,11 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
 
   int _currentDateIndex; // Biến để chứa vị trí của ngày hiện tại trong tuần
   int _increaseClickedTime =
-  0; // Biến để check xem ng dùng đã chuyển qua bao nhiêu tuần
+      0; // Biến để check xem ng dùng đã chuyển qua bao nhiêu tuần
   int _decreaseClickedTime =
-  0; // Biến để check xem ng dùng đã chuyển qua bao nhiêu tuần
+      0; // Biến để check xem ng dùng đã chuyển qua bao nhiêu tuần
   int _lastFocusDate =
-  0; // Biến để check xem giá trị ngày trc đó đang dc chọn là ngày nào
+      0; // Biến để check xem giá trị ngày trc đó đang dc chọn là ngày nào
 
   String _dayName; // variables for displaying time in Calendar
 
@@ -41,43 +42,15 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
     // TODO: implement initState
     super.initState();
 
-    _tabController = TabController(vsync: this,  length: 3);
+    _tabController = TabController(vsync: this, length: 3);
     _initCalendarTime();
-
-    for (int i = 0; i < 7; i++) {
-      _weekDates.add(
-          DateFormat('dd').format(DateTime.now().add(new Duration(days: i))));
-    }
-
-    for (int i = 0; i < 7; i++) {
-      double opacity = i == 0 ? 0.85 : 0.3;
-      _dateCardList.add(_dateCard(_weekDates[i].toString(), opacity));
-    }
+    _initCalendarCardsDate();
 
     // Gọi hàm để check thứ tự ngày hiện tãi trong tuần
     _currentDateIndex = _currentDateNum();
     _lastFocusDate = int.parse(_weekDates[0]);
 
-    ///
-    /// Xét xem ngày hiện tại là thứ mấy
-    /// + Nếu là chủ nhất thì add week name theo thứ tự mặc định trong list
-    /// + Ngược lại thì chia ra 2 làm 2 vòng lặp, vòng lặp 1 để add từ vị trí
-    /// hiện tại đến hết list và vòng lặp 2 để swap các ngày trc ngày hiện tại
-    /// ra phía sau
-    ///
-    if (_currentDateIndex == 7) {
-      for (int i = 0; i < 7; i++) {
-        _dateNameList.add(_weekDateName(_weekDateNames[i].toString()));
-      }
-    } else {
-      for (int j = _currentDateIndex; j < 7; j++) {
-        _dateNameList.add(_weekDateName(_weekDateNames[j].toString()));
-      }
-
-      for (int i = 0; i < _currentDateIndex; i++) {
-        _dateNameList.add(_weekDateName(_weekDateNames[i].toString()));
-      }
-    }
+    _addValueForDateNameList();
   }
 
   @override
@@ -108,7 +81,7 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
                       Container(
                         decoration: BoxDecoration(
                             borderRadius:
-                            BorderRadius.all(Radius.circular(30))),
+                                BorderRadius.all(Radius.circular(30))),
                         height: 250,
                         child: ClipRRect(
                           child: Image.asset(
@@ -132,9 +105,8 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
                                       fontSize: 30, color: Colors.white),
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 300.0, top: 20.0),
+                              Container(
+                                padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.7, top: 20.0),
                                 child: Row(
                                   children: <Widget>[
                                     Container(
@@ -169,11 +141,11 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
                           ),
                           Column(
                             children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(top: 20.0),
+                              Container(
+                                padding: EdgeInsets.only(top: 20.0, left: MediaQuery.of(context).size.width / 25, right: MediaQuery.of(context).size.width / 27),
                                 child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceAround,
                                   children: <Widget>[
                                     _dateNameList[0],
                                     _dateNameList[1],
@@ -185,12 +157,11 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
                                   ],
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 20.0, right: 20.0, top: 15.0),
+                              Container(
+                                padding: EdgeInsets.only(left: MediaQuery.of(context).size.width / 25, right: MediaQuery.of(context).size.width / 25, top: MediaQuery.of(context).size.height / 100),
                                 child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceAround,
                                   children: <Widget>[
                                     InkWell(
                                       child: _dateCardList[0],
@@ -243,33 +214,48 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
                             child: FlatButton(
                               onPressed: () {
                                 showDatePicker(
-                                    context: context,
-                                    initialDate: _pickedDate == null
-                                        ? DateTime.now()
-                                        : _pickedDate,
-                                    firstDate: DateTime(1900),
-                                    lastDate: DateTime(2200))
+                                        context: context,
+                                        initialDate: _pickedDate == null
+                                            ? DateTime.now()
+                                            : _pickedDate,
+                                        firstDate: DateTime(1900),
+                                        lastDate: DateTime(2200))
                                     .then((date) {
                                   setState(() {
                                     _pickedDate = date;
 
-                                    if (_pickedDate.month - DateTime.now().month == 0) {
-                                      if (_pickedDate.day - DateTime.now().day >= 0 && _pickedDate.day - DateTime.now().day < 7) {
+                                    if (_pickedDate.month -
+                                            DateTime.now().month ==
+                                        0) {
+                                      if (_pickedDate.day -
+                                                  DateTime.now().day >=
+                                              0 &&
+                                          _pickedDate.day - DateTime.now().day <
+                                              7) {
                                         for (int i = 0; i < 7; i++) {
-                                          if (int.parse(_weekDates[i]) == _pickedDate.day) {
+                                          if (int.parse(_weekDates[i]) ==
+                                              _pickedDate.day) {
                                             _changeFocusedCardColor(i);
                                             break;
                                           }
                                         }
-                                      } else if (_pickedDate.day - DateTime.now().day > 7) {
+                                      } else if (_pickedDate.day -
+                                              DateTime.now().day >
+                                          7) {
                                         _increaseTimeToSelectedDate(0);
                                       } else {
                                         _decreaseTimeToSelectedDate(0);
                                       }
-                                    } else if (_pickedDate.month - DateTime.now().month > 0) {
-                                      _increaseTimeToSelectedDate(_pickedDate.month - DateTime.now().month);
+                                    } else if (_pickedDate.month -
+                                            DateTime.now().month >
+                                        0) {
+                                      _increaseTimeToSelectedDate(
+                                          _pickedDate.month -
+                                              DateTime.now().month);
                                     } else {
-                                      _decreaseTimeToSelectedDate(DateTime.now().month - _pickedDate.month);
+                                      _decreaseTimeToSelectedDate(
+                                          DateTime.now().month -
+                                              _pickedDate.month);
                                     }
                                   });
                                 });
@@ -326,14 +312,14 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
                     ),
                     Tab(
                         child: Icon(
-                          Icons.event,
-                          size: 30,
-                        )),
+                      Icons.event,
+                      size: 30,
+                    )),
                     Tab(
                         child: Icon(
-                          Icons.assistant_photo,
-                          size: 30,
-                        )),
+                      Icons.assistant_photo,
+                      size: 30,
+                    )),
                   ],
                 ),
               ),
@@ -450,7 +436,9 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
       // Add hiển thị của card ra screen
       for (int i = 0; i < 7; i++) {
         double opacity = 0;
-        opacity = _lastFocusDate == int.parse(_weekDates[i]) ? 0.85 : 0.3; // Nếu ngày đang focus có trong tuần đang xem
+        opacity = _lastFocusDate == int.parse(_weekDates[i])
+            ? 0.85
+            : 0.3; // Nếu ngày đang focus có trong tuần đang xem
         _dateCardList
             .add(_dateCard(_weekDates[i].toString(), opacity, Colors.white));
       }
@@ -467,7 +455,8 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
     setState(() {
       // Nếu ng dùng đang dừng ở tuần khác hiện tại
       if (_increaseClickedTime != 0 && _decreaseClickedTime != 0) {
-        if (isIncreaseOrDecrease == null) { // Nếu ng dùng ko dùng Calendar để chọn ngày
+        if (isIncreaseOrDecrease == null) {
+          // Nếu ng dùng ko dùng Calendar để chọn ngày
           if (int.parse(_weekDates[selectedIndex]) != _lastFocusDate) {
             _dateCardList[selectedIndex] =
                 _dateCard(_weekDates[selectedIndex], 0.85);
@@ -480,7 +469,8 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
             }
           }
         } else {
-          if (isIncreaseOrDecrease) { // Nếu ng dùng có dùng Calendar để chọn ngày
+          if (isIncreaseOrDecrease) {
+            // Nếu ng dùng có dùng Calendar để chọn ngày
             if (int.parse(_weekDates[selectedIndex]) == _lastFocusDate) {
               _dateCardList[selectedIndex] =
                   _dateCard(_weekDates[selectedIndex], 0.85);
@@ -525,9 +515,12 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
 
   // Hàm để tăng thời gian đến ngày ng dùng chọn
   void _increaseTimeToSelectedDate(int monthDistance) {
-    bool _reachedDate = false; // Biến để check xem đã đến dc ngày mà ng dùng pick hay chưa?
-    int checkMonthDistance = 0; // biến để check xem đã đến đúng tháng ng dùng chọn hay chưa
-    int focusIndex = -1; // Biến để check xem ngày ở vị trí nào của date card list cần thay đổi màu focus
+    bool _reachedDate =
+        false; // Biến để check xem đã đến dc ngày mà ng dùng pick hay chưa?
+    int checkMonthDistance =
+        0; // biến để check xem đã đến đúng tháng ng dùng chọn hay chưa
+    int focusIndex =
+        -1; // Biến để check xem ngày ở vị trí nào của date card list cần thay đổi màu focus
 
     if (monthDistance == 0) {
       _increaseClickedTime = 0;
@@ -573,8 +566,9 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
               _reachedDate = true;
               focusIndex = i;
             } else if (DateTime.now()
-                .add(new Duration(days: i + 7 * _increaseClickedTime)).month != DateTime.now().month)
-              checkMonthDistance++;
+                    .add(new Duration(days: i + 7 * _increaseClickedTime))
+                    .month !=
+                DateTime.now().month) checkMonthDistance++;
           }
           if (_reachedDate && i > 6) {
             break;
@@ -595,8 +589,10 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
 
   // Hàm đẻ giảm ngày đến ngày mà ng dùng chọn
   void _decreaseTimeToSelectedDate(int monthDistance) {
-    bool _reachedDate = false; // Biến để check xem đã đến dc ngày mà ng dùng pick hay chưa?
-    int checkMonthDistance = 0; // biến để check xem đã đến đúng tháng ng dùng chọn hay chưa
+    bool _reachedDate =
+        false; // Biến để check xem đã đến dc ngày mà ng dùng pick hay chưa?
+    int checkMonthDistance =
+        0; // biến để check xem đã đến đúng tháng ng dùng chọn hay chưa
     int focusIndex;
 
     if (monthDistance == 0) {
@@ -643,8 +639,9 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
               _reachedDate = true;
               focusIndex = i;
             } else if (_pickedDate
-                .add(new Duration(days: i - 7 * _decreaseClickedTime)).month != DateTime.now().month)
-              checkMonthDistance++;
+                    .add(new Duration(days: i - 7 * _decreaseClickedTime))
+                    .month !=
+                DateTime.now().month) checkMonthDistance++;
           }
         }
 
@@ -656,6 +653,43 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
           _decreaseClickedTime++;
           _increaseClickedTime--;
         }
+      }
+    }
+  }
+
+  // Hàm để khởi tạo giá trị ngày cho calendar cards
+  void _initCalendarCardsDate() {
+    for (int i = 0; i < 7; i++) {
+      _weekDates.add(
+          DateFormat('dd').format(DateTime.now().add(new Duration(days: i))));
+    }
+
+    for (int i = 0; i < 7; i++) {
+      double opacity = i == 0 ? 0.85 : 0.3;
+      _dateCardList.add(_dateCard(_weekDates[i].toString(), opacity));
+    }
+  }
+
+  // Hàm để add value cho date name list
+  void _addValueForDateNameList() {
+    ///
+    /// Xét xem ngày hiện tại là thứ mấy
+    /// + Nếu là chủ nhất thì add week name theo thứ tự mặc định trong list
+    /// + Ngược lại thì chia ra 2 làm 2 vòng lặp, vòng lặp 1 để add từ vị trí
+    /// hiện tại đến hết list và vòng lặp 2 để swap các ngày trc ngày hiện tại
+    /// ra phía sau
+    ///
+    if (_currentDateIndex == 7) {
+      for (int i = 0; i < 7; i++) {
+        _dateNameList.add(_weekDateName(_weekDateNames[i].toString()));
+      }
+    } else {
+      for (int j = _currentDateIndex; j < 7; j++) {
+        _dateNameList.add(_weekDateName(_weekDateNames[j].toString()));
+      }
+
+      for (int i = 0; i < _currentDateIndex; i++) {
+        _dateNameList.add(_weekDateName(_weekDateNames[i].toString()));
       }
     }
   }

@@ -77,7 +77,7 @@ class _SettingsScreenState extends State<SettingsScreen>
                 height: 10.0,
               ),
               InkWell(
-                onTap: () {
+                onTap: () async {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => PreferenceScreen(
                       lastFocusScreen: _lastFocusScreen,
@@ -167,7 +167,7 @@ class _SettingsScreenState extends State<SettingsScreen>
                 height: 10.0,
               ),
               InkWell(
-                onTap: () {
+                onTap: () async {
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => GettingStartedScreen(
                       lastFocusedScreen: _lastFocusScreen,

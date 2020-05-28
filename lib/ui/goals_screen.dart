@@ -29,12 +29,15 @@ class _GoalsScreenState extends State<GoalsScreen> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 350, top: 10),
-                  child: Image.asset(
-                    'images/goals.gif',
-                    width: 50,
-                    height: 70,
+                Container(
+                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 100, right: MediaQuery.of(context).size.width / 100),
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: Image.asset(
+                      'images/goals.gif',
+                      width: 50,
+                      height: 70,
+                    ),
                   ),
                 ),
               ],
