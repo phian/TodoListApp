@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AddTaskScreen extends StatefulWidget {
   @override
@@ -41,10 +40,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   child: Center(
                     child: Text(
                       "Add Task",
-                      style: GoogleFonts.roboto(
-                        fontSize: 35,
-                        color: Colors.black,
-                      ),
+                      style: TextStyle(fontSize: 35.0, fontFamily: 'Roboto'),
                     ),
                   ),
                 ),

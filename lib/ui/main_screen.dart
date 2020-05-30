@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:todoapp/data/data.dart';
 import 'package:todoapp/ui/about_screen.dart';
@@ -180,12 +179,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               children: <Widget>[
                                 Container(
                                   width: MediaQuery.of(context).size.width,
-                                  child: Text(
-                                    "DOIT",
-                                    style: GoogleFonts.abhayaLibre(
-                                        fontSize: 35.0,
-                                        fontWeight: FontWeight.bold),
-                                  ),
+                                  child: Text("DOIT",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                          fontSize: 35.0,
+                                          fontFamily: 'AbhayaLibre')),
                                 ),
                                 SizedBox(
                                   height: 10.0,
@@ -209,7 +207,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             child: PreferenceScreen(
                                               lastFocusedScreen:
                                                   _lastFocusedIconIndex,
-                                            )));
+                                            ),
+                                            duration:
+                                                Duration(milliseconds: 300)));
 
                                     _changeFocusMenuWidgetColor(0, false);
                                   },
@@ -245,7 +245,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             child: SearchScreen(
                                               lastFocusedScreen:
                                                   _lastFocusedIconIndex,
-                                            )));
+                                            ),
+                                            duration:
+                                                Duration(milliseconds: 300)));
 
                                     _changeFocusMenuWidgetColor(1, false);
                                   },
@@ -281,7 +283,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             child: HelpScreen(
                                               lastFocusedScreen:
                                                   _lastFocusedIconIndex,
-                                            )));
+                                            ),
+                                            duration:
+                                                Duration(milliseconds: 300)));
 
                                     _changeFocusMenuWidgetColor(2, false);
                                   },
@@ -317,7 +321,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             child: AboutScreen(
                                               lastFocusedScreen:
                                                   _lastFocusedIconIndex,
-                                            )));
+                                            ),
+                                            duration:
+                                                Duration(milliseconds: 300)));
 
                                     _changeFocusMenuWidgetColor(3, false);
                                   },
@@ -395,7 +401,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             child: AccountScreen(
                                               lastFocusedScreen:
                                                   _lastFocusedIconIndex,
-                                            )));
+                                            ),
+                                            duration:
+                                                Duration(milliseconds: 300)));
 
                                     _changeFocusMenuWidgetColor(5, false);
                                   },
@@ -630,7 +638,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             padding: const EdgeInsets.only(left: 5.0),
             child: Text(
               "$menuText",
-              style: GoogleFonts.abhayaLibre(fontSize: 20.0, color: textColor),
+              style: TextStyle(fontSize: 20.0, fontFamily: 'AbhayaLibre'),
             ),
           ),
         ],

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import './dates_list.dart';
 
@@ -101,12 +100,17 @@ class _TasksScreenState extends State<TasksScreen>
                                     left: 20.0, top: 25.0),
                                 child: Text(
                                   '$_dayName',
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 30, color: Colors.white),
+                                  style: TextStyle(
+                                      fontFamily: 'Roboto',
+                                      fontSize: 30,
+                                      color: Colors.white),
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.7, top: 20.0),
+                                padding: EdgeInsets.only(
+                                    left:
+                                        MediaQuery.of(context).size.width * 0.7,
+                                    top: 20.0),
                                 child: Row(
                                   children: <Widget>[
                                     Container(
@@ -142,7 +146,12 @@ class _TasksScreenState extends State<TasksScreen>
                           Column(
                             children: <Widget>[
                               Container(
-                                padding: EdgeInsets.only(top: 20.0, left: MediaQuery.of(context).size.width / 25, right: MediaQuery.of(context).size.width / 27),
+                                padding: EdgeInsets.only(
+                                    top: 20.0,
+                                    left:
+                                        MediaQuery.of(context).size.width / 25,
+                                    right:
+                                        MediaQuery.of(context).size.width / 27),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
@@ -158,7 +167,13 @@ class _TasksScreenState extends State<TasksScreen>
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.only(left: MediaQuery.of(context).size.width / 25, right: MediaQuery.of(context).size.width / 25, top: MediaQuery.of(context).size.height / 100),
+                                padding: EdgeInsets.only(
+                                    left:
+                                        MediaQuery.of(context).size.width / 25,
+                                    right:
+                                        MediaQuery.of(context).size.width / 25,
+                                    top: MediaQuery.of(context).size.height /
+                                        100),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
@@ -360,8 +375,10 @@ class _TasksScreenState extends State<TasksScreen>
       child: Center(
         child: Text(
           "$dateNum",
-          style: GoogleFonts.roboto(
-              fontSize: 17.0, color: color == null ? Colors.white : color),
+          style: TextStyle(
+              fontFamily: 'Roboto',
+              fontSize: 17.0,
+              color: color == null ? Colors.white : color),
         ),
       ),
     );
@@ -371,7 +388,7 @@ class _TasksScreenState extends State<TasksScreen>
   Widget _weekDateName(String dateName) {
     return Text(
       "$dateName",
-      style: GoogleFonts.roboto(fontSize: 17, color: Colors.white),
+      style: TextStyle(fontSize: 17, color: Colors.white, fontFamily: 'Roboto'),
     );
   }
 

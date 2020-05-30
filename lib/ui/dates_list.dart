@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 DateTime _currentDate;
 
@@ -30,22 +29,20 @@ class _DatesListScreenState extends State<DatesListScreen> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(left: 20.0),
-                child: Text(
-                  'Today',
-                  textDirection: TextDirection.ltr,
-                  style: GoogleFonts.roboto(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
-                ),
+                child: Text('Today',
+                    textDirection: TextDirection.ltr,
+                    style: TextStyle(
+                        fontSize: 40.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                        fontFamily: 'Roboto')),
               ),
               SizedBox(
                 height: 25,
               ),
               Container(
                 padding: EdgeInsets.only(
-                    left: _paddingLeftAndRight,
-                    right: _paddingLeftAndRight),
+                    left: _paddingLeftAndRight, right: _paddingLeftAndRight),
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.26,
                 child: ListView(
@@ -60,16 +57,17 @@ class _DatesListScreenState extends State<DatesListScreen> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 30.0),
                                 child: Container(
-                                  width: (_screenWidth - _paddingLeftAndRight * 2) / 1.5,
-                                  child: Text(
-                                    "Eat breakfast",
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    textDirection: TextDirection.ltr,
-                                    style: GoogleFonts.roboto(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 25.0),
-                                  ),
+                                  width: (_screenWidth -
+                                          _paddingLeftAndRight * 2) /
+                                      1.5,
+                                  child: Text("Eat breakfast",
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      textDirection: TextDirection.ltr,
+                                      style: TextStyle(
+                                          fontSize: 25.0,
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: 'Roboto')),
                                 ),
                               ),
                               SizedBox(
@@ -84,8 +82,10 @@ class _DatesListScreenState extends State<DatesListScreen> {
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textDirection: TextDirection.ltr,
-                                    style: GoogleFonts.roboto(
-                                        fontSize: 12.0, color: Colors.grey),
+                                    style: TextStyle(
+                                        fontSize: 12.0,
+                                        color: Colors.grey,
+                                        fontFamily: 'Roboto'),
                                   ),
                                 ),
                               ),
@@ -100,8 +100,10 @@ class _DatesListScreenState extends State<DatesListScreen> {
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   textDirection: TextDirection.ltr,
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 12.0, color: Colors.grey),
+                                  style: TextStyle(
+                                      fontSize: 12.0,
+                                      color: Colors.grey,
+                                      fontFamily: 'Roboto'),
                                 ),
                               ),
                             ],
@@ -130,15 +132,18 @@ class _DatesListScreenState extends State<DatesListScreen> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 30.0),
                                 child: Container(
-                                  width: (_screenWidth - _paddingLeftAndRight * 2) / 1.5,
+                                  width: (_screenWidth -
+                                          _paddingLeftAndRight * 2) /
+                                      1.5,
                                   child: Text(
                                     "Read a book",
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textDirection: TextDirection.ltr,
-                                    style: GoogleFonts.roboto(
+                                    style: TextStyle(
+                                        fontSize: 25.0,
                                         fontWeight: FontWeight.w400,
-                                        fontSize: 25.0),
+                                        fontFamily: 'Roboto'),
                                   ),
                                 ),
                               ),
@@ -154,8 +159,10 @@ class _DatesListScreenState extends State<DatesListScreen> {
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textDirection: TextDirection.ltr,
-                                    style: GoogleFonts.roboto(
-                                        fontSize: 12.0, color: Colors.grey),
+                                    style: TextStyle(
+                                        fontSize: 12.0,
+                                        color: Colors.grey,
+                                        fontFamily: 'Roboto'),
                                   ),
                                 ),
                               ),
@@ -171,8 +178,10 @@ class _DatesListScreenState extends State<DatesListScreen> {
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textDirection: TextDirection.ltr,
-                                    style: GoogleFonts.roboto(
-                                        fontSize: 12.0, color: Colors.grey),
+                                    style: TextStyle(
+                                        fontSize: 12.0,
+                                        color: Colors.grey,
+                                        fontFamily: 'Roboto'),
                                   ),
                                 ),
                               ),
@@ -197,10 +206,11 @@ class _DatesListScreenState extends State<DatesListScreen> {
                 child: Text(
                   'Tomorrow',
                   textDirection: TextDirection.ltr,
-                  style: GoogleFonts.roboto(
-                      fontSize: 40,
+                  style: TextStyle(
+                      fontSize: 40.0,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black),
+                      color: Colors.black,
+                      fontFamily: 'Roboto'),
                 ),
               ),
               SizedBox(
@@ -208,8 +218,7 @@ class _DatesListScreenState extends State<DatesListScreen> {
               ),
               Container(
                 padding: EdgeInsets.only(
-                    left: _paddingLeftAndRight,
-                    right: _paddingLeftAndRight),
+                    left: _paddingLeftAndRight, right: _paddingLeftAndRight),
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.26,
                 child: ListView(
@@ -224,15 +233,18 @@ class _DatesListScreenState extends State<DatesListScreen> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 30.0),
                                 child: Container(
-                                  width: (_screenWidth - _paddingLeftAndRight * 2) / 1.5,
+                                  width: (_screenWidth -
+                                          _paddingLeftAndRight * 2) /
+                                      1.5,
                                   child: Text(
                                     "Do homework",
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textDirection: TextDirection.ltr,
-                                    style: GoogleFonts.roboto(
+                                    style: TextStyle(
+                                        fontSize: 25.0,
                                         fontWeight: FontWeight.w400,
-                                        fontSize: 25.0),
+                                        fontFamily: 'Roboto'),
                                   ),
                                 ),
                               ),
@@ -248,8 +260,10 @@ class _DatesListScreenState extends State<DatesListScreen> {
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textDirection: TextDirection.ltr,
-                                    style: GoogleFonts.roboto(
-                                        fontSize: 12.0, color: Colors.grey),
+                                    style: TextStyle(
+                                        fontSize: 12.0,
+                                        color: Colors.grey,
+                                        fontFamily: 'Roboto'),
                                   ),
                                 ),
                               ),
@@ -265,8 +279,10 @@ class _DatesListScreenState extends State<DatesListScreen> {
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textDirection: TextDirection.ltr,
-                                    style: GoogleFonts.roboto(
-                                        fontSize: 12.0, color: Colors.grey),
+                                    style: TextStyle(
+                                        fontSize: 12.0,
+                                        color: Colors.grey,
+                                        fontFamily: 'Roboto'),
                                   ),
                                 ),
                               ),
@@ -296,15 +312,18 @@ class _DatesListScreenState extends State<DatesListScreen> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 30.0),
                                 child: Container(
-                                  width: (_screenWidth - _paddingLeftAndRight * 2) / 1.5,
+                                  width: (_screenWidth -
+                                          _paddingLeftAndRight * 2) /
+                                      1.5,
                                   child: Text(
                                     "Have lunch",
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textDirection: TextDirection.ltr,
-                                    style: GoogleFonts.roboto(
+                                    style: TextStyle(
+                                        fontSize: 25.0,
                                         fontWeight: FontWeight.w400,
-                                        fontSize: 25.0),
+                                        fontFamily: 'Roboto'),
                                   ),
                                 ),
                               ),
@@ -320,8 +339,10 @@ class _DatesListScreenState extends State<DatesListScreen> {
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textDirection: TextDirection.ltr,
-                                    style: GoogleFonts.roboto(
-                                        fontSize: 12.0, color: Colors.grey),
+                                    style: TextStyle(
+                                        fontSize: 12.0,
+                                        color: Colors.grey,
+                                        fontFamily: 'Roboto'),
                                   ),
                                 ),
                               ),
@@ -337,8 +358,10 @@ class _DatesListScreenState extends State<DatesListScreen> {
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textDirection: TextDirection.ltr,
-                                    style: GoogleFonts.roboto(
-                                        fontSize: 12.0, color: Colors.grey),
+                                    style: TextStyle(
+                                        fontSize: 12.0,
+                                        color: Colors.grey,
+                                        fontFamily: 'Roboto'),
                                   ),
                                 ),
                               ),
@@ -363,10 +386,11 @@ class _DatesListScreenState extends State<DatesListScreen> {
                 child: Text(
                   'Later',
                   textDirection: TextDirection.ltr,
-                  style: GoogleFonts.roboto(
+                  style: TextStyle(
                       fontSize: 40,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black),
+                      color: Colors.black,
+                      fontFamily: 'Roboto'),
                 ),
               ),
               SizedBox(
@@ -374,8 +398,7 @@ class _DatesListScreenState extends State<DatesListScreen> {
               ),
               Container(
                 padding: EdgeInsets.only(
-                    left: _paddingLeftAndRight,
-                    right: _paddingLeftAndRight),
+                    left: _paddingLeftAndRight, right: _paddingLeftAndRight),
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.26,
                 child: ListView(
@@ -390,15 +413,18 @@ class _DatesListScreenState extends State<DatesListScreen> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 30.0),
                                 child: Container(
-                                  width: (_screenWidth - _paddingLeftAndRight * 2) / 1.5,
+                                  width: (_screenWidth -
+                                          _paddingLeftAndRight * 2) /
+                                      1.5,
                                   child: Text(
                                     "Do housework",
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textDirection: TextDirection.ltr,
-                                    style: GoogleFonts.roboto(
+                                    style: TextStyle(
                                         fontWeight: FontWeight.w400,
-                                        fontSize: 25.0),
+                                        fontSize: 25.0,
+                                        fontFamily: 'Roboto'),
                                   ),
                                 ),
                               ),
@@ -414,8 +440,10 @@ class _DatesListScreenState extends State<DatesListScreen> {
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textDirection: TextDirection.ltr,
-                                    style: GoogleFonts.roboto(
-                                        fontSize: 12.0, color: Colors.grey),
+                                    style: TextStyle(
+                                        fontSize: 12.0,
+                                        color: Colors.grey,
+                                        fontFamily: 'Roboto'),
                                   ),
                                 ),
                               ),
@@ -431,8 +459,10 @@ class _DatesListScreenState extends State<DatesListScreen> {
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textDirection: TextDirection.ltr,
-                                    style: GoogleFonts.roboto(
-                                        fontSize: 12.0, color: Colors.grey),
+                                    style: TextStyle(
+                                        fontSize: 12.0,
+                                        color: Colors.grey,
+                                        fontFamily: 'Roboto'),
                                   ),
                                 ),
                               ),
@@ -462,15 +492,18 @@ class _DatesListScreenState extends State<DatesListScreen> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 30.0),
                                 child: Container(
-                                  width: (_screenWidth - _paddingLeftAndRight * 2) / 1.5,
+                                  width: (_screenWidth -
+                                          _paddingLeftAndRight * 2) /
+                                      1.5,
                                   child: Text(
                                     "Take bath for Pupies",
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textDirection: TextDirection.ltr,
-                                    style: GoogleFonts.roboto(
+                                    style: TextStyle(
                                         fontWeight: FontWeight.w400,
-                                        fontSize: 25.0),
+                                        fontSize: 25.0,
+                                        fontFamily: 'Roboto'),
                                   ),
                                 ),
                               ),
@@ -486,8 +519,10 @@ class _DatesListScreenState extends State<DatesListScreen> {
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textDirection: TextDirection.ltr,
-                                    style: GoogleFonts.roboto(
-                                        fontSize: 12.0, color: Colors.grey),
+                                    style: TextStyle(
+                                        fontSize: 12.0,
+                                        color: Colors.grey,
+                                        fontFamily: 'Roboto'),
                                   ),
                                 ),
                               ),
@@ -503,8 +538,10 @@ class _DatesListScreenState extends State<DatesListScreen> {
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textDirection: TextDirection.ltr,
-                                    style: GoogleFonts.roboto(
-                                        fontSize: 12.0, color: Colors.grey),
+                                    style: TextStyle(
+                                        fontSize: 12.0,
+                                        color: Colors.grey,
+                                        fontFamily: 'Roboto'),
                                   ),
                                 ),
                               ),

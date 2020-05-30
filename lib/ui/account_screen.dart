@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../data/data.dart';
@@ -75,10 +74,11 @@ class _AccountScreenState extends State<AccountScreen> {
                     padding: const EdgeInsets.only(top: 15.0),
                     child: Text(
                       "ACCOUNT",
-                      style: GoogleFonts.roboto(
-                        fontSize: 30.0,
-                        color: Colors.lightBlueAccent,
-                      ),
+                      style: TextStyle(
+                          fontSize: 30.0,
+                          fontWeight: FontWeight.w300,
+                          fontFamily: 'Roboto',
+                          color: Colors.lightBlueAccent),
                     ),
                   ),
                 ),

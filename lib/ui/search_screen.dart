@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../data/data.dart';
@@ -73,7 +72,7 @@ class _SearchScreenState extends State<SearchScreen>
                     Transform.translate(
                       offset: Offset(0.0, _animationForMiddleText.value),
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
+                        padding: const EdgeInsets.only(top: 8.0),
                         child: FlatButton(
                           child: Icon(
                             Icons.arrow_back,
@@ -110,14 +109,13 @@ class _SearchScreenState extends State<SearchScreen>
                     Transform.translate(
                       offset: Offset(0.0, _animationForMiddleText.value),
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: Text(
-                          "Search",
-                          style: GoogleFonts.adamina(
-                              fontSize: 30.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.lightBlueAccent),
-                        ),
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text("Search",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w300,
+                                fontSize: 40.0,
+                                color: Colors.lightBlueAccent,
+                                fontFamily: 'Adamina')),
                       ),
                     ),
                     Transform.translate(
@@ -140,7 +138,8 @@ class _SearchScreenState extends State<SearchScreen>
                     child: Container(
                       child: Text(
                         "Type to search your action titles and note",
-                        style: GoogleFonts.roboto(
+                        style: TextStyle(
+                          fontFamily: 'Roboto',
                           fontSize: 15.0,
                         ),
                       ),
@@ -254,7 +253,7 @@ class _SearchScreenState extends State<SearchScreen>
       child: Center(
         child: Text(
           "$userChoice",
-          style: GoogleFonts.roboto(fontSize: 15.0),
+          style: TextStyle(fontSize: 15.0, fontFamily: 'Roboto'),
         ),
       ),
     );

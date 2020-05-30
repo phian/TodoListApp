@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class TasksListScreen extends StatefulWidget {
   @override
@@ -19,7 +18,8 @@ class _TasksListScreenState extends State<TasksListScreen> {
               child: Center(
                 child: Text(
                   "Tasks",
-                  style: GoogleFonts.roboto(
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
                     fontSize: 35,
                     color: Colors.black,
                   ),

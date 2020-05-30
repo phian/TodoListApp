@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:todoapp/ui/main_screen.dart';
 
@@ -75,10 +74,11 @@ class _PreferenceScreenState extends State<PreferenceScreen> {
                     padding: const EdgeInsets.only(top: 15.0),
                     child: Text(
                       "PREFERENCE",
-                      style: GoogleFonts.roboto(
+                      style: TextStyle(
+                          fontFamily: 'Roboto',
                           fontSize: 30.0,
                           color: Colors.lightBlueAccent,
-                          fontWeight: FontWeight.w500),
+                          fontWeight: FontWeight.w300),
                     ),
                   ),
                 ),

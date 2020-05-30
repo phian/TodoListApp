@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:todoapp/presentation/forward_arrow_icon.dart';
 import 'package:todoapp/ui/getting_started_screen.dart';
 
@@ -163,7 +162,8 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
                       offset: Offset(0.0, _animationForFirstText.value),
                       child: Text(
                         "DOIT Cards",
-                        style: GoogleFonts.roboto(
+                        style: TextStyle(
+                            fontFamily: 'Roboto',
                             fontSize: 30.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
@@ -184,8 +184,10 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
                           overflow: TextOverflow.ellipsis,
                           maxLines: 3,
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.roboto(
-                              fontSize: 16.0, color: Colors.white),
+                          style: TextStyle(
+                              fontFamily: 'Roboto',
+                              fontSize: 16.0,
+                              color: Colors.white),
                         ),
                       ),
                     ),
@@ -252,52 +254,52 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(left: 30.0),
-                      child: Container(
-                        width: _cardWidth * (3 / 4),
-                        child: Text(
-                          "$cardTitle",
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          textDirection: TextDirection.ltr,
-                          style: GoogleFonts.aclonica(
-                              fontWeight: FontWeight.bold, fontSize: 18.0),
-                        ),
+                    Container(
+                      padding: EdgeInsets.only(left: 30.0),
+                      width: _cardWidth * (3 / 4),
+                      child: Text(
+                        "$cardTitle",
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        textDirection: TextDirection.ltr,
+                        style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0),
                       ),
                     ),
                     SizedBox(
                       height: 5.0,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 30.0),
-                      child: Container(
-                        width: 150,
-                        child: Text(
-                          "$cardDeadline",
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          textDirection: TextDirection.ltr,
-                          style: GoogleFonts.aclonica(
-                              fontSize: 10.0, color: Colors.grey),
-                        ),
+                    Container(
+                      padding: EdgeInsets.only(left: 30.0),
+                      width: 150,
+                      child: Text(
+                        "$cardDeadline",
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        textDirection: TextDirection.ltr,
+                        style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 10.0,
+                            color: Colors.grey),
                       ),
                     ),
                     SizedBox(
                       height: 5.0,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 30.0),
-                      child: Container(
-                        width: 150,
-                        child: Text(
-                          "$cardNote",
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          textDirection: TextDirection.ltr,
-                          style: GoogleFonts.aclonica(
-                              fontSize: 10.0, color: Colors.grey),
-                        ),
+                    Container(
+                      padding: EdgeInsets.only(left: 30.0),
+                      width: 150,
+                      child: Text(
+                        "$cardNote",
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        textDirection: TextDirection.ltr,
+                        style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 10.0,
+                            color: Colors.grey),
                       ),
                     ),
                   ],

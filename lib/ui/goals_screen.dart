@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class GoalsScreen extends StatefulWidget {
   @override
@@ -22,7 +21,8 @@ class _GoalsScreenState extends State<GoalsScreen> {
                     child: Text(
                       "Finished",
                       textDirection: TextDirection.ltr,
-                      style: GoogleFonts.roboto(
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
                         fontSize: 35,
                         color: Colors.black,
                       ),
@@ -30,7 +30,9 @@ class _GoalsScreenState extends State<GoalsScreen> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 100, right: MediaQuery.of(context).size.width / 100),
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height / 100,
+                      right: MediaQuery.of(context).size.width / 100),
                   child: Align(
                     alignment: Alignment.topRight,
                     child: Image.asset(

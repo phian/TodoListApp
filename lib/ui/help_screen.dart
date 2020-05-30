@@ -2,7 +2,6 @@ import 'dart:core';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import '../data/data.dart';
 import '../presentation/facebook_icon.dart';
@@ -80,53 +79,65 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
             color: Color(0xFFFAF3F0),
             child: Stack(
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Stack(
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: FlatButton(
-                        onPressed: () async {
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 9.0),
+                        child: FlatButton(
+                          onPressed: () async {
 //                      if (Navigator.canPop(context)) {
 //                        Navigator.pop(context);
 //                      } else {
 //                        SystemNavigator.pop();
 //                      }
 
-                          Data data = Data(
-                            isBack: true,
-                            lastFocusedScreen: widget.lastFocusedScreen);
+                            Data data = Data(
+                                isBack: true,
+                                lastFocusedScreen: widget.lastFocusedScreen);
 
-                        Navigator.pushReplacement(
-                            context,
-                            PageTransition(
-                                child: HomeScreen(data: data,),
-                                type: PageTransitionType.leftToRight));
-                        },
-                        child: Icon(
-                          Icons.arrow_back,
-                          color: Colors.lightBlueAccent,
-                          size: 32.0,
+                            Navigator.pushReplacement(
+                                context,
+                                PageTransition(
+                                    child: HomeScreen(
+                                      data: data,
+                                    ),
+                                    type: PageTransitionType.leftToRight));
+                          },
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.lightBlueAccent,
+                            size: 32.0,
+                          ),
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15.0),
-                      child: Text(
-                        "HELP",
-                        style: GoogleFonts.roboto(
-                          fontSize: 30.0,
-                          color: Colors.lightBlueAccent,
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 17.0),
+                        child: Text(
+                          "HELP",
+                          style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: 30.0,
+                            color: Colors.lightBlueAccent,
+                            fontWeight: FontWeight.w300,
+                          ),
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10.0, top: 8.0),
-                      child: Image.asset(
-                        'images/help.gif',
-                        width: 50.0,
-                        height: 50.0,
-                        color: Colors.lightBlueAccent,
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 10.0, top: 8.0),
+                        child: Image.asset(
+                          'images/help.gif',
+                          width: 50.0,
+                          height: 50.0,
+                          color: Colors.lightBlueAccent,
+                        ),
                       ),
                     )
                   ],
@@ -170,7 +181,8 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
                               child: Center(
                                 child: Text(
                                   "CONTACT SUPPORT",
-                                  style: GoogleFonts.roboto(
+                                  style: TextStyle(
+                                      fontFamily: 'Roboto',
                                       fontSize: 20.0,
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),
@@ -262,7 +274,8 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
                               child: Center(
                                 child: Text(
                                   "FAQ",
-                                  style: GoogleFonts.roboto(
+                                  style: TextStyle(
+                                      fontFamily: 'Roboto',
                                       fontSize: 20.0,
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),
@@ -299,8 +312,8 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
                           child: Transform.scale(
                             scale: _scales[3],
                             child: Container(
-                              width: 175.0,
-                              height: 175.0,
+                              width: 173.0,
+                              height: 173.0,
                               decoration: BoxDecoration(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(360)),
@@ -310,7 +323,8 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
                                 child: Text(
                                   'FEATURE REQUEST',
                                   textAlign: TextAlign.center,
-                                  style: GoogleFonts.roboto(
+                                  style: TextStyle(
+                                      fontFamily: 'Roboto',
                                       fontSize: 20.0,
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),
@@ -327,8 +341,9 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
                   alignment: Alignment.bottomCenter,
                   child: Text(
                     "Version $_appVersion",
-                    style: GoogleFonts.roboto(
-                      fontSize: 28.0,
+                    style: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 30.0,
                       fontWeight: FontWeight.w100,
                       color: Colors.black,
                     ),
@@ -346,7 +361,9 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
   void _getAppVersion() async {
     PackageInfo _packageInfo = await PackageInfo.fromPlatform();
 
-    _appVersion = _packageInfo.version;
+    setState(() {
+      _appVersion = _packageInfo.version;
+    });
   }
 
   // Hàm để bắt sự kiện khi người dùng án vào widget trong help screen

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../data/data.dart';
@@ -42,7 +41,7 @@ class _AboutScreenState extends State<AboutScreen> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Container(
-                      padding: const EdgeInsets.only(top: 10.0),
+                      padding: const EdgeInsets.only(top: 8.0),
                       child: FlatButton(
                         child: Icon(
                           Icons.arrow_back,
@@ -77,9 +76,9 @@ class _AboutScreenState extends State<AboutScreen> {
                       alignment: Alignment.topCenter,
                       child: Text(
                         "ABOUT",
-                        style: GoogleFonts.roboto(
+                        style: TextStyle(
                             fontSize: 35.0,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w300,
                             color: Colors.lightBlueAccent),
                       ),
                     ),
@@ -93,6 +92,7 @@ class _AboutScreenState extends State<AboutScreen> {
                         icon: Icon(
                           Icons.tag_faces,
                           size: 50.0,
+                          color: Colors.lightBlueAccent,
                         ),
                       ),
                     ),
@@ -113,11 +113,11 @@ class _AboutScreenState extends State<AboutScreen> {
                         ),
                         Text(
                           "DOIT",
-                          style: GoogleFonts.abrilFatface(fontSize: 40.0),
+                          style: TextStyle(fontSize: 40.0, fontFamily: 'AbrilFatface'),
                         ),
                         Text(
                           "D & A studio",
-                          style: GoogleFonts.robotoCondensed(fontSize: 30.0),
+                          style: TextStyle(fontSize: 30.0, fontFamily: 'RobotoCondensed'),
                         )
                       ],
                     ),

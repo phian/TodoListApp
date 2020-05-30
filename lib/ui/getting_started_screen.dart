@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:todoapp/ui/getting_started_second_screen.dart';
 import '../data/data.dart';
 import '../presentation/forward_arrow_icon.dart';
@@ -89,7 +88,8 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
                           offset: Offset(0.0, _animationForFirstText.value),
                           child: Text(
                             "Welcome to DOIT",
-                            style: GoogleFonts.roboto(
+                            style: TextStyle(
+                                fontFamily: 'Roboto',
                                 fontSize: 30.0,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.brown),
@@ -111,8 +111,10 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
                               overflow: TextOverflow.ellipsis,
                               maxLines: 3,
                               textAlign: TextAlign.center,
-                              style: GoogleFonts.roboto(
-                                  fontSize: 16.0, color: Colors.brown),
+                              style: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontSize: 16.0,
+                                  color: Colors.brown),
                             ),
                           ),
                         ),
