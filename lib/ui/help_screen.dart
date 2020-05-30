@@ -3,18 +3,17 @@ import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 import '../data/data.dart';
 import '../presentation/facebook_icon.dart';
 import 'package:package_info/package_info.dart';
 
 import 'main_screen.dart';
 
-int _lastFocusedScreen;
-
 class HelpScreen extends StatefulWidget {
-  HelpScreen({Key key, int lastFocusedScreen}) : super(key: key) {
-    _lastFocusedScreen = lastFocusedScreen;
-  }
+  final int lastFocusedScreen;
+
+  HelpScreen({this.lastFocusedScreen});
 
   @override
   _HelpScreenState createState() => _HelpScreenState();
@@ -62,13 +61,19 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
     }
 
     return SafeArea(
-          child: WillPopScope(
+      child: WillPopScope(
         // ignore: missing_return
         onWillPop: () async {
-          Data data = Data(isBack: true, lastFocusedScreen: _lastFocusedScreen);
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => HomeScreen(data: data,),
-          ));
+          Data data =
+              Data(isBack: true, lastFocusedScreen: widget.lastFocusedScreen);
+
+          Navigator.pushReplacement(
+              context,
+              PageTransition(
+                  child: HomeScreen(
+                    data: data,
+                  ),
+                  type: PageTransitionType.leftToRight));
         },
         child: Scaffold(
           body: Container(
@@ -81,7 +86,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: FlatButton(
-                        onPressed: () {
+                        onPressed: () async {
 //                      if (Navigator.canPop(context)) {
 //                        Navigator.pop(context);
 //                      } else {
@@ -89,13 +94,14 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
 //                      }
 
                           Data data = Data(
-                              isBack: true,
-                              lastFocusedScreen: _lastFocusedScreen);
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => HomeScreen(
-                              data: data,
-                            ),
-                          ));
+                            isBack: true,
+                            lastFocusedScreen: widget.lastFocusedScreen);
+
+                        Navigator.pushReplacement(
+                            context,
+                            PageTransition(
+                                child: HomeScreen(data: data,),
+                                type: PageTransitionType.leftToRight));
                         },
                         child: Icon(
                           Icons.arrow_back,
@@ -206,7 +212,8 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
                               decoration: BoxDecoration(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(360)),
-                                  color: Colors.blue.withOpacity(_opacities[1])),
+                                  color:
+                                      Colors.blue.withOpacity(_opacities[1])),
                               child: Center(
                                   child: Icon(
                                 FacebookIcon.facebook,

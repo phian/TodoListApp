@@ -1,16 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../data/data.dart';
 import 'main_screen.dart';
 
-int _lastFocusedScreen;
-
 class SearchScreen extends StatefulWidget {
-  SearchScreen({Key key, int lastFocusScreen}) {
-    _lastFocusedScreen = lastFocusScreen;
-  }
+  final int lastFocusedScreen;
+
+  SearchScreen({this.lastFocusedScreen});
 
   @override
   _SearchScreenState createState() => _SearchScreenState();
@@ -35,13 +34,19 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-          child: WillPopScope(
+      child: WillPopScope(
         // ignore: missing_return
         onWillPop: () async {
-          Data data = Data(isBack: true, lastFocusedScreen: _lastFocusedScreen);
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => HomeScreen(data: data,),
-          ));
+          Data data =
+              Data(isBack: true, lastFocusedScreen: widget.lastFocusedScreen);
+
+          Navigator.pushReplacement(
+              context,
+              PageTransition(
+                  child: HomeScreen(
+                    data: data,
+                  ),
+                  type: PageTransitionType.leftToRight));
         },
         child: Scaffold(
           body: Container(
@@ -59,17 +64,24 @@ class _SearchScreenState extends State<SearchScreen> {
                           color: Colors.lightBlueAccent,
                           size: 40.0,
                         ),
-                        onPressed: () {
+                        onPressed: () async {
 //                      if (Navigator.canPop(context)) {
 //                        Navigator.pop(context);
 //                      } else {
 //                        SystemNavigator.pop();
 //                      }
 
-                          Data data = Data(isBack: true, lastFocusedScreen: _lastFocusedScreen);
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => HomeScreen(data: data,),
-                          ));
+                          Data data = Data(
+                              isBack: true,
+                              lastFocusedScreen: widget.lastFocusedScreen);
+
+                          Navigator.pushReplacement(
+                              context,
+                              PageTransition(
+                                  child: HomeScreen(
+                                    data: data,
+                                  ),
+                                  type: PageTransitionType.leftToRight));
                         },
                       ),
                     ),
@@ -78,10 +90,9 @@ class _SearchScreenState extends State<SearchScreen> {
                       child: Text(
                         "Search",
                         style: GoogleFonts.adamina(
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.lightBlueAccent
-                        ),
+                            fontSize: 30.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.lightBlueAccent),
                       ),
                     ),
                     Padding(
@@ -99,8 +110,8 @@ class _SearchScreenState extends State<SearchScreen> {
                   child: AnimatedContainer(
                     curve: Curves.easeInOutSine,
                     duration: Duration(milliseconds: 500),
-                    child:  Text(
-                        "Type to search your action titles and note",
+                    child: Text(
+                      "Type to search your action titles and note",
                       style: GoogleFonts.roboto(
                         fontSize: 15.0,
                       ),
@@ -122,7 +133,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                 labelText: "Search for tasks",
                                 hintText: "Search",
                                 border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10.0)),
                                   borderSide: BorderSide(
                                     color: Colors.lightBlueAccent,
                                   ),
@@ -134,7 +146,8 @@ class _SearchScreenState extends State<SearchScreen> {
                           padding: const EdgeInsets.all(10.0),
                           child: Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0)),
                               color: Colors.cyan,
                             ),
                             height: 50.0,
@@ -144,19 +157,22 @@ class _SearchScreenState extends State<SearchScreen> {
                                 InkWell(
                                   child: _userChoicesCards[0],
                                   onTap: () {
-                                    _changeFocusChoiceCardColor(0, _lastFocusChoiceIndex);
+                                    _changeFocusChoiceCardColor(
+                                        0, _lastFocusChoiceIndex);
                                   },
                                 ),
                                 InkWell(
                                   child: _userChoicesCards[1],
                                   onTap: () {
-                                    _changeFocusChoiceCardColor(1, _lastFocusChoiceIndex);
+                                    _changeFocusChoiceCardColor(
+                                        1, _lastFocusChoiceIndex);
                                   },
                                 ),
                                 InkWell(
                                   child: _userChoicesCards[2],
                                   onTap: () {
-                                    _changeFocusChoiceCardColor(2, _lastFocusChoiceIndex);
+                                    _changeFocusChoiceCardColor(
+                                        2, _lastFocusChoiceIndex);
                                   },
                                 ),
                               ],

@@ -6,12 +6,10 @@ import '../data/data.dart';
 import '../presentation/forward_arrow_icon.dart';
 import 'main_screen.dart';
 
-int _lastFocusedScreen;
-
 class GettingStartedScreen extends StatefulWidget {
-  GettingStartedScreen({int lastFocusedScreen}) {
-    _lastFocusedScreen = lastFocusedScreen;
-  }
+  final int lastFocusedScreen;
+
+  GettingStartedScreen({this.lastFocusedScreen});
 
   @override
   _GettingStartedScreenState createState() => _GettingStartedScreenState();
@@ -33,6 +31,8 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
   static double _beginForFirstText, _endForFirstText;
   static double _beginForSecondText, _endForSecondText;
 
+  double _screenOpacity;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -41,6 +41,8 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
     _initAnimationForForwardButton();
     _initAnimationForFirstText();
     _initAnimationForSecondText();
+
+    _screenOpacity = 0.0;
   }
 
   @override
@@ -54,104 +56,112 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
 
   @override
   Widget build(BuildContext context) {
-    final _marginBottom = MediaQuery
-        .of(context)
-        .size
-        .height * 0.09;
+    final _marginBottom = MediaQuery.of(context).size.height * 0.09;
 
-    return SafeArea(
-          child: WillPopScope(
-        // ignore: missing_return
-        onWillPop: () async {
-          Data data = Data(isBack: true, lastFocusedScreen: _lastFocusedScreen);
-          
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => HomeScreen(data: data,),
-          ));
-        },
-        child: Scaffold(
-          backgroundColor: Colors.cyanAccent.shade400,
-          body: Container(
-            child: Stack(
-              children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Align(
-                      alignment: AlignmentDirectional(0.0, 0.7),
-                      child: Transform.translate(
-                        offset: Offset(0.0, _animationForFirstText.value),
-                        child: Text(
-                          "Welcome to DOIT",
-                          style: GoogleFonts.roboto(
-                              fontSize: 30.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.brown),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Align(
-                      alignment: AlignmentDirectional(0.0, 0.7),
-                      child: Transform.translate(
-                        offset: Offset(0.0, _animationForSecondText.value),
-                        child: Container(
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width * (2 / 2.5),
+    Future.delayed(Duration(milliseconds: 300), () {
+      setState(() {
+        _screenOpacity = 1.0;
+      });
+    });
+
+    return AnimatedOpacity(
+      opacity: _screenOpacity,
+      duration: Duration(milliseconds: 200),
+      child: SafeArea(
+        child: WillPopScope(
+          // ignore: missing_return
+          onWillPop: () async {
+            var page = await buildPageAsync();
+            var route = MaterialPageRoute(builder: (_) => page);
+            Navigator.pushReplacement(context, route);
+          },
+          child: Scaffold(
+            backgroundColor: Colors.cyanAccent.shade400,
+            body: Container(
+              child: Stack(
+                children: <Widget>[
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Align(
+                        alignment: AlignmentDirectional(0.0, 0.7),
+                        child: Transform.translate(
+                          offset: Offset(0.0, _animationForFirstText.value),
                           child: Text(
-                            "Keep on top of everything in your head, whether it's movies to watch or the details of your next big project",
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 3,
-                            textAlign: TextAlign.center,
+                            "Welcome to DOIT",
                             style: GoogleFonts.roboto(
-                                fontSize: 16.0, color: Colors.brown),
+                                fontSize: 30.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.brown),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: TweenAnimationBuilder(
-                    onEnd: _onEnd,
-                    tween: _scaleButtonTween,
-                    duration: Duration(milliseconds: _durationForButtonAni),
-                    builder: (context, scale, child) {
-                      return Transform.scale(
-                        scale: scale,
-                        child: child,
-                      );
-                    },
-                    child: GestureDetector(
-                      onTapDown: _onTapDown,
-                      child: AnimatedContainer(
-                        onEnd: _onEndForTransitionScreenEvent,
-                        duration: Duration(milliseconds: _durationForButtonAni),
-                        margin: EdgeInsets.only(bottom: _resetMarginBottom == -1 ? _marginBottom : _resetMarginBottom),
-                        width: _buttonWidth,
-                        height: _buttonHeight,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(_buttonBorder)),
-                          color: Colors.black,
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Align(
+                        alignment: AlignmentDirectional(0.0, 0.7),
+                        child: Transform.translate(
+                          offset: Offset(0.0, _animationForSecondText.value),
+                          child: Container(
+                            width:
+                                MediaQuery.of(context).size.width * (2 / 2.5),
+                            child: Text(
+                              "Keep on top of everything in your head, whether it's movies to watch or the details of your next big project",
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 3,
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.roboto(
+                                  fontSize: 16.0, color: Colors.brown),
+                            ),
+                          ),
                         ),
-                        alignment: Alignment.bottomCenter,
-                        child: Center(
-                          child: Icon(
-                            ForwardArrow.arrow_forward,
-                            size: 25.0,
-                            color: Colors.white.withOpacity(_buttonOpacity),
+                      ),
+                    ],
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: TweenAnimationBuilder(
+                      onEnd: _onEnd,
+                      tween: _scaleButtonTween,
+                      duration: Duration(milliseconds: _durationForButtonAni),
+                      builder: (context, scale, child) {
+                        return Transform.scale(
+                          scale: scale,
+                          child: child,
+                        );
+                      },
+                      child: GestureDetector(
+                        onTapDown: _onTapDown,
+                        child: AnimatedContainer(
+                          onEnd: _onEndForTransitionScreenEvent,
+                          duration:
+                              Duration(milliseconds: _durationForButtonAni),
+                          margin: EdgeInsets.only(
+                              bottom: _resetMarginBottom == -1
+                                  ? _marginBottom
+                                  : _resetMarginBottom),
+                          width: _buttonWidth,
+                          height: _buttonHeight,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(_buttonBorder)),
+                            color: Colors.black,
+                          ),
+                          alignment: Alignment.bottomCenter,
+                          child: Center(
+                            child: Icon(
+                              ForwardArrow.arrow_forward,
+                              size: 25.0,
+                              color: Colors.white.withOpacity(_buttonOpacity),
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -176,8 +186,11 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
     Future.delayed(const Duration(milliseconds: 200), () {
       setState(() {
         // Here you can write your code for open new view
-        Navigator.of(context).push(PageRouteBuilder(
-          pageBuilder: (context, animation1, animation2) => GettingStartedSecondScreen(lastFocusedScreen: _lastFocusedScreen,),
+        Navigator.of(context).pushReplacement(PageRouteBuilder(
+          pageBuilder: (context, animation1, animation2) =>
+              GettingStartedSecondScreen(
+            lastFocusedScreen: widget.lastFocusedScreen,
+          ),
         ));
       });
     });
@@ -185,7 +198,7 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
 
   // Hàm để khởi tạo animtion cho dòng text 1
   void _initAnimationForFirstText() {
-  // Animation cho dòng chữ 1
+    // Animation cho dòng chữ 1
     _durationForFirstText = 1000;
     _controllerForFirstText = AnimationController(
         vsync: this, duration: Duration(milliseconds: _durationForFirstText));
@@ -193,31 +206,31 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
     _beginForFirstText = 300.0;
     _endForFirstText = -10.0;
     _animationForFirstText =
-    Tween<double>(begin: _beginForFirstText, end: _endForFirstText)
-        .animate(_controllerForFirstText)
-      ..addListener(() {
-        setState(() {});
-      })
-      ..addStatusListener((AnimationStatus status) {
-        if (status == AnimationStatus.completed) {
-          _beginForFirstText = -10.0;
-          _endForFirstText = 0.0;
-          _durationForFirstText = 200;
+        Tween<double>(begin: _beginForFirstText, end: _endForFirstText)
+            .animate(_controllerForFirstText)
+              ..addListener(() {
+                setState(() {});
+              })
+              ..addStatusListener((AnimationStatus status) {
+                if (status == AnimationStatus.completed) {
+                  _beginForFirstText = -10.0;
+                  _endForFirstText = 0.0;
+                  _durationForFirstText = 200;
 
-          _controllerForFirstText = AnimationController(
-              vsync: this,
-              duration: Duration(milliseconds: _durationForFirstText));
+                  _controllerForFirstText = AnimationController(
+                      vsync: this,
+                      duration: Duration(milliseconds: _durationForFirstText));
 
-          _animationForFirstText = Tween<double>(
-              begin: _beginForFirstText, end: _endForFirstText)
-              .animate(_controllerForFirstText)
-            ..addListener(() {
-              setState(() {});
-            });
+                  _animationForFirstText = Tween<double>(
+                          begin: _beginForFirstText, end: _endForFirstText)
+                      .animate(_controllerForFirstText)
+                        ..addListener(() {
+                          setState(() {});
+                        });
 
-          _controllerForFirstText.forward();
-        }
-      });
+                  _controllerForFirstText.forward();
+                }
+              });
 
     _controllerForFirstText.forward();
   }
@@ -232,31 +245,31 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
     _beginForSecondText = 300.0;
     _endForSecondText = -10.0;
     _animationForSecondText =
-    Tween<double>(begin: _beginForSecondText, end: _endForSecondText)
-        .animate(_controllerForSecondText)
-      ..addListener(() {
-        setState(() {});
-      })
-      ..addStatusListener((AnimationStatus status) {
-        if (status == AnimationStatus.completed) {
-          _beginForSecondText = -10.0;
-          _endForSecondText = 0.0;
-          _durationForSecondText = 300;
+        Tween<double>(begin: _beginForSecondText, end: _endForSecondText)
+            .animate(_controllerForSecondText)
+              ..addListener(() {
+                setState(() {});
+              })
+              ..addStatusListener((AnimationStatus status) {
+                if (status == AnimationStatus.completed) {
+                  _beginForSecondText = -10.0;
+                  _endForSecondText = 0.0;
+                  _durationForSecondText = 300;
 
-          _controllerForSecondText = AnimationController(
-              vsync: this,
-              duration: Duration(milliseconds: _durationForSecondText));
+                  _controllerForSecondText = AnimationController(
+                      vsync: this,
+                      duration: Duration(milliseconds: _durationForSecondText));
 
-          _animationForSecondText = Tween<double>(
-              begin: _beginForSecondText, end: _endForSecondText)
-              .animate(_controllerForSecondText)
-            ..addListener(() {
-              setState(() {});
-            });
+                  _animationForSecondText = Tween<double>(
+                          begin: _beginForSecondText, end: _endForSecondText)
+                      .animate(_controllerForSecondText)
+                        ..addListener(() {
+                          setState(() {});
+                        });
 
-          _controllerForSecondText.forward();
-        }
-      });
+                  _controllerForSecondText.forward();
+                }
+              });
 
     _controllerForSecondText.forward();
   }
@@ -287,6 +300,17 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
       _resetMarginBottom = 0.0;
       _buttonBorder = 0.0;
       _buttonOpacity = 0.0;
+    });
+  }
+
+  // Hàm để chuyển trang
+  Future<Widget> buildPageAsync() async {
+    return Future.microtask(() {
+      Data data =
+          Data(isBack: true, lastFocusedScreen: widget.lastFocusedScreen);
+      return HomeScreen(
+        data: data,
+      );
     });
   }
 }

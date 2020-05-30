@@ -1,16 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../data/data.dart';
 import 'main_screen.dart';
 
-int _lastFocusedScreen;
-
 class AccountScreen extends StatefulWidget {
-  AccountScreen({Key key, int lastFocusedScreen}) {
-    _lastFocusedScreen = lastFocusedScreen;
-  }
+  final int lastFocusedScreen;
+
+  AccountScreen({this.lastFocusedScreen});
 
   @override
   _AccountScreenState createState() => _AccountScreenState();
@@ -20,13 +19,19 @@ class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-          child: WillPopScope(
+      child: WillPopScope(
         // ignore: missing_return
         onWillPop: () async {
-          Data data = Data(isBack: true, lastFocusedScreen: _lastFocusedScreen);
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => HomeScreen(data: data,),
-          ));
+          Data data =
+              Data(isBack: true, lastFocusedScreen: widget.lastFocusedScreen);
+
+          Navigator.pushReplacement(
+              context,
+              PageTransition(
+                  child: HomeScreen(
+                    data: data,
+                  ),
+                  type: PageTransitionType.leftToRight));
         },
         child: Scaffold(
           body: Container(
@@ -38,20 +43,23 @@ class _AccountScreenState extends State<AccountScreen> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: FlatButton(
-                      onPressed: () {
+                      onPressed: () async {
 //                    if (Navigator.canPop(context)) {
 //                      Navigator.pop(context);
 //                    } else {
 //                      SystemNavigator.pop();
-//                    }
-                        Data data = Data(
-                            isBack: true, lastFocusedScreen: _lastFocusedScreen);
 
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => HomeScreen(
-                            data: data,
-                          ),
-                        ));
+                        Data data = Data(
+                            isBack: true,
+                            lastFocusedScreen: widget.lastFocusedScreen);
+
+                        Navigator.pushReplacement(
+                            context,
+                            PageTransition(
+                                child: HomeScreen(
+                                  data: data,
+                                ),
+                                type: PageTransitionType.leftToRight));
                       },
                       child: Icon(
                         Icons.arrow_back,

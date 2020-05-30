@@ -1,16 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../data/data.dart';
 import 'main_screen.dart';
 
-int _lastFocusedScreen;
-
 class AboutScreen extends StatefulWidget {
-  AboutScreen({Key key, int lastFocusedScreen}) : super(key: key) {
-    _lastFocusedScreen = lastFocusedScreen;
-  }
+  final int lastFocusedScreen;
+
+  AboutScreen({this.lastFocusedScreen});
 
   @override
   _AboutScreenState createState() => _AboutScreenState();
@@ -23,12 +22,16 @@ class _AboutScreenState extends State<AboutScreen> {
       child: WillPopScope(
         // ignore: missing_return
         onWillPop: () async {
-          Data data = Data(isBack: true, lastFocusedScreen: _lastFocusedScreen);
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => HomeScreen(
-              data: data,
-            ),
-          ));
+          Data data =
+              Data(isBack: true, lastFocusedScreen: widget.lastFocusedScreen);
+
+          Navigator.pushReplacement(
+              context,
+              PageTransition(
+                  child: HomeScreen(
+                    data: data,
+                  ),
+                  type: PageTransitionType.leftToRight));
         },
         child: Scaffold(
           body: Container(
@@ -46,7 +49,7 @@ class _AboutScreenState extends State<AboutScreen> {
                           color: Colors.lightBlueAccent,
                           size: 40.0,
                         ),
-                        onPressed: () {
+                        onPressed: () async {
 //                    if (Navigator.canPop(context)) {
 //                      Navigator.pop(context);
 //                    } else {
@@ -55,13 +58,15 @@ class _AboutScreenState extends State<AboutScreen> {
 
                           Data data = Data(
                               isBack: true,
-                              lastFocusedScreen: _lastFocusedScreen);
+                              lastFocusedScreen: widget.lastFocusedScreen);
 
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => HomeScreen(
-                              data: data,
-                            ),
-                          ));
+                          Navigator.pushReplacement(
+                              context,
+                              PageTransition(
+                                  child: HomeScreen(
+                                    data: data,
+                                  ),
+                                  type: PageTransitionType.leftToRight));
                         },
                       ),
                     ),

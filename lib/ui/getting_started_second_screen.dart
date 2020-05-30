@@ -93,7 +93,7 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
       child: WillPopScope(
         // ignore: missing_return
         onWillPop: () async {
-          Navigator.of(context).push(PageRouteBuilder(
+          Navigator.of(context).pushReplacement(PageRouteBuilder(
             pageBuilder: (context, animation1, animation2) =>
                 GettingStartedScreen(
               lastFocusedScreen: widget.lastFocusedScreen,
