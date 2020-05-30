@@ -15,7 +15,8 @@ class SearchScreen extends StatefulWidget {
   _SearchScreenState createState() => _SearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _SearchScreenState extends State<SearchScreen>
+    with TickerProviderStateMixin {
   TextEditingController _controller = TextEditingController();
   List<String> _userChoicesList = ["COMPLETED", "ALL", "INCOMPLETE"];
   List<Widget> _userChoicesCards = [];
@@ -23,12 +24,21 @@ class _SearchScreenState extends State<SearchScreen> {
   // Biến để lưu lịa vị trí trc đó mà ng dùng lựa chọn
   int _lastFocusChoiceIndex = 1;
 
+  // Các biến cho animation của dòng text
+  AnimationController _controllerForMiddleText;
+  Animation<double> _animationForMiddleText;
+  int _durationForMiddleText;
+  static double _beginForMiddleText, _endForMiddleText;
+
+  bool _focus = true;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
     _initUserChoiceWidgets();
+    _initAnimationForMiddleText();
   }
 
   @override
@@ -37,6 +47,10 @@ class _SearchScreenState extends State<SearchScreen> {
       child: WillPopScope(
         // ignore: missing_return
         onWillPop: () async {
+          setState(() {
+            _focus = false;
+          });
+
           Data data =
               Data(isBack: true, lastFocusedScreen: widget.lastFocusedScreen);
 
@@ -56,64 +70,79 @@ class _SearchScreenState extends State<SearchScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: FlatButton(
-                        child: Icon(
-                          Icons.arrow_back,
-                          color: Colors.lightBlueAccent,
-                          size: 40.0,
-                        ),
-                        onPressed: () async {
+                    Transform.translate(
+                      offset: Offset(0.0, _animationForMiddleText.value),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: FlatButton(
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Colors.lightBlueAccent,
+                            size: 40.0,
+                          ),
+                          onPressed: () async {
 //                      if (Navigator.canPop(context)) {
 //                        Navigator.pop(context);
 //                      } else {
 //                        SystemNavigator.pop();
 //                      }
 
-                          Data data = Data(
-                              isBack: true,
-                              lastFocusedScreen: widget.lastFocusedScreen);
+                            setState(() {
+                              _focus = false;
+                            });
 
-                          Navigator.pushReplacement(
-                              context,
-                              PageTransition(
-                                  child: HomeScreen(
-                                    data: data,
-                                  ),
-                                  type: PageTransitionType.leftToRight));
-                        },
+                            Data data = Data(
+                                isBack: true,
+                                lastFocusedScreen: widget.lastFocusedScreen);
+
+                            Navigator.pushReplacement(
+                                context,
+                                PageTransition(
+                                    child: HomeScreen(
+                                      data: data,
+                                    ),
+                                    type: PageTransitionType.leftToRight,
+                                    duration: Duration(milliseconds: 300)));
+                          },
+                        ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Text(
-                        "Search",
-                        style: GoogleFonts.adamina(
-                            fontSize: 30.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.lightBlueAccent),
+                    Transform.translate(
+                      offset: Offset(0.0, _animationForMiddleText.value),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Text(
+                          "Search",
+                          style: GoogleFonts.adamina(
+                              fontSize: 30.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.lightBlueAccent),
+                        ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0),
-                      child: Image.asset(
-                        'images/search.gif',
-                        width: 150.0,
-                        height: 150.0,
-                        fit: BoxFit.cover,
+                    Transform.translate(
+                      offset: Offset(0.0, _animationForMiddleText.value),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Image.asset(
+                          'images/search.gif',
+                          width: 150.0,
+                          height: 150.0,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ],
                 ),
                 Center(
-                  child: AnimatedContainer(
-                    curve: Curves.easeInOutSine,
-                    duration: Duration(milliseconds: 500),
-                    child: Text(
-                      "Type to search your action titles and note",
-                      style: GoogleFonts.roboto(
-                        fontSize: 15.0,
+                  child: Transform.translate(
+                    offset: Offset(0.0, _animationForMiddleText.value),
+                    child: Container(
+                      child: Text(
+                        "Type to search your action titles and note",
+                        style: GoogleFonts.roboto(
+                          fontSize: 15.0,
+                        ),
                       ),
                     ),
                   ),
@@ -128,7 +157,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           padding: const EdgeInsets.all(10.0),
                           child: TextField(
                             controller: _controller,
-                            autofocus: true,
+                            autofocus: _focus,
                             decoration: InputDecoration(
                                 labelText: "Search for tasks",
                                 hintText: "Search",
@@ -229,5 +258,46 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       ),
     );
+  }
+
+  // Hàm để khởi tạo animtion cho dòng text 1
+  void _initAnimationForMiddleText() {
+    // Animation cho dòng chữ ở giữa màn hình
+    _durationForMiddleText = 300;
+    _controllerForMiddleText = AnimationController(
+        vsync: this, duration: Duration(milliseconds: _durationForMiddleText));
+
+    _beginForMiddleText = -300.0;
+    _endForMiddleText = 15.0;
+    _animationForMiddleText =
+        Tween<double>(begin: _beginForMiddleText, end: _endForMiddleText)
+            .animate(_controllerForMiddleText)
+              ..addListener(() {
+                setState(() {});
+              })
+              ..addStatusListener((AnimationStatus status) {
+                if (status == AnimationStatus.completed) {
+                  _beginForMiddleText = 15.0;
+                  _endForMiddleText = 0.0;
+                  _durationForMiddleText = 200;
+
+                  _controllerForMiddleText = AnimationController(
+                      vsync: this,
+                      duration: Duration(milliseconds: _durationForMiddleText));
+
+                  _animationForMiddleText = Tween<double>(
+                          begin: _beginForMiddleText, end: _endForMiddleText)
+                      .animate(_controllerForMiddleText)
+                        ..addListener(() {
+                          setState(() {});
+                        });
+
+                  _controllerForMiddleText.forward();
+                }
+              });
+
+    Future.delayed(Duration(milliseconds: 200), () {
+      _controllerForMiddleText.forward();
+    });
   }
 }

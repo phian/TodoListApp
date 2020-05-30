@@ -237,15 +237,15 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
   // Widget hiển thị card
   Widget _todoCard(
       String cardTitle, String cardDeadline, String cardNote, double opacity) {
+    double _cardWidth = MediaQuery.of(context).size.width * 0.7;
+
     return AnimatedOpacity(
       duration: Duration(milliseconds: 300),
       opacity: opacity,
       child: Container(
         child: Stack(children: <Widget>[
           Container(
-            margin: EdgeInsets.only(
-                left: MediaQuery.of(context).size.width / 7,
-                right: MediaQuery.of(context).size.width / 7),
+            width: _cardWidth,
             child: Stack(
               children: <Widget>[
                 Column(
@@ -255,7 +255,7 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
                     Padding(
                       padding: const EdgeInsets.only(left: 30.0),
                       child: Container(
-                        width: 150,
+                        width: _cardWidth * (3 / 4),
                         child: Text(
                           "$cardTitle",
                           overflow: TextOverflow.ellipsis,
@@ -301,16 +301,6 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
                       ),
                     ),
                   ],
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                    padding: EdgeInsets.only(right: MediaQuery.of(context).size.width / 30),
-                    child: Icon(
-                      Icons.more_horiz,
-                      color: Colors.grey,
-                    ),
-                  ),
                 ),
               ],
             ),
@@ -461,9 +451,7 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
 
                   _controllerForCardColumn.forward();
 
-                  Future.delayed(Duration(milliseconds: 500), () {
-                    _initAnimationForCards();
-                  });
+                  _initAnimationForCards();
                 }
               });
 
@@ -501,7 +489,7 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
 
   // Hàm để khởi tạo animation khi animation của column đã hoàn tất
   void _initAnimationForCards() {
-    Future.delayed(Duration(milliseconds: 500), () {
+    Future.delayed(Duration(milliseconds: 350), () {
       setState(() {
         // Animation cho button
         _beginForCardAni = 1.0;
