@@ -19,7 +19,7 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement initState
     super.initState();
 
-    Data data = Data(isBack: false, lastFocusedScreen: 0);
+    Data data = Data(isBack: false, lastFocusedScreen: 0, isBackFromAddTaskScreen: false);
 
     Future.delayed(
       Duration(seconds: 2),

@@ -50,16 +50,7 @@ class _SearchScreenState extends State<SearchScreen>
             _focus = false;
           });
 
-          Data data =
-              Data(isBack: true, lastFocusedScreen: widget.lastFocusedScreen);
-
-          Navigator.pushReplacement(
-              context,
-              PageTransition(
-                  child: HomeScreen(
-                    data: data,
-                  ),
-                  type: PageTransitionType.leftToRight));
+          _backToMainScreen();
         },
         child: Scaffold(
           body: Container(
@@ -90,18 +81,7 @@ class _SearchScreenState extends State<SearchScreen>
                               _focus = false;
                             });
 
-                            Data data = Data(
-                                isBack: true,
-                                lastFocusedScreen: widget.lastFocusedScreen);
-
-                            Navigator.pushReplacement(
-                                context,
-                                PageTransition(
-                                    child: HomeScreen(
-                                      data: data,
-                                    ),
-                                    type: PageTransitionType.leftToRight,
-                                    duration: Duration(milliseconds: 300)));
+                            _backToMainScreen();
                           },
                         ),
                       ),
@@ -217,6 +197,24 @@ class _SearchScreenState extends State<SearchScreen>
         ),
       ),
     );
+  }
+
+  // Hàm để back về main screen
+  void _backToMainScreen() {
+    Data data = Data(
+        isBack: true,
+        isBackFromAddTaskScreen: false,
+        lastFocusedScreen: widget.lastFocusedScreen,
+        settingScreenIndex: 3);
+
+    Navigator.pushReplacement(
+        context,
+        PageTransition(
+            child: HomeScreen(
+              data: data,
+            ),
+            type: PageTransitionType.leftToRight,
+            duration: Duration(milliseconds: 300)));
   }
 
   // Hàm để khởi tạo các widget hiển thị cho phần search option

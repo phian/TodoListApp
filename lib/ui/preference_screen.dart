@@ -20,16 +20,7 @@ class _PreferenceScreenState extends State<PreferenceScreen> {
       child: WillPopScope(
         // ignore: missing_return
         onWillPop: () async {
-          Data data =
-              Data(isBack: true, lastFocusedScreen: widget.lastFocusedScreen);
-
-          Navigator.pushReplacement(
-              context,
-              PageTransition(
-                  child: HomeScreen(
-                    data: data,
-                  ),
-                  type: PageTransitionType.leftToRight));
+          _backToMainScreen();
         },
         child: Scaffold(
           backgroundColor: Color(0xFFFAF3F0),
@@ -48,17 +39,7 @@ class _PreferenceScreenState extends State<PreferenceScreen> {
 ////                        SystemNavigator.pop();
 ////                      }
                         ///
-                        Data data = Data(
-                            isBack: true,
-                            lastFocusedScreen: widget.lastFocusedScreen);
-
-                        Navigator.pushReplacement(
-                            context,
-                            PageTransition(
-                                child: HomeScreen(
-                                  data: data,
-                                ),
-                                type: PageTransitionType.leftToRight));
+                        _backToMainScreen();
                       },
                       child: Icon(
                         Icons.arrow_back,
@@ -99,5 +80,23 @@ class _PreferenceScreenState extends State<PreferenceScreen> {
         data: data,
       );
     });
+  }
+
+  // Hàm để back về main screen
+  void _backToMainScreen() {
+    Data data = Data(
+        isBack: true,
+        isBackFromAddTaskScreen: false,
+        lastFocusedScreen: widget.lastFocusedScreen,
+        settingScreenIndex: 3);
+
+    Navigator.pushReplacement(
+        context,
+        PageTransition(
+            child: HomeScreen(
+              data: data,
+            ),
+            type: PageTransitionType.leftToRight,
+            duration: Duration(milliseconds: 300)));
   }
 }

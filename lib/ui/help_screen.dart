@@ -63,16 +63,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
       child: WillPopScope(
         // ignore: missing_return
         onWillPop: () async {
-          Data data =
-              Data(isBack: true, lastFocusedScreen: widget.lastFocusedScreen);
-
-          Navigator.pushReplacement(
-              context,
-              PageTransition(
-                  child: HomeScreen(
-                    data: data,
-                  ),
-                  type: PageTransitionType.leftToRight));
+          _backToMainScreen();
         },
         child: Scaffold(
           body: Container(
@@ -93,17 +84,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
 //                        SystemNavigator.pop();
 //                      }
 
-                            Data data = Data(
-                                isBack: true,
-                                lastFocusedScreen: widget.lastFocusedScreen);
-
-                            Navigator.pushReplacement(
-                                context,
-                                PageTransition(
-                                    child: HomeScreen(
-                                      data: data,
-                                    ),
-                                    type: PageTransitionType.leftToRight));
+                            _backToMainScreen();
                           },
                           child: Icon(
                             Icons.arrow_back,
@@ -421,5 +402,23 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
 
       _scales.add(1 - _controllers[i].value);
     }
+  }
+
+  // Hàm để back về main screen
+  void _backToMainScreen() {
+    Data data = Data(
+        isBack: true,
+        isBackFromAddTaskScreen: false,
+        lastFocusedScreen: widget.lastFocusedScreen,
+        settingScreenIndex: 3);
+
+    Navigator.pushReplacement(
+        context,
+        PageTransition(
+            child: HomeScreen(
+              data: data,
+            ),
+            type: PageTransitionType.leftToRight,
+            duration: Duration(milliseconds: 300)));
   }
 }

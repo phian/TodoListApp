@@ -70,9 +70,7 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
         child: WillPopScope(
           // ignore: missing_return
           onWillPop: () async {
-            var page = await buildPageAsync();
-            var route = MaterialPageRoute(builder: (_) => page);
-            Navigator.pushReplacement(context, route);
+            _backToMainScreen();
           },
           child: Scaffold(
             backgroundColor: Colors.cyanAccent.shade400,
@@ -181,6 +179,20 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
       _scaleButtonTween =
           Tween<double>(begin: _beginForButtonAni, end: _endForButtonAni);
     });
+  }
+
+  // Hàm để back về main screen
+  void _backToMainScreen() {
+    Data data = Data(
+        isBack: true,
+        isBackFromAddTaskScreen: false,
+        lastFocusedScreen: widget.lastFocusedScreen,
+        settingScreenIndex: 3);
+
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) => HomeScreen(
+              data: data,
+            )));
   }
 
   // Hàm để chuyển screen khi animation của button đã xong

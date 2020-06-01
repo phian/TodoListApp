@@ -21,16 +21,7 @@ class _AboutScreenState extends State<AboutScreen> {
       child: WillPopScope(
         // ignore: missing_return
         onWillPop: () async {
-          Data data =
-              Data(isBack: true, lastFocusedScreen: widget.lastFocusedScreen);
-
-          Navigator.pushReplacement(
-              context,
-              PageTransition(
-                  child: HomeScreen(
-                    data: data,
-                  ),
-                  type: PageTransitionType.leftToRight));
+          _backToMainScreen();
         },
         child: Scaffold(
           body: Container(
@@ -55,17 +46,7 @@ class _AboutScreenState extends State<AboutScreen> {
 //                      SystemNavigator.pop();
 //                    }
 
-                          Data data = Data(
-                              isBack: true,
-                              lastFocusedScreen: widget.lastFocusedScreen);
-
-                          Navigator.pushReplacement(
-                              context,
-                              PageTransition(
-                                  child: HomeScreen(
-                                    data: data,
-                                  ),
-                                  type: PageTransitionType.leftToRight));
+                          _backToMainScreen();
                         },
                       ),
                     ),
@@ -113,11 +94,13 @@ class _AboutScreenState extends State<AboutScreen> {
                         ),
                         Text(
                           "DOIT",
-                          style: TextStyle(fontSize: 40.0, fontFamily: 'AbrilFatface'),
+                          style: TextStyle(
+                              fontSize: 40.0, fontFamily: 'AbrilFatface'),
                         ),
                         Text(
                           "D & A studio",
-                          style: TextStyle(fontSize: 30.0, fontFamily: 'RobotoCondensed'),
+                          style: TextStyle(
+                              fontSize: 30.0, fontFamily: 'RobotoCondensed'),
                         )
                       ],
                     ),
@@ -136,5 +119,23 @@ class _AboutScreenState extends State<AboutScreen> {
         ),
       ),
     );
+  }
+
+  // Hàm để back về main screen
+  void _backToMainScreen() {
+    Data data = Data(
+        isBack: true,
+        isBackFromAddTaskScreen: false,
+        lastFocusedScreen: widget.lastFocusedScreen,
+        settingScreenIndex: 3);
+
+    Navigator.pushReplacement(
+        context,
+        PageTransition(
+            child: HomeScreen(
+              data: data,
+            ),
+            type: PageTransitionType.leftToRight,
+            duration: Duration(milliseconds: 300)));
   }
 }
