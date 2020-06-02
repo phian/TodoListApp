@@ -3,6 +3,7 @@ import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:todoapp/data/data.dart';
+import 'package:todoapp/reuse_widget/schedule_sheet.dart';
 
 import 'main_screen.dart';
 
@@ -27,6 +28,15 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
   TimeOfDay _time = TimeOfDay.now();
   double _opacity = 0.0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _selectedChoice = _choicesList[0];
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -197,11 +207,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
   _buildChoiceList() {
     _choices = List();
 
-    _choicesList.forEach((item) {
+    for (int i = 0; i < _choicesList.length; i++) {
       _choices.add(Container(
         padding: const EdgeInsets.all(2.0),
         child: ChoiceChip(
-          label: Text(item),
+          label: Text(_choicesList[i]),
           labelStyle: TextStyle(
               color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
           shape: RoundedRectangleBorder(
@@ -209,17 +219,17 @@ class _AddTaskPageState extends State<AddTaskPage> {
           ),
           backgroundColor: Colors.grey.shade300,
           selectedColor: Colors.orange.shade200,
-          selected: _selectedChoice == item,
+          selected: _selectedChoice == _choicesList[i],
           onSelected: (selected) {
             setState(() {
-              _selectedChoice = item;
+              _selectedChoice = _choicesList[i];
 
-              _checkChoseItem(item);
+              _checkChoseItem(_choicesList[i]);
             });
           },
         ),
       ));
-    });
+    }
     return _choices;
   }
 
@@ -322,72 +332,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       backgroundColor: Colors.transparent,
       context: context,
       builder: (context) {
-        return Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-            color: Color(0xFFECEFF1),
-          ),
-          height: MediaQuery.of(context).size.height * 0.9,
-          child: Column(
-            children: <Widget>[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Schedule",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Expanded(
-                child: ListView(
-                  children: <Widget>[
-                    ListTile(
-                      leading: Opacity(
-                        child: Icon(Icons.check),
-                        opacity: _opacity,
-                      ),
-                      title: Text("Today"),
-                      //trailing: Text(DateFormat.yMMMMEEEEd().format(new DateTime.now())),
-                      onTap: () {
-                        setState(() {
-                          _opacity = 1;
-                        });
-                      },
-                    ),
-                    ListTile(
-                      leading: Opacity(
-                        child: Icon(Icons.check),
-                        opacity: 0.0,
-                      ),
-                      title: Text("Tomorrow"),
-                      //trailing: Text(DateFormat.yMMMMEEEEd().format(new DateTime.now())),
-                      onTap: () {
-                        setState(() {});
-                      },
-                    ),
-                    ListTile(
-                      leading: null,
-                      title: Text("Later"),
-                      //trailing: Text(DateFormat.yMMMMEEEEd().format(new DateTime.now())),
-                      onTap: () {
-                        setState(() {});
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        );
+        return ScheduleSheet();
       },
     );
   }
