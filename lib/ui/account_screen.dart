@@ -67,9 +67,10 @@ class _AccountScreenState extends State<AccountScreen> {
                   alignment: Alignment.topRight,
                   child: Padding(
                       padding: const EdgeInsets.only(right: 10.0, top: 8.0),
-                      child: Icon(
-                        CupertinoIcons.profile_circled,
-                        size: 45.0,
+                      child: Image.asset(
+                        "images/account.png",
+                        width: 45.0,
+                        height: 45.0,
                         color: Colors.lightBlueAccent,
                       )),
                 ),

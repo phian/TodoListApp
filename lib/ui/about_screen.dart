@@ -32,7 +32,7 @@ class _AboutScreenState extends State<AboutScreen> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Container(
-                      padding: const EdgeInsets.only(top: 8.0),
+                      padding: const EdgeInsets.only(top: 15.0),
                       child: FlatButton(
                         child: Icon(
                           Icons.arrow_back,
@@ -52,7 +52,7 @@ class _AboutScreenState extends State<AboutScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 13.0),
+                    padding: const EdgeInsets.only(top: 21.0),
                     child: Align(
                       alignment: Alignment.topCenter,
                       child: Text(
@@ -67,12 +67,15 @@ class _AboutScreenState extends State<AboutScreen> {
                   Align(
                     alignment: Alignment.topRight,
                     child: Container(
-                      padding: EdgeInsets.only(right: 15.0),
+                      width: 82.0,
+                      height: 80.0,
                       child: IconButton(
                         onPressed: () {},
-                        icon: Icon(
-                          Icons.tag_faces,
-                          size: 50.0,
+                        icon: Image.asset(
+                          "images/smile.png",
+                          fit: BoxFit.cover,
+                          width: 45.0,
+                          height: 45.0,
                           color: Colors.lightBlueAccent,
                         ),
                       ),
