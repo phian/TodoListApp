@@ -24,7 +24,8 @@ class HomeScreen extends StatefulWidget {
   bool isFirstTime = false;
 
   HomeScreen({this.data}) {
-    if (this.data.isBack == false && this.data.isBackFromAddTaskScreen == false) {
+    if (this.data.isBack == false &&
+        this.data.isBackFromAddTaskScreen == false) {
       this.isFirstTime = true;
     }
   }
@@ -54,23 +55,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       0.0; // Biến để dời menu screen qua lại khi ng dùng chọn menu option
 
 // Phần của setting screen
-// List để chứa các screen trong setting menu và biến để chạy animation cho các screen này
-  List<Widget> _settingMenuScreens = [
-    PreferenceScreen(),
-    SearchScreen(),
-    HelpScreen(),
-    AboutScreen(),
-    GettingStartedScreen(),
-    AccountScreen()
-  ];
-
-  List<IconData> _settingMenuIcons = [
-    Icons.brightness_7,
-    Icons.search,
-    Icons.help_outline,
-    Icons.info_outline,
-    Icons.explore,
-    Icons.account_circle
+  List<String> _settingMenuIcons = [
+    "images/preference.png",
+    "images/search.png",
+    "images/help.png",
+    "images/about.png",
+    "images/getting_started.png",
+    "images/account.png",
   ];
   List<String> _settingMenuTexts = [
     "Preference",
@@ -134,7 +125,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         widget.data.isBackFromAddTaskScreen = false;
       }
     }
-
   }
 
   // check nếu app mới khởi động lần đầu
@@ -159,7 +149,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       opacity: _mainScreenOpacity,
       duration: Duration(milliseconds: 300),
       child: SafeArea(
-        child: WillPopScope( // apkcombo.com/vi-vn/how-to-install/
+        child: WillPopScope(
+          // apkcombo.com/vi-vn/how-to-install/
           onWillPop: () async {
             if (_transitionXForMainScreen == 0.0) {
               _onWillPop();
@@ -203,7 +194,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             child: Align(
                               alignment: AlignmentDirectional(0.0, 0.7),
                               child: Transform.translate(
-                                offset: Offset(_animationForDOITMenu.value, 0.0),
+                                offset:
+                                    Offset(_animationForDOITMenu.value, 0.0),
                                 child: Column(
                                   children: <Widget>[
                                     Container(
@@ -220,8 +212,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     InkWell(
                                       onTap: () async {
                                         _transitionXForMenuScreen =
-                                            -(MediaQuery.of(context).size.width -
-                                                (MediaQuery.of(context).size.width -
+                                            -(MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                (MediaQuery.of(context)
+                                                        .size
+                                                        .width -
                                                     (MediaQuery.of(context)
                                                             .size
                                                             .width *
@@ -231,14 +227,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         Navigator.pushReplacement(
                                             context,
                                             PageTransition(
-                                                type:
-                                                    PageTransitionType.rightToLeft,
+                                                type: PageTransitionType
+                                                    .rightToLeft,
                                                 child: PreferenceScreen(
                                                   lastFocusedScreen:
                                                       _lastFocusedIconIndex,
                                                 ),
-                                                duration:
-                                                    Duration(milliseconds: 300)));
+                                                duration: Duration(
+                                                    milliseconds: 300)));
 
                                         _changeFocusMenuWidgetColor(0, false);
                                       },
@@ -258,8 +254,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     InkWell(
                                       onTap: () async {
                                         _transitionXForMenuScreen =
-                                            -(MediaQuery.of(context).size.width -
-                                                (MediaQuery.of(context).size.width -
+                                            -(MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                (MediaQuery.of(context)
+                                                        .size
+                                                        .width -
                                                     (MediaQuery.of(context)
                                                             .size
                                                             .width *
@@ -269,14 +269,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         Navigator.pushReplacement(
                                             context,
                                             PageTransition(
-                                                type:
-                                                    PageTransitionType.rightToLeft,
+                                                type: PageTransitionType
+                                                    .rightToLeft,
                                                 child: SearchScreen(
                                                   lastFocusedScreen:
                                                       _lastFocusedIconIndex,
                                                 ),
-                                                duration:
-                                                    Duration(milliseconds: 300)));
+                                                duration: Duration(
+                                                    milliseconds: 300)));
 
                                         _changeFocusMenuWidgetColor(1, false);
                                       },
@@ -296,8 +296,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     InkWell(
                                       onTap: () async {
                                         _transitionXForMenuScreen =
-                                            -(MediaQuery.of(context).size.width -
-                                                (MediaQuery.of(context).size.width -
+                                            -(MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                (MediaQuery.of(context)
+                                                        .size
+                                                        .width -
                                                     (MediaQuery.of(context)
                                                             .size
                                                             .width *
@@ -307,14 +311,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         Navigator.pushReplacement(
                                             context,
                                             PageTransition(
-                                                type:
-                                                    PageTransitionType.rightToLeft,
+                                                type: PageTransitionType
+                                                    .rightToLeft,
                                                 child: HelpScreen(
                                                   lastFocusedScreen:
                                                       _lastFocusedIconIndex,
                                                 ),
-                                                duration:
-                                                    Duration(milliseconds: 300)));
+                                                duration: Duration(
+                                                    milliseconds: 300)));
 
                                         _changeFocusMenuWidgetColor(2, false);
                                       },
@@ -334,8 +338,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     InkWell(
                                       onTap: () async {
                                         _transitionXForMenuScreen =
-                                            -(MediaQuery.of(context).size.width -
-                                                (MediaQuery.of(context).size.width -
+                                            -(MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                (MediaQuery.of(context)
+                                                        .size
+                                                        .width -
                                                     (MediaQuery.of(context)
                                                             .size
                                                             .width *
@@ -345,14 +353,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         Navigator.pushReplacement(
                                             context,
                                             PageTransition(
-                                                type:
-                                                    PageTransitionType.rightToLeft,
+                                                type: PageTransitionType
+                                                    .rightToLeft,
                                                 child: AboutScreen(
                                                   lastFocusedScreen:
                                                       _lastFocusedIconIndex,
                                                 ),
-                                                duration:
-                                                    Duration(milliseconds: 300)));
+                                                duration: Duration(
+                                                    milliseconds: 300)));
 
                                         _changeFocusMenuWidgetColor(3, false);
                                       },
@@ -372,14 +380,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     InkWell(
                                       onTap: () async {
                                         _transitionXForMainScreen =
-                                            -(MediaQuery.of(context).size.width +
-                                                (MediaQuery.of(context).size.width *
+                                            -(MediaQuery.of(context)
+                                                    .size
+                                                    .width +
+                                                (MediaQuery.of(context)
+                                                        .size
+                                                        .width *
                                                     0.75));
 
                                         _settingScreenOpacity = 0.0;
 
-                                        Future.delayed(Duration(milliseconds: 300),
-                                            () {
+                                        Future.delayed(
+                                            Duration(milliseconds: 300), () {
                                           setState(() {
                                             _mainScreenOpacity = 0.0;
                                           });
@@ -414,8 +426,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     InkWell(
                                       onTap: () async {
                                         _transitionXForMenuScreen =
-                                            -(MediaQuery.of(context).size.width -
-                                                (MediaQuery.of(context).size.width -
+                                            -(MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                (MediaQuery.of(context)
+                                                        .size
+                                                        .width -
                                                     (MediaQuery.of(context)
                                                             .size
                                                             .width *
@@ -425,14 +441,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         Navigator.pushReplacement(
                                             context,
                                             PageTransition(
-                                                type:
-                                                    PageTransitionType.rightToLeft,
+                                                type: PageTransitionType
+                                                    .rightToLeft,
                                                 child: AccountScreen(
                                                   lastFocusedScreen:
                                                       _lastFocusedIconIndex,
                                                 ),
-                                                duration:
-                                                    Duration(milliseconds: 300)));
+                                                duration: Duration(
+                                                    milliseconds: 300)));
 
                                         _changeFocusMenuWidgetColor(5, false);
                                       },
@@ -465,8 +481,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       ),
                       transform: Matrix4.translationValues(
                           _transitionXForMainScreen, 0.0, 0.0),
-                      margin:
-                          EdgeInsets.only(top: _marginTop, bottom: _marginBottom),
+                      margin: EdgeInsets.only(
+                          top: _marginTop, bottom: _marginBottom),
                       child: InkWell(
                         child: _screenList[_lastFocusedIconIndex],
                         onTap: () {
@@ -523,30 +539,54 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   items: <BubbleBottomBarItem>[
                     BubbleBottomBarItem(
                         backgroundColor: Colors.redAccent,
-                        icon:
-                            Icon(CupertinoIcons.home, size: 30, color: Colors.red),
-                        activeIcon: Icon(CupertinoIcons.home,
-                            size: 30, color: Colors.indigo),
+                        icon: Image.asset(
+                          "images/home.png",
+                          color: Colors.red,
+                          width: 30.0,
+                          height: 30.0,
+                        ),
+                        activeIcon: Image.asset(
+                          "images/home.png",
+                          color: Colors.indigo,
+                          width: 30.0,
+                          height: 30.0,
+                        ),
                         title: Text(
                           "Home",
                           style: TextStyle(color: Colors.red.shade900),
                         )),
                     BubbleBottomBarItem(
                         backgroundColor: Colors.deepPurple,
-                        icon: Icon(CupertinoIcons.check_mark_circled_solid,
-                            size: 30, color: Colors.purple),
-                        activeIcon: Icon(CupertinoIcons.check_mark_circled_solid,
-                            size: 30, color: Colors.indigo),
+                        icon: Image.asset(
+                          "images/done_tasks.png",
+                          color: Colors.purple,
+                          width: 30.0,
+                          height: 30.0,
+                        ),
+                        activeIcon: Image.asset(
+                          "images/done_tasks.png",
+                          color: Colors.indigo,
+                          width: 30.0,
+                          height: 30.0,
+                        ),
                         title: Text(
                           "Goals",
                           style: TextStyle(color: Colors.deepPurple.shade900),
                         )),
                     BubbleBottomBarItem(
                         backgroundColor: Colors.teal,
-                        icon:
-                            Icon(CupertinoIcons.book, size: 30, color: Colors.teal),
-                        activeIcon: Icon(CupertinoIcons.book,
-                            size: 30, color: Colors.indigo),
+                        icon: Image.asset(
+                          "images/tasks.png",
+                          color: Colors.teal,
+                          width: 30.0,
+                          height: 30.0,
+                        ),
+                        activeIcon: Image.asset(
+                          "images/tasks.png",
+                          color: Colors.indigo,
+                          width: 30.0,
+                          height: 30.0,
+                        ),
                         title: Text(
                           "Tasks List",
                           style: TextStyle(
@@ -555,10 +595,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         )),
                     BubbleBottomBarItem(
                         backgroundColor: Colors.green,
-                        icon: Icon(CupertinoIcons.settings,
-                            size: 30, color: Colors.cyan),
-                        activeIcon: Icon(CupertinoIcons.settings,
-                            size: 30, color: Colors.indigo),
+                        icon: Image.asset(
+                          "images/setting.png",
+                          color: Colors.cyan,
+                          width: 30.0,
+                          height: 30.0,
+                        ),
+                        activeIcon: Image.asset(
+                          "images/setting.png",
+                          color: Colors.indigo,
+                          width: 30.0,
+                          height: 30.0,
+                        ),
                         title: Text(
                           "Settings",
                           style: TextStyle(color: Colors.green.shade900),
@@ -654,20 +702,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   // Widget để hiển thị trong setting menu
   Widget _settingsMenuWidget(
-      IconData icon, String menuText, Color iconColor, Color textColor) {
+      String image, String menuText, Color iconColor, Color textColor) {
     return Container(
       width: MediaQuery.of(context).size.width,
       child: Row(
         children: <Widget>[
-          Icon(
-            icon,
+          Image.asset(
+            image,
             color: iconColor,
+            width: 20.0,
+            height: 20.0,
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 5.0),
+            padding: const EdgeInsets.only(left: 5.0, top: 2.0),
             child: Text(
               "$menuText",
-              style: TextStyle(fontSize: 20.0, fontFamily: 'AbhayaLibre'),
+              style: TextStyle(fontSize: 20.0, fontFamily: 'AbhayaLibre', color: textColor),
             ),
           ),
         ],
@@ -696,16 +746,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
 // Hàm sự kiện để chạy animation
   void _onTap() async {
-    setState(() => rect = RectGetter.getRectFromKey(rectGetterKey)); //<-- set rect to be size of fab
-    WidgetsBinding.instance.addPostFrameCallback((_) {              //<-- on the next frame...
-      setState(() => rect = rect.inflate(1.1 * MediaQuery.of(context).size.longestSide)); //<-- set rect to be big
-      Future.delayed(animationDuration + delay, _goToNextPage); //<-- after delay, go to next page
+    setState(() => rect = RectGetter.getRectFromKey(
+        rectGetterKey)); //<-- set rect to be size of fab
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      //<-- on the next frame...
+      setState(() => rect = rect.inflate(1.1 *
+          MediaQuery.of(context).size.longestSide)); //<-- set rect to be big
+      Future.delayed(animationDuration + delay,
+          _goToNextPage); //<-- after delay, go to next page
     });
   }
 
   void _goToNextPage() {
     Navigator.of(context)
-        .pushReplacement(FadeRouteBuilder(page: AddTaskPage(lastFocusedScreen: _lastFocusedIconIndex, settingScreenIndex: _settingsScreenIndex,)))
+        .pushReplacement(FadeRouteBuilder(
+            page: AddTaskPage(
+          lastFocusedScreen: _lastFocusedIconIndex,
+          settingScreenIndex: _settingsScreenIndex,
+        )))
         .then((_) => setState(() => rect = null));
   }
 

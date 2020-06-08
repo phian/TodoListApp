@@ -61,6 +61,18 @@ flutter:
     - images/todo_app_icon.png
     - images/search.gif
     - images/help.gif
+    - images/home.png
+    - images/done_tasks.png
+    - images/tasks.png
+    - images/setting.png
+    - images/account.png
+    - images/search.png
+    - images/about.png
+    - images/getting_started.png
+    - images/help.png
+    - images/preference.png
+    - images/calendar.png
+    - images/notification.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

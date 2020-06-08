@@ -111,7 +111,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         Visibility(
                           visible: _visibilities[0],
                           child: ListTile(
-                            leading: Icon(Icons.alarm), //list icon
+                            leading: Image.asset(
+                              "images/calendar.png",
+                              width: 30.0,
+                              height: 30.0,
+                            ),
                             title: Text("Schedule"),
                             trailing: Icon(Icons.keyboard_arrow_right),
                             onTap: _onSchedulePress,
@@ -120,7 +124,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         Visibility(
                           visible: _visibilities[1],
                           child: ListTile(
-                            leading: Icon(Icons.assignment), //list icon
+                            leading: Image.asset(
+                              "images/tasks.png",
+                              width: 30.0,
+                              height: 30.0,
+                            ),
                             title: Text("Choose List"),
                             trailing: Icon(Icons.keyboard_arrow_right),
                             onTap: _onListPress,
@@ -129,7 +137,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         Visibility(
                           visible: _visibilities[2],
                           child: ListTile(
-                            leading: Icon(Icons.notifications), //list icon
+                            leading: Image.asset(
+                              "images/notification.png",
+                              width: 30.0,
+                              height: 30.0,
+                            ), //list icon
                             title: Text("Reminder"),
                             trailing: Icon(Icons.keyboard_arrow_right),
                             onTap: () {
@@ -416,7 +428,8 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
                           ),
                     title: Text(_scheduleTittle[index]),
                     trailing: (_selectedScheduleIndex == index && index == 0)
-                        ? Text(DateFormat("EEEEEEEE dd MMMM yyyyy").format(DateTime.now()))
+                        ? Text(DateFormat("EEEEEEEE dd MMMM yyyyy")
+                            .format(DateTime.now()))
                         : (_selectedScheduleIndex == index && index == 1)
                             ? Text(DateFormat("EEEEEEEE dd MMMM yyyyy")
                                 .format(DateTime.now().add(Duration(days: 1))))
