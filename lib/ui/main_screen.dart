@@ -159,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       opacity: _mainScreenOpacity,
       duration: Duration(milliseconds: 300),
       child: SafeArea(
-        child: WillPopScope(
+        child: WillPopScope( // apkcombo.com/vi-vn/how-to-install/
           onWillPop: () async {
             if (_transitionXForMainScreen == 0.0) {
               _onWillPop();
@@ -524,11 +524,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     BubbleBottomBarItem(
                         backgroundColor: Colors.redAccent,
                         icon:
-                            Icon(CupertinoIcons.tags, size: 30, color: Colors.red),
-                        activeIcon: Icon(CupertinoIcons.tags,
+                            Icon(CupertinoIcons.home, size: 30, color: Colors.red),
+                        activeIcon: Icon(CupertinoIcons.home,
                             size: 30, color: Colors.indigo),
                         title: Text(
-                          "Recent",
+                          "Home",
                           style: TextStyle(color: Colors.red.shade900),
                         )),
                     BubbleBottomBarItem(
