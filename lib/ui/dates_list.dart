@@ -1,14 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-DateTime _currentDate;
-
 // ignore: must_be_immutable
 class DatesListScreen extends StatefulWidget {
-  DatesListScreen() {
-    _currentDate = DateTime.now();
-  }
-
   @override
   _DatesListScreenState createState() => _DatesListScreenState();
 }

@@ -510,6 +510,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     width: 55.0,
                     height: 55.0,
                     child: FloatingActionButton(
+                      backgroundColor: Color(0xFF425195),
                       elevation: 2.0,
                       tooltip: 'Add new task',
                       child: Icon(Icons.add),
@@ -538,78 +539,78 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   inkColor: Colors.black12,
                   items: <BubbleBottomBarItem>[
                     BubbleBottomBarItem(
-                        backgroundColor: Colors.redAccent,
+                        backgroundColor: Color(0xAA425195),
                         icon: Image.asset(
                           "images/home.png",
-                          color: Colors.red,
+                          color: Colors.grey,
                           width: 30.0,
                           height: 30.0,
                         ),
                         activeIcon: Image.asset(
                           "images/home.png",
-                          color: Colors.indigo,
+                          color: Color(0xFF425195),
                           width: 30.0,
                           height: 30.0,
                         ),
                         title: Text(
                           "Home",
-                          style: TextStyle(color: Colors.red.shade900),
+                          style: TextStyle(color: Color(0xFF425195)),
                         )),
                     BubbleBottomBarItem(
-                        backgroundColor: Colors.deepPurple,
+                        backgroundColor: Color(0xAA425195),
                         icon: Image.asset(
                           "images/done_tasks.png",
-                          color: Colors.purple,
+                          color: Colors.grey,
                           width: 30.0,
                           height: 30.0,
                         ),
                         activeIcon: Image.asset(
                           "images/done_tasks.png",
-                          color: Colors.indigo,
+                          color: Color(0xFF425195),
                           width: 30.0,
                           height: 30.0,
                         ),
                         title: Text(
-                          "Goals",
-                          style: TextStyle(color: Colors.deepPurple.shade900),
+                          "Done",
+                          style: TextStyle(color: Color(0xFF425195)),
                         )),
                     BubbleBottomBarItem(
-                        backgroundColor: Colors.teal,
+                        backgroundColor: Color(0xAA425195),
                         icon: Image.asset(
                           "images/tasks.png",
-                          color: Colors.teal,
+                          color: Colors.grey,
                           width: 30.0,
                           height: 30.0,
                         ),
                         activeIcon: Image.asset(
                           "images/tasks.png",
-                          color: Colors.indigo,
+                          color: Color(0xFF425195),
                           width: 30.0,
                           height: 30.0,
                         ),
                         title: Text(
                           "Tasks List",
                           style: TextStyle(
-                            color: Colors.teal.shade900,
+                            color: Color(0xFF425195),
                           ),
                         )),
                     BubbleBottomBarItem(
-                        backgroundColor: Colors.green,
+                        backgroundColor: Color(0xAA425195),
                         icon: Image.asset(
                           "images/setting.png",
-                          color: Colors.cyan,
+                          color: Colors.grey,
                           width: 30.0,
                           height: 30.0,
                         ),
                         activeIcon: Image.asset(
                           "images/setting.png",
-                          color: Colors.indigo,
+                          color: Color(0xFF425195),
                           width: 30.0,
                           height: 30.0,
                         ),
                         title: Text(
                           "Settings",
-                          style: TextStyle(color: Colors.green.shade900),
+                          style: TextStyle(color: Color(0xFF425195),),
                         ))
                   ],
                 ),
@@ -717,7 +718,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             padding: const EdgeInsets.only(left: 5.0, top: 2.0),
             child: Text(
               "$menuText",
-              style: TextStyle(fontSize: 20.0, fontFamily: 'AbhayaLibre', color: textColor),
+              style: TextStyle(
+                  fontSize: 20.0, fontFamily: 'AbhayaLibre', color: textColor),
             ),
           ),
         ],
@@ -780,7 +782,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       child: Container(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Colors.blue,
+          color: Color(0xFF425195),
         ),
       ),
     );
