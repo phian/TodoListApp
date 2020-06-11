@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:todoapp/data/repeat_choice_data.dart';
 import 'package:todoapp/set_up_widgets/repeat_sheet.dart';
+import 'package:todoapp/ui/add_task_page.dart';
 
 class ScheduleSheet extends StatefulWidget {
+  DateTime schedulePickedDate;
+  final DateTime initTime;
+  RepeatChoiceData repeatChoiceData = RepeatChoiceData();
+
+  ScheduleSheet({this.initTime}) {
+    schedulePickedDate = initTime;
+  }
+
   @override
   _ScheduleSheetState createState() => _ScheduleSheetState();
 }
@@ -20,12 +30,16 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
   String _scheduleChoseDateText;
   DateTime _scheduleChoseDateTime;
 
+  RepeatSheet _repeatSheet = RepeatSheet(initChoiceData: RepeatChoiceData(),);
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    _scheduleChoseDateTime = DateTime.now();
+    _scheduleChoseDateTime = widget.schedulePickedDate == DateTime.now()
+        ? DateTime.now()
+        : widget.schedulePickedDate;
     _scheduleChoseDateText =
         DateFormat("EEEEEEEE dd MMMM yyyyy").format(_scheduleChoseDateTime);
   }
@@ -59,8 +73,11 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
           ),
           Expanded(
             child: ListView.builder(
+              physics: BouncingScrollPhysics(),
               itemCount: _scheduleTittle.length,
               itemBuilder: (BuildContext context, int index) {
+                _initPositionForScheduleChoice();
+
                 return Container(
                   padding: EdgeInsets.only(right: 5.0),
                   alignment: Alignment.center,
@@ -76,9 +93,10 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
                           ),
                     title: Text(_scheduleTittle[index]),
                     trailing: (_selectedScheduleIndex == index && index == 0)
-                        ? Text(DateFormat.MMMEd().format(DateTime.now()))
+                        ? Text(DateFormat("EEEEEEEE dd MMMM yyyyy")
+                            .format(DateTime.now()))
                         : (_selectedScheduleIndex == index && index == 1)
-                            ? Text(DateFormat.MMMEd()
+                            ? Text(DateFormat("EEEEEEEE dd MMMM yyyyy")
                                 .format(DateTime.now().add(Duration(days: 1))))
                             : (_selectedScheduleIndex == index &&
                                     index == _scheduleTittle.length - 1)
@@ -102,7 +120,11 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
                           lastDate: DateTime(2100),
                         ).then((value) {
                           setState(() {
-                            if (value != null) _scheduleChoseDateTime = value;
+                            if (value != null) {
+                              _scheduleChoseDateTime = value;
+                              widget.schedulePickedDate =
+                                  _scheduleChoseDateTime;
+                            }
 
                             _scheduleChoseDateText =
                                 DateFormat("EEEEEEEE dd MMMM yyyy")
@@ -146,6 +168,8 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
                           _scheduleChoseDateText =
                               DateFormat("EEEEEEEE dd MMMM yyyyy")
                                   .format(_scheduleChoseDateTime);
+
+                          widget.schedulePickedDate = _scheduleChoseDateTime;
                         });
                       } else {
                         setState(() {
@@ -155,12 +179,16 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
                             _scheduleChoseDateText =
                                 DateFormat("EEEEEEEE dd MMMM yyyyy")
                                     .format(_scheduleChoseDateTime);
+
+                            widget.schedulePickedDate = _scheduleChoseDateTime;
                           } else {
                             _scheduleChoseDateTime = DateTime.now().add(
                                 Duration(days: 7 - DateTime.now().weekday));
                             _scheduleChoseDateText =
                                 DateFormat("EEEEEEEE dd MMMM yyyyy")
                                     .format(_scheduleChoseDateTime);
+
+                            widget.schedulePickedDate = _scheduleChoseDateTime;
                           }
                         });
                       }
@@ -206,6 +234,30 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
     showModalBottomSheet(
         backgroundColor: Colors.transparent,
         context: context,
-        builder: (context) => RepeatSheet());
+        builder: (context) => _repeatSheet).whenComplete(() {
+      widget.repeatChoiceData = _repeatSheet.repeatChoiceData;
+    });
+  }
+
+  // Hàm để khởi tạo vị trí theo ngày mà trc đó ng dùng chọn
+  void _initPositionForScheduleChoice() {
+    if (DateFormat("dd MMMM yyyyy").format(widget.schedulePickedDate) ==
+        DateFormat("dd MMMM yyyyy").format(DateTime.now())) {
+      _selectedScheduleIndex = 0;
+    } else if (DateFormat("dd MMMM yyyyy").format(widget.schedulePickedDate) ==
+        DateFormat("dd MMMM yyyyy")
+            .format(DateTime.now().add(Duration(days: 1)))) {
+      _selectedScheduleIndex = 1;
+    } else if (DateFormat("dd MMMM yyyyy").format(widget.schedulePickedDate) ==
+        DateFormat("dd MMMM yyyyy").format(
+            DateTime.now().add(Duration(days: 6 - DateTime.now().weekday)))) {
+      _selectedScheduleIndex = 2;
+    } else if (DateFormat("dd MMMM yyyyy").format(widget.schedulePickedDate) ==
+        DateFormat("dd MMMM yyyyy").format(
+            DateTime.now().add(Duration(days: 7 - DateTime.now().weekday)))) {
+      _selectedScheduleIndex = 3;
+    } else {
+      _selectedScheduleIndex = 4;
+    }
   }
 }
