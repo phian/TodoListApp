@@ -688,7 +688,7 @@ class _RepeatSheetState extends State<RepeatSheet> {
 
         double transitionX = 0;
 
-        for (int i = 0; i < _dailyChoiceCardContents.length; i++) {
+        for (int i = 0; i < 7; i++) {
           transitionX--;
           if (i == 0) {
             _dailyChoiceCards.add(_dailyRepeatChoiceCard(
@@ -779,7 +779,7 @@ class _RepeatSheetState extends State<RepeatSheet> {
     _dailyChoiceCards = [];
     _selectedIndex = [];
 
-    double transitionX = 0;
+    double transitionX = 0.0;
 
     for (int i = 0; i < _dailyChoiceCardContents.length; i++) {
       transitionX--;
@@ -825,7 +825,7 @@ class _RepeatSheetState extends State<RepeatSheet> {
         if (selectedIndex == 0) {
           _dailyChoiceCards[selectedIndex] = _dailyRepeatChoiceCard(
               _dailyChoiceCardContents[selectedIndex],
-              selectedIndex == 0 ? 0.0 : -selectedIndex,
+              selectedIndex == 0 ? 0.0 : -(selectedIndex + 1),
               Colors.black,
               Colors.white,
               BorderRadius.only(
@@ -835,7 +835,10 @@ class _RepeatSheetState extends State<RepeatSheet> {
         } else if (selectedIndex == _dailyChoiceCardContents.length - 1) {
           _dailyChoiceCards[selectedIndex] = _dailyRepeatChoiceCard(
               _dailyChoiceCardContents[selectedIndex],
-              selectedIndex == 0 ? 0.0 : -selectedIndex.toDouble(),
+              selectedIndex == 0
+                  ? 0.0
+                  : -(selectedIndex + 1)
+                      .toDouble(), // Do khi chạy vòng lặp |trasitionX| luôn lớn hơn i (selectedIndex) một đơn vị
               Colors.black,
               Colors.white,
               BorderRadius.only(
@@ -845,7 +848,10 @@ class _RepeatSheetState extends State<RepeatSheet> {
         } else {
           _dailyChoiceCards[selectedIndex] = _dailyRepeatChoiceCard(
               _dailyChoiceCardContents[selectedIndex],
-              selectedIndex == 0 ? 0.0 : -selectedIndex.toDouble(),
+              selectedIndex == 0
+                  ? 0.0
+                  : -(selectedIndex + 1)
+                      .toDouble(), // Do khi chạy vòng lặp |trasitionX| luôn lớn hơn i (selectedIndex) một đơn vị
               Colors.black,
               Colors.white,
               BorderRadius.all(Radius.circular(0.0)));
@@ -854,7 +860,10 @@ class _RepeatSheetState extends State<RepeatSheet> {
         if (selectedIndex == 0) {
           _dailyChoiceCards[selectedIndex] = _dailyRepeatChoiceCard(
               _dailyChoiceCardContents[selectedIndex],
-              selectedIndex == 0 ? 0.0 : -selectedIndex,
+              selectedIndex == 0
+                  ? 0.0
+                  : -(selectedIndex +
+                      1), // Do khi chạy vòng lặp |trasitionX| luôn lớn hơn i (selectedIndex) một đơn vị
               Colors.white,
               Colors.black,
               BorderRadius.only(
@@ -864,7 +873,10 @@ class _RepeatSheetState extends State<RepeatSheet> {
         } else if (selectedIndex == _dailyChoiceCardContents.length - 1) {
           _dailyChoiceCards[selectedIndex] = _dailyRepeatChoiceCard(
               _dailyChoiceCardContents[selectedIndex],
-              selectedIndex == 0 ? 0.0 : -selectedIndex.toDouble(),
+              selectedIndex == 0
+                  ? 0.0
+                  : -(selectedIndex + 1)
+                      .toDouble(), // Do khi chạy vòng lặp |trasitionX| luôn lớn hơn i (selectedIndex) một đơn vị
               Colors.white,
               Colors.black,
               BorderRadius.only(
@@ -874,7 +886,10 @@ class _RepeatSheetState extends State<RepeatSheet> {
         } else {
           _dailyChoiceCards[selectedIndex] = _dailyRepeatChoiceCard(
               _dailyChoiceCardContents[selectedIndex],
-              selectedIndex == 0 ? 0.0 : -selectedIndex.toDouble(),
+              selectedIndex == 0
+                  ? 0.0
+                  : -(selectedIndex + 1)
+                      .toDouble(), // Do khi chạy vòng lặp |trasitionX| luôn lớn hơn i (selectedIndex) một đơn vị
               Colors.white,
               Colors.black,
               BorderRadius.all(Radius.circular(0.0)));
