@@ -3,7 +3,6 @@ import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:todoapp/data/repeat_choice_data.dart';
 import 'package:todoapp/set_up_widgets/repeat_sheet.dart';
-import 'package:todoapp/ui/add_task_page.dart';
 
 class ScheduleSheet extends StatefulWidget {
   DateTime schedulePickedDate;

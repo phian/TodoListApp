@@ -14,6 +14,7 @@ class _DatesListScreenState extends State<DatesListScreen> {
     double _screenWidth = MediaQuery.of(context).size.width;
 
     return ListView(
+      physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
       itemExtent: 300,
       children: <Widget>[
         Container(
@@ -40,6 +41,7 @@ class _DatesListScreenState extends State<DatesListScreen> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.26,
                 child: ListView(
+                  physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                   children: <Widget>[
                     Container(
                       child: Stack(
@@ -216,6 +218,7 @@ class _DatesListScreenState extends State<DatesListScreen> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.26,
                 child: ListView(
+                  physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                   children: <Widget>[
                     Container(
                       child: Stack(
@@ -396,6 +399,7 @@ class _DatesListScreenState extends State<DatesListScreen> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.26,
                 child: ListView(
+                  physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                   children: <Widget>[
                     Container(
                       child: Stack(
