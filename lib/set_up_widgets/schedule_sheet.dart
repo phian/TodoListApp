@@ -10,8 +10,9 @@ class ScheduleSheet extends StatefulWidget {
   final DateTime initTime;
   RepeatChoiceData repeatChoiceData = RepeatChoiceData();
 
-  ScheduleSheet({this.initTime}) {
+  ScheduleSheet({this.initTime, RepeatChoiceData data}) {
     schedulePickedDate = initTime;
+    repeatChoiceData = data;
   }
 
   @override
@@ -30,7 +31,7 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
   String _scheduleChoseDateText;
   DateTime _scheduleChoseDateTime;
 
-  RepeatSheet _repeatSheet = RepeatSheet(initChoiceData: RepeatChoiceData(),);
+  RepeatSheet _repeatSheet;
 
   @override
   void initState() {
@@ -42,6 +43,10 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
         : widget.schedulePickedDate;
     _scheduleChoseDateText =
         DateFormat("EEEEEEEE dd MMMM yyyyy").format(_scheduleChoseDateTime);
+
+    _repeatSheet = RepeatSheet(
+      initChoiceData: widget.repeatChoiceData,
+    );
   }
 
   @override

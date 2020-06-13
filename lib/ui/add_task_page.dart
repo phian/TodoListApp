@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:todoapp/data/data.dart';
+import 'package:todoapp/data/repeat_choice_data.dart';
 import 'package:todoapp/set_up_widgets/list_sheet.dart';
 import 'package:todoapp/set_up_widgets/schedule_sheet.dart';
 
@@ -32,12 +33,15 @@ class _AddTaskPageState extends State<AddTaskPage> {
   ScheduleSheet _scheduleSheet = ScheduleSheet();
   ListSheet _listSheet = ListSheet();
 
+  RepeatChoiceData _repeatsChoiceData;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
     _selectedChoice = _choicesList[0];
+    _repeatsChoiceData = RepeatChoiceData();
   }
 
   @override
@@ -286,7 +290,12 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
   void _onSchedulePress() {
     if (_scheduleSheet.schedulePickedDate == null) {
-      _scheduleSheet = ScheduleSheet(initTime: DateTime.now());
+      _scheduleSheet = ScheduleSheet(data: _repeatsChoiceData, initTime: DateTime.now());
+    } else {
+      _scheduleSheet = ScheduleSheet(
+        initTime: _scheduleSheet.schedulePickedDate,
+        data: _repeatsChoiceData,
+      );
     }
 
     showModalBottomSheet(
@@ -297,7 +306,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
         return _scheduleSheet;
       },
     ).whenComplete(() {
-      print(_scheduleSheet.schedulePickedDate);
+      setState(() {
+        _repeatsChoiceData = _scheduleSheet.repeatChoiceData;
+      });
     });
   }
 }
