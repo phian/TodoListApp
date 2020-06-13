@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:todoapp/animation/fade_route_builder.dart';
@@ -610,7 +611,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ),
                         title: Text(
                           "Settings",
-                          style: TextStyle(color: Color(0xFF425195),),
+                          style: TextStyle(
+                            color: Color(0xFF425195),
+                          ),
                         ))
                   ],
                 ),
@@ -652,25 +655,30 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   // Hàm để detect xem ng dùng có ấn back button ko để đưa ra thông báo
-  Future<bool> _onWillPop() async {
-    return (await showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Text('Alert!'),
-            content: Text('Are you sure you want to exit app?'),
-            actions: <Widget>[
-              FlatButton(
-                onPressed: () => exit(0),
-                child: Text('Yes'),
+  void _onWillPop() {
+    showDialog(
+        context: context,
+        builder: (_) => AssetGiffyDialog(
+              image: Image.asset(
+                "images/question2.gif",
+                fit: BoxFit.cover,
               ),
-              FlatButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: Text('No'),
+              title: Text(
+                "Are you sure you want to exit DOIT?",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w100),
               ),
-            ],
-          ),
-        )) ??
-        false;
+              entryAnimation: EntryAnimation.BOTTOM,
+              buttonOkText: Text(
+                "Yes",
+                style: TextStyle(color: Colors.white),
+              ),
+              buttonOkColor: Color(0xFF425195),
+              onOkButtonPressed: () => exit(0),
+              onCancelButtonPressed: () => Navigator.of(context).pop(false),
+              buttonCancelColor: Colors.red,
+              cornerRadius: 30.0,
+            ));
   }
 
   // Hàm để khởi tạo các widgets cho setting menu
