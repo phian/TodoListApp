@@ -33,7 +33,6 @@ class _SearchScreenState extends State<SearchScreen>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     _initUserChoiceWidgets();
@@ -53,8 +52,8 @@ class _SearchScreenState extends State<SearchScreen>
           _backToMainScreen();
         },
         child: Scaffold(
+          backgroundColor: Color(0xFFFAF3F0),
           body: Container(
-            color: Color(0xFFFAF3F0),
             child: Stack(
               children: <Widget>[
                 Row(

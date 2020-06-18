@@ -66,8 +66,8 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
           _backToMainScreen();
         },
         child: Scaffold(
+          backgroundColor: Color(0xFFFAF3F0),
           body: Container(
-            color: Color(0xFFFAF3F0),
             child: Stack(
               children: <Widget>[
                 Stack(

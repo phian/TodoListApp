@@ -41,19 +41,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     GoalsScreen(),
     TasksListScreen(),
   ];
-  int _lastFocusedIconIndex =
-      0; // biến để check xem Icon thứ mấy dc focus trc đó
-  int _settingsScreenIndex =
-      -1; // Biến để check nếu ng dùng mở màn hình settings thì sẽ cho app tiếp tục focus vào màn hình trc đó
+  // biến để check xem Icon thứ mấy dc focus trc đó
+  int _lastFocusedIconIndex = 0;
+  // Biến để check nếu ng dùng mở màn hình settings thì sẽ cho app tiếp tục focus vào màn hình trc đó
+  int _settingsScreenIndex = -1;
 
-  double _marginTop =
-      0.0; // Hai biến để thay đổi margin khi ng dùng chọn màn hình settings
+// Hai biến để thay đổi margin khi ng dùng chọn màn hình settings
+  double _marginTop = 0.0;
   double _marginBottom = 0.0;
-  double _transitionXForMainScreen =
-      0.0; // Biến để dời screen hiện tại qua bên trái màn hình
-  double _blur; // Biến để thay đổi độ đậm của shadowbox
-  double _transitionXForMenuScreen =
-      0.0; // Biến để dời menu screen qua lại khi ng dùng chọn menu option
+  // Biến để dời screen hiện tại qua bên trái màn hình
+  double _transitionXForMainScreen = 0.0;
+  // Biến để thay đổi độ đậm của shadowbox của main screen khi ng dùng ấn chọn setting
+  double _blur;
+  // Biến để dời menu screen qua lại khi ng dùng chọn menu option
+  double _transitionXForMenuScreen = 0.0;
 
 // Phần của setting screen
   List<String> _settingMenuIcons = [
@@ -88,6 +89,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   GlobalKey rectGetterKey = RectGetter.createGlobalKey();
   Rect rect;
+
+  // Biến để khi ng dùng ấn qua setting menu thì sẽ disable các widget của main screen
+  bool _mainScreenAbsorting = false;
 
   @override
   void initState() {
@@ -485,11 +489,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       margin: EdgeInsets.only(
                           top: _marginTop, bottom: _marginBottom),
                       child: InkWell(
-                        child: _screenList[_lastFocusedIconIndex],
+                        child: AbsorbPointer(
+                          child: _screenList[_lastFocusedIconIndex],
+                          absorbing: _mainScreenAbsorting,
+                        ),
                         onTap: () {
                           setState(() {
-                            _changePage(
-                                _lastFocusedIconIndex); // Quay lại màn hình trc đó ng dùng focus
+                            // Quay lại màn hình trc đó ng dùng focus
+                            _changePage(_lastFocusedIconIndex);
 
                             _transitionXForMainScreen = 0.0;
                             _transitionXForMenuScreen =
@@ -499,6 +506,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             _marginBottom = 0.0;
 
                             _blur = 0.0;
+
+                            _mainScreenAbsorting = false;
                           });
                         },
                       ),
@@ -640,6 +649,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         _marginBottom = 0.0;
 
         _blur = 0.0;
+
+        setState(() {
+          _mainScreenAbsorting = false;
+        });
       } else {
         _settingsScreenIndex = 3;
 
@@ -650,6 +663,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         _transitionXForMenuScreen = 0.0;
 
         _blur = 2.5;
+
+        setState(() {
+          _mainScreenAbsorting = true;
+        });
       }
     });
   }

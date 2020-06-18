@@ -41,7 +41,7 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
         ? DateTime.now()
         : widget.schedulePickedDate;
     _scheduleChoseDateText =
-        DateFormat("EEEEEEEE dd MMMM yyyyy").format(_scheduleChoseDateTime);
+        DateFormat("EEEEEEEE dd MMMM yyyy").format(_scheduleChoseDateTime);
 
     _repeatSheet = RepeatSheet(
       initChoiceData: widget.repeatChoiceData,
@@ -97,10 +97,10 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
                           ),
                     title: Text(_scheduleTittle[index]),
                     trailing: (_selectedScheduleIndex == index && index == 0)
-                        ? Text(DateFormat("EEEEEEEE dd MMMM yyyyy")
+                        ? Text(DateFormat("EEEEEEEE dd MMMM yyyy")
                             .format(DateTime.now()))
                         : (_selectedScheduleIndex == index && index == 1)
-                            ? Text(DateFormat("EEEEEEEE dd MMMM yyyyy")
+                            ? Text(DateFormat("EEEEEEEE dd MMMM yyyy")
                                 .format(DateTime.now().add(Duration(days: 1))))
                             : (_selectedScheduleIndex == index &&
                                     index == _scheduleTittle.length - 1)
@@ -111,7 +111,7 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
                         _selectedScheduleIndex = index;
 
                         _scheduleChoseDateText =
-                            DateFormat("EEEEEEEE dd MMMM yyyyy")
+                            DateFormat("EEEEEEEE dd MMMM yyyy")
                                 .format(_scheduleChoseDateTime);
                       });
 
@@ -135,29 +135,29 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
                                     .format(_scheduleChoseDateTime);
 
                             // Xét điều kiện xem người dùng có chọn trùng với ngày của 4 choice menu trên hay không
-                            if (DateFormat("dd MMMM yyyyy")
+                            if (DateFormat("dd MMMM yyyy")
                                     .format(_scheduleChoseDateTime) ==
-                                DateFormat("dd MMMM yyyyy")
+                                DateFormat("dd MMMM yyyy")
                                     .format(DateTime.now())) {
                               _selectedScheduleIndex = 0;
 
                               return;
-                            } else if (DateFormat("dd MMMM yyyyy")
+                            } else if (DateFormat("dd MMMM yyyy")
                                     .format(_scheduleChoseDateTime) ==
-                                DateFormat("dd MMMM yyyyy").format(
+                                DateFormat("dd MMMM yyyy").format(
                                     DateTime.now().add(Duration(days: 1)))) {
                               _selectedScheduleIndex = 1;
 
                               return;
-                            } else if (DateFormat("dd MMMM yyyyy")
+                            } else if (DateFormat("dd MMMM yyyy")
                                     .format(_scheduleChoseDateTime) ==
-                                DateFormat("dd MMMM yyyyy").format(
+                                DateFormat("dd MMMM yyyy").format(
                                     DateTime.now().add(Duration(
                                         days: 6 - DateTime.now().weekday)))) {
                               _selectedScheduleIndex = 2;
-                            } else if (DateFormat("dd MMMM yyyyy")
+                            } else if (DateFormat("dd MMMM yyyy")
                                     .format(_scheduleChoseDateTime) ==
-                                DateFormat("dd MMMM yyyyy").format(
+                                DateFormat("dd MMMM yyyy").format(
                                     DateTime.now().add(Duration(
                                         days: 7 - DateTime.now().weekday)))) {
                               _selectedScheduleIndex = 3;
@@ -170,7 +170,7 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
                               ? DateTime.now()
                               : DateTime.now().add(Duration(days: 1));
                           _scheduleChoseDateText =
-                              DateFormat("EEEEEEEE dd MMMM yyyyy")
+                              DateFormat("EEEEEEEE dd MMMM yyyy")
                                   .format(_scheduleChoseDateTime);
 
                           widget.schedulePickedDate = _scheduleChoseDateTime;
@@ -181,7 +181,7 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
                             _scheduleChoseDateTime = DateTime.now().add(
                                 Duration(days: 6 - DateTime.now().weekday));
                             _scheduleChoseDateText =
-                                DateFormat("EEEEEEEE dd MMMM yyyyy")
+                                DateFormat("EEEEEEEE dd MMMM yyyy")
                                     .format(_scheduleChoseDateTime);
 
                             widget.schedulePickedDate = _scheduleChoseDateTime;
@@ -189,7 +189,7 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
                             _scheduleChoseDateTime = DateTime.now().add(
                                 Duration(days: 7 - DateTime.now().weekday));
                             _scheduleChoseDateText =
-                                DateFormat("EEEEEEEE dd MMMM yyyyy")
+                                DateFormat("EEEEEEEE dd MMMM yyyy")
                                     .format(_scheduleChoseDateTime);
 
                             widget.schedulePickedDate = _scheduleChoseDateTime;
@@ -245,19 +245,19 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
 
   // Hàm để khởi tạo vị trí theo ngày mà trc đó ng dùng chọn
   void _initPositionForScheduleChoice() {
-    if (DateFormat("dd MMMM yyyyy").format(widget.schedulePickedDate) ==
-        DateFormat("dd MMMM yyyyy").format(DateTime.now())) {
+    if (DateFormat("dd MMMM yyyy").format(widget.schedulePickedDate) ==
+        DateFormat("dd MMMM yyyy").format(DateTime.now())) {
       _selectedScheduleIndex = 0;
-    } else if (DateFormat("dd MMMM yyyyy").format(widget.schedulePickedDate) ==
-        DateFormat("dd MMMM yyyyy")
+    } else if (DateFormat("dd MMMM yyyy").format(widget.schedulePickedDate) ==
+        DateFormat("dd MMMM yyyy")
             .format(DateTime.now().add(Duration(days: 1)))) {
       _selectedScheduleIndex = 1;
-    } else if (DateFormat("dd MMMM yyyyy").format(widget.schedulePickedDate) ==
-        DateFormat("dd MMMM yyyyy").format(
+    } else if (DateFormat("dd MMMM yyyy").format(widget.schedulePickedDate) ==
+        DateFormat("dd MMMM yyyy").format(
             DateTime.now().add(Duration(days: 6 - DateTime.now().weekday)))) {
       _selectedScheduleIndex = 2;
-    } else if (DateFormat("dd MMMM yyyyy").format(widget.schedulePickedDate) ==
-        DateFormat("dd MMMM yyyyy").format(
+    } else if (DateFormat("dd MMMM yyyy").format(widget.schedulePickedDate) ==
+        DateFormat("dd MMMM yyyy").format(
             DateTime.now().add(Duration(days: 7 - DateTime.now().weekday)))) {
       _selectedScheduleIndex = 3;
     } else {
