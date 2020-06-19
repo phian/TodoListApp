@@ -79,18 +79,7 @@ class _RatingScreenState extends State<RatingScreen>
     return SafeArea(
       child: WillPopScope(
         onWillPop: () async {
-          setState(() {
-            _transitionForRatingScreen = MediaQuery.of(context).size.height;
-          });
-
-          Navigator.pushReplacement(
-              context,
-              PageTransition(
-                  type: PageTransitionType.upToDown,
-                  child: AboutScreen(
-                    lastFocusedScreen: widget.lastFocusedScreen,
-                  ),
-                  duration: Duration(milliseconds: 300)));
+          _backToAboutScreen();
         },
         child: AnimatedContainer(
           duration: Duration(milliseconds: 300),
@@ -102,15 +91,7 @@ class _RatingScreenState extends State<RatingScreen>
             body: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  "How do you feel about DOIT?",
-                  style: TextStyle(
-                    fontSize: 50.0,
-                    fontWeight: FontWeight.w900,
-                    fontFamily: "RobotoSlab",
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+                _buildRatingScreenTitle(),
                 SizedBox(
                   height: 20.0,
                 ),
@@ -133,6 +114,43 @@ class _RatingScreenState extends State<RatingScreen>
       ),
     );
   }
+
+  // Widget để hiển thị title của màn hình
+  Widget _buildRatingScreenTitle() => Column(
+        children: <Widget>[
+          Stack(
+            children: <Widget>[
+              Container(
+                transform: Matrix4.translationValues(15.0, 5.0, 0.0),
+                alignment: Alignment.topLeft,
+                child: IconButton(
+                  icon: Container(
+                    transform: Matrix4.translationValues(-2.0, -1.0, 0.0),
+                    alignment: Alignment.center,
+                    child: Icon(
+                      Icons.close,
+                      size: 35.0,
+                    ),
+                  ),
+                  onPressed: _backToAboutScreen,
+                ),
+              ),
+            ],
+          ),
+          Container(
+            transform: Matrix4.translationValues(0.0, 5.0, 0.0),
+            child: Text(
+              "How do you feel about DOIT?",
+              style: TextStyle(
+                fontSize: 45.0,
+                fontWeight: FontWeight.w900,
+                fontFamily: "RobotoSlab",
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      );
 
   // Hàm khởi tạo slider cho flare
   Widget _buildSlider() => GestureDetector(
@@ -185,7 +203,7 @@ class _RatingScreenState extends State<RatingScreen>
   }
 
   // Hàm để tạo animation cho chữ mô tả trạng thái rating
-  _ratingEmotionTitle() => AnimatedSwitcher(
+  Widget _ratingEmotionTitle() => AnimatedSwitcher(
         child: _displayEmotionRatingTitle(),
         duration: Duration(milliseconds: 200),
         transitionBuilder: (child, textAnimation) {
@@ -200,6 +218,32 @@ class _RatingScreenState extends State<RatingScreen>
             ),
           );
         },
+      );
+
+  // Nút submit
+  Widget _buildBottomWidgets() => Align(
+        alignment: Alignment.bottomCenter,
+        child: GestureDetector(
+          onTapDown: _onTapDown,
+          onTapUp: _onTapUp,
+          onTapCancel: _onTapCancel,
+          child: Transform.scale(
+            scale: _buttonScale,
+            child: Container(
+              padding: EdgeInsets.all(15.0),
+              child: Text(
+                "This is how I feel",
+                style: TextStyle(
+                  fontSize: 30.0,
+                  fontFamily: "RobotoSlab",
+                ),
+              ),
+              decoration: BoxDecoration(
+                  color: Color(0xFF425195),
+                  borderRadius: BorderRadius.all(Radius.circular(15.0))),
+            ),
+          ),
+        ),
       );
 
   // Hàm bắt sự kiện khi người dùng kéo thanh slider
@@ -255,41 +299,21 @@ class _RatingScreenState extends State<RatingScreen>
     return vector.Vector3(offset * 2, offset * 2, 0.0);
   }
 
-  _buildBottomWidgets() => Align(
-        alignment: Alignment.bottomCenter,
-        child: GestureDetector(
-          onTapDown: _onTapDown,
-          onTapUp: _onTapUp,
-          onTapCancel: _onTapCancel,
-          child: Transform.scale(
-            scale: _buttonScale,
-            child: Container(
-              padding: EdgeInsets.all(15.0),
-              child: Text(
-                "This is how I feel",
-                style: TextStyle(
-                  fontSize: 30.0,
-                  fontFamily: "RobotoSlab",
-                ),
-              ),
-              decoration: BoxDecoration(
-                  color: Color(0xFF425195),
-                  borderRadius: BorderRadius.all(Radius.circular(15.0))),
-            ),
-          ),
-        ),
-      );
-
   // Hàm để chạy animation của button theo chiều thuận
   void _onTapDown(TapDownDetails details) {
     _buttonAniController.forward();
+  }
+
+  // Hàm để chạy animation theo chiều ngược lại
+  void _onTapUp(TapUpDetails details) {
+    _buttonAniController.reverse();
 
     showDialog(
         context: context,
         builder: (_) => AssetGiffyDialog(
               image: Image.asset(
                 "images/thank_you.gif",
-                fit: BoxFit.cover,
+                fit: BoxFit.fitHeight,
               ),
               title: Text(
                 "Thank you for your rating!",
@@ -333,12 +357,23 @@ class _RatingScreenState extends State<RatingScreen>
   }
 
   // Hàm để chạy animation theo chiều ngược lại
-  void _onTapUp(TapUpDetails details) {
+  void _onTapCancel() {
     _buttonAniController.reverse();
   }
 
-  // Hàm để chạy animation theo chiều ngược lại
-  void _onTapCancel() {
-    _buttonAniController.reverse();
+  // Hàm để gọi lệnh back về About screen
+  void _backToAboutScreen() {
+    setState(() {
+      _transitionForRatingScreen = MediaQuery.of(context).size.height;
+    });
+
+    Navigator.pushReplacement(
+        context,
+        PageTransition(
+            type: PageTransitionType.upToDown,
+            child: AboutScreen(
+              lastFocusedScreen: widget.lastFocusedScreen,
+            ),
+            duration: Duration(milliseconds: 300)));
   }
 }

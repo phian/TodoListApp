@@ -73,12 +73,13 @@ class _AboutScreenState extends State<AboutScreen> {
                     ),
                     Align(
                       alignment: Alignment.topRight,
-                      child: InkWell(
-                        onTap: () {
+                      child: GestureDetector(
+                        onTapUp: (details) {
                           setState(() {
                             _transitionForAboutScreen =
                                 -MediaQuery.of(context).size.height;
                           });
+
                           Navigator.pushReplacement(
                               context,
                               PageTransition(
