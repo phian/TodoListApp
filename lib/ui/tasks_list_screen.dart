@@ -230,12 +230,24 @@ class _TasksListScreenState extends State<TasksListScreen> {
         listWidgetHeight = MediaQuery.of(context).size.height;
         listWidgetWidth = MediaQuery.of(context).size.width - 20 * 2;
       }
+
+      // gán biến tạm để lưu giá trị trc đó mà ng dùng chọn, sau khi add item đầu tiên thì sẽ reset lại
+      int temp = lastChoseIndex;
+      lastChoseIndex = 0;
+
       for (int i = 0; i < listWidgets.length; i++) {
         listWidgets[i] = i == 0
             ? listWidget(listTitles[0], listColors[0], taskTitles,
                 listTitleTextColors[1], Icons.add)
-            : listWidget(listTitles[0], listColors[1], taskTitles,
-                listTitleTextColors[1]);
+            : listWidget(
+                listTitles[i],
+                listColors[i + 1],
+                taskTitles,
+                listColors[i + 1] == Color(0xfffafafa)
+                    ? listTitleTextColors[1]
+                    : listTitleTextColors[0]);
+
+        lastChoseIndex = temp;
       }
     });
   }
