@@ -1,3 +1,4 @@
+// Lớp để lưu trữ các giá trị mà ng dùng chọn trong phần repeat
 class RepeatChoiceData {
   int isOnOrOff = 0;
   int frequencyChoice = 0;
@@ -8,3 +9,5 @@ class RepeatChoiceData {
   int endsAfetrNumberOfTimesChoice = 1;
   DateTime endsDateChoice = DateTime.now();
 }
+
+var isFirstTime; // Biến để check xem task có dc mở lên lần dầu tiên ko

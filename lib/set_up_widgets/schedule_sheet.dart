@@ -34,7 +34,6 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     _scheduleChoseDateTime = widget.schedulePickedDate == DateTime.now()
@@ -240,6 +239,10 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
         context: context,
         builder: (context) => _repeatSheet).whenComplete(() {
       widget.repeatChoiceData = _repeatSheet.repeatChoiceData;
+    });
+
+    setState(() {
+      isFirstTime = false;
     });
   }
 

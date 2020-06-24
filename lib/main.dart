@@ -12,6 +12,7 @@ export 'package:sqflite/src/factory_impl.dart' show databaseFactory;
 
 void main() => runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
+      
       home: MyApp(),
     ));
 
@@ -27,7 +28,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     _doitDatabaseHelper = DatabaseHelper();

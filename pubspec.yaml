@@ -33,6 +33,7 @@ dependencies:
   sqflite: any
   path_provider: any
   flare_flutter: ^2.0.3
+  flutter_staggered_animations: "^0.1.2"
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -81,6 +82,10 @@ flutter:
     - images/question2.gif
     - images/rating.flr
     - images/thank_you.gif
+    - images/add.png
+    - images/swap.png
+    - images/change_color.png
+    - images/close.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
