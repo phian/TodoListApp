@@ -39,14 +39,18 @@ class _AddTaskPageState extends State<AddTaskPage> {
   RepeatChoiceData _repeatsChoiceData;
   SpecialRepeatChoiceData _specialRepeatChoiceData;
 
+  int _choseListIndex;
+
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     _selectedChoice = _choicesList[0];
     _repeatsChoiceData = RepeatChoiceData();
     _specialRepeatChoiceData = SpecialRepeatChoiceData();
+
+    isFirstTime = true;
   }
 
   @override
@@ -299,7 +303,10 @@ class _AddTaskPageState extends State<AddTaskPage> {
       builder: (context) {
         return _listSheet;
       },
-    );
+    ).whenComplete(() {
+      _choseListIndex = _listSheet.choseListIndex;
+      print(_choseListIndex);
+    });
   }
 
   void onTimeChanged(TimeOfDay newTime) {
@@ -310,7 +317,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
   void _onSchedulePress() {
     if (_scheduleSheet.schedulePickedDate == null) {
-      _scheduleSheet = ScheduleSheet(data: _repeatsChoiceData, initTime: DateTime.now());
+      _scheduleSheet =
+          ScheduleSheet(data: _repeatsChoiceData, initTime: DateTime.now());
     } else {
       _scheduleSheet = ScheduleSheet(
         initTime: _scheduleSheet.schedulePickedDate,

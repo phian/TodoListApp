@@ -325,7 +325,7 @@ class _RatingScreenState extends State<RatingScreen>
               ),
               entryAnimation: EntryAnimation.BOTTOM,
               buttonOkText: Text(
-                "Yes",
+                "OK",
                 style: TextStyle(color: Colors.white, fontFamily: "RobotoSlab"),
               ),
               buttonOkColor: Color(0xFF425195),
@@ -349,7 +349,7 @@ class _RatingScreenState extends State<RatingScreen>
               },
               buttonCancelColor: Colors.red,
               buttonCancelText: Text(
-                "Cancel",
+                "Rate again",
                 style: TextStyle(color: Colors.white, fontFamily: "RobotoSlab"),
               ),
               cornerRadius: 30.0,

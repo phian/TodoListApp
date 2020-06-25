@@ -48,20 +48,17 @@ class _RepeatSheetState extends State<RepeatSheet> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     _initDailyRepeatCardList();
     _initTimeForEndDay = DateTime.now();
     _endDay = null;
 
-    _initPreviousChoiceState();
+    if (isFirstTime == false) _initPreviousChoiceState();
   }
 
   @override
   Widget build(BuildContext context) {
-    /// Làm tiếp phần chuyển đổi số ít + nhiều của phần reapeat every
-    ///
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -912,7 +909,7 @@ class _RepeatSheetState extends State<RepeatSheet> {
       _opacitiesForSecondMenu[_lastSelectedIndexInSecondMenu] =
           _lastSelectedIndexInSecondMenu != 0 ? 0.0 : 1.0;
 
-      _changeSecondMenuIconOpacity(_lastSelectedIndexInSecondMenu);
+      _changeSecondMenuIconOpacity(0);
       _lastSelectedIndexInSecondMenu = 0;
     });
   }

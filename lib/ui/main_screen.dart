@@ -16,6 +16,7 @@ import 'package:todoapp/ui/preference_screen.dart';
 import 'package:todoapp/ui/search_screen.dart';
 import 'package:todoapp/ui/tasks_list_screen.dart';
 import 'package:todoapp/ui/tasks_screen.dart';
+import 'package:todoapp/ui_variables/finished_list.dart';
 
 import 'add_task_page.dart';
 import 'getting_started_screen.dart';
@@ -95,7 +96,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     _blur = 0.0;
@@ -522,7 +522,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     child: FloatingActionButton(
                       backgroundColor: Color(0xFF425195),
                       elevation: 2.0,
-                      tooltip: 'Add new task',
                       child: Icon(Icons.add),
                       onPressed: _onTap,
                     ),
@@ -599,7 +598,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           height: 30.0,
                         ),
                         title: Text(
-                          "Tasks List",
+                          "Task Lists",
                           style: TextStyle(
                             color: Color(0xFF425195),
                           ),
@@ -785,6 +784,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   void _goToNextPage() {
+    isPickColorFinished = false;
     Navigator.of(context)
         .pushReplacement(FadeRouteBuilder(
             page: AddTaskPage(
