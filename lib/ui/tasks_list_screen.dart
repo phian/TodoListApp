@@ -13,7 +13,7 @@ class _TasksListScreenState extends State<TasksListScreen> {
   void initState() {
     super.initState();
 
-    if (listWidgets.length == 0) _initFirstCard();
+    if (verticalListWidgets.length == 0) _initFirstCard();
   }
 
   @override
@@ -52,50 +52,74 @@ class _TasksListScreenState extends State<TasksListScreen> {
 
   // Hàm khởi tạo card đầu tiên
   void _initFirstCard() {
-    listWidgets.add(listWidget(
+    verticalListWidgets.add(verticalListWidget(
         "", listColors[0], taskTitles, listTitleTextColors[1], Icons.add));
+    horizontalListWidgets.add(horizontalListWidget(
+        "", listColors[0], listTitleTextColors[1], Icons.add));
   }
 
   // Widget hiển thị danh sách list đang có
   Widget _listScreenLists() => Container(
         padding: EdgeInsets.only(
             top: MediaQuery.of(context).size.height -
-                (MediaQuery.of(context).size.height * 0.85)),
+                (MediaQuery.of(context).size.height * 0.88),
+            bottom: isVertical == false
+                ? MediaQuery.of(context).size.height -
+                    (MediaQuery.of(context).size.height * 0.96)
+                : 0.0),
         child: ListView.separated(
           scrollDirection: scrollDirection,
           padding: EdgeInsets.only(
             left: 20.0,
             right: 20.0,
           ),
-          itemCount: listWidgets.length,
+          itemCount: isVertical
+              ? verticalListWidgets.length
+              : horizontalListWidgets.length,
           physics:
               AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
           itemBuilder: (context, index) {
             return GestureDetector(
               child: Hero(
                 tag: '$index',
-                child: listWidgets[index],
+                child: isVertical
+                    ? verticalListWidgets[index]
+                    : horizontalListWidgets[index],
               ),
               onTap: () {
+                // Nếu ng dùng ấn dấu + để thêm task
                 if (index == 0) {
                   setState(() {
                     listScreenOpacity = 0.0;
 
-                    listWidgets.add(listWidget(listTitles[0], listColors[1],
-                        taskTitles, listTitleTextColors[1]));
+                    verticalListWidgets.add(verticalListWidget(listTitles[0],
+                        listColors[1], taskTitles, listTitleTextColors[1]));
+                    horizontalListWidgets.add(horizontalListWidget(
+                        listTitles[0], listColors[1], listTitleTextColors[1]));
 
                     Future.delayed(Duration(milliseconds: 350), () {
                       _addNewList();
                     });
 
-                    Navigator.push(context, MaterialPageRoute(builder: (_) {
-                      return NewListScreen(
-                        listTiltle: listTitles[0],
-                        listColor: listColors[1],
-                        listIcon: null,
-                        index: listWidgets.length - 1,
-                      );
-                    }));
+                    if (isVertical) {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) {
+                        return NewListScreen(
+                          listTiltle: listTitles[0],
+                          listColor: listColors[1],
+                          listIcon: null,
+                          index: verticalListWidgets.length - 1,
+                        );
+                      }));
+                    } else {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) {
+                        return NewListScreen(
+                          listTiltle: listTitles[0],
+                          listColor: listColors[1],
+                          listIcon: null,
+                          index: horizontalListWidgets.length - 1,
+                        );
+                      }));
+                    }
                   });
                 } else if (index != 0) {
                   lastChoseIndex = index;
@@ -203,7 +227,7 @@ class _TasksListScreenState extends State<TasksListScreen> {
         if (listTitles.length != previousLength) {
           // Cấp nhật vị trí mới cho phần chọn item và cập nhật độ dài mới của list title để lưu trữ lại
           previousLength = listTitles.length;
-          lastChoseIndex = listWidgets.length - 1;
+          lastChoseIndex = verticalListWidgets.length - 1;
 
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
             return ChooseColorScreen(
@@ -211,9 +235,10 @@ class _TasksListScreenState extends State<TasksListScreen> {
             );
           }));
         } else if (listTitles.length == previousLength &&
-            listWidgets.length > 1) {
+            verticalListWidgets.length > 1) {
           // Nếu ko có title mới dc add thì ta sẽ xoá item cuối của list widget
-          listWidgets.removeAt(listWidgets.length - 1);
+          verticalListWidgets.removeAt(verticalListWidgets.length - 1);
+          horizontalListWidgets.removeAt(horizontalListWidgets.length - 1);
           Navigator.pop(context);
         }
       });
@@ -223,31 +248,47 @@ class _TasksListScreenState extends State<TasksListScreen> {
   // Hàm để chuyển kích thước cho các item trong list
   void _changeListItemSizes(bool isVertical) {
     setState(() {
+      // gán biến tạm để lưu giá trị trc đó mà ng dùng chọn, sau khi add item đầu tiên thì sẽ reset lại
+      int temp = lastChoseIndex;
+
       if (isVertical) {
         listWidgetHeight = 90.0;
         listWidgetWidth = MediaQuery.of(context).size.width;
+
+        lastChoseIndex = 0;
+
+        for (int i = 0; i < verticalListWidgets.length; i++) {
+          verticalListWidgets[i] = i == 0
+              ? verticalListWidget(listTitles[0], listColors[0], taskTitles,
+                  listTitleTextColors[1], Icons.add)
+              : verticalListWidget(
+                  listTitles[i],
+                  listColors[i + 1],
+                  taskTitles,
+                  listColors[i + 1] == Color(0xfffafafa)
+                      ? listTitleTextColors[0]
+                      : listTitleTextColors[1]);
+
+          lastChoseIndex = temp;
+        }
       } else {
-        listWidgetHeight = MediaQuery.of(context).size.height;
-        listWidgetWidth = MediaQuery.of(context).size.width - 20 * 2;
-      }
+        listWidgetWidth = MediaQuery.of(context).size.width * 0.75;
 
-      // gán biến tạm để lưu giá trị trc đó mà ng dùng chọn, sau khi add item đầu tiên thì sẽ reset lại
-      int temp = lastChoseIndex;
-      lastChoseIndex = 0;
+        lastChoseIndex = 0;
 
-      for (int i = 0; i < listWidgets.length; i++) {
-        listWidgets[i] = i == 0
-            ? listWidget(listTitles[0], listColors[0], taskTitles,
-                listTitleTextColors[1], Icons.add)
-            : listWidget(
-                listTitles[i],
-                listColors[i + 1],
-                taskTitles,
-                listColors[i + 1] == Color(0xfffafafa)
-                    ? listTitleTextColors[1]
-                    : listTitleTextColors[0]);
+        for (int i = 0; i < horizontalListWidgets.length; i++) {
+          horizontalListWidgets[i] = i == 0
+              ? horizontalListWidget(listTitles[0], listColors[0],
+                  listTitleTextColors[1], Icons.add)
+              : horizontalListWidget(
+                  listTitles[i],
+                  listColors[i + 1],
+                  listColors[i + 1] == Color(0xfffafafa)
+                      ? listTitleTextColors[0]
+                      : listTitleTextColors[1]);
 
-        lastChoseIndex = temp;
+          lastChoseIndex = temp;
+        }
       }
     });
   }

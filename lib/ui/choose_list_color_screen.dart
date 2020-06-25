@@ -25,10 +25,18 @@ class _ChooseColorScreenState extends State<ChooseColorScreen> {
         if (isChangeColorClicked == false) {
           listColors.add(listChoiceColors[13]);
 
-          listWidgets[lastChoseIndex] = listWidget(
+          verticalListWidgets[lastChoseIndex] = verticalListWidget(
               listTitles[listTitles.length - 1],
               listColors[listColors.length - 1],
               taskTitles,
+              listColors[listColors.length - 1] == Color(0xfffafafa)
+                  ? listTitleTextColors[0]
+                  : listTitleTextColors[1],
+              null);
+
+          horizontalListWidgets[lastChoseIndex] = horizontalListWidget(
+              listTitles[listTitles.length - 1],
+              listColors[listColors.length - 1],
               listColors[listColors.length - 1] == Color(0xfffafafa)
                   ? listTitleTextColors[0]
                   : listTitleTextColors[1],
@@ -79,15 +87,26 @@ class _ChooseColorScreenState extends State<ChooseColorScreen> {
                               if (isChangeColorClicked == false) {
                                 listColors.add(listChoiceColors[index]);
 
-                                listWidgets[lastChoseIndex] = listWidget(
-                                    listTitles[listTitles.length - 1],
-                                    listColors[listColors.length - 1],
-                                    taskTitles,
-                                    listColors[listColors.length - 1] ==
-                                            Color(0xfffafafa)
-                                        ? listTitleTextColors[0]
-                                        : listTitleTextColors[1],
-                                    null);
+                                verticalListWidgets[lastChoseIndex] =
+                                    verticalListWidget(
+                                        listTitles[listTitles.length - 1],
+                                        listColors[listColors.length - 1],
+                                        taskTitles,
+                                        listColors[listColors.length - 1] ==
+                                                Color(0xfffafafa)
+                                            ? listTitleTextColors[0]
+                                            : listTitleTextColors[1],
+                                        null);
+
+                                horizontalListWidgets[lastChoseIndex] =
+                                    horizontalListWidget(
+                                        listTitles[listTitles.length - 1],
+                                        listColors[listColors.length - 1],
+                                        listColors[listColors.length - 1] ==
+                                                Color(0xfffafafa)
+                                            ? listTitleTextColors[0]
+                                            : listTitleTextColors[1],
+                                        null);
 
                                 isPickColorFinished = true;
 
@@ -106,15 +125,26 @@ class _ChooseColorScreenState extends State<ChooseColorScreen> {
                                 listColors[lastChoseIndex + 1] =
                                     listChoiceColors[index];
 
-                                listWidgets[lastChoseIndex] = listWidget(
-                                    listTitles[lastChoseIndex],
-                                    listColors[lastChoseIndex + 1],
-                                    taskTitles,
-                                    listColors[lastChoseIndex + 1] ==
-                                            Color(0xfffafafa)
-                                        ? listTitleTextColors[0]
-                                        : listTitleTextColors[1],
-                                    null);
+                                verticalListWidgets[lastChoseIndex] =
+                                    verticalListWidget(
+                                        listTitles[lastChoseIndex],
+                                        listColors[lastChoseIndex + 1],
+                                        taskTitles,
+                                        listColors[lastChoseIndex + 1] ==
+                                                Color(0xfffafafa)
+                                            ? listTitleTextColors[0]
+                                            : listTitleTextColors[1],
+                                        null);
+
+                                horizontalListWidgets[lastChoseIndex] =
+                                    horizontalListWidget(
+                                        listTitles[lastChoseIndex],
+                                        listColors[lastChoseIndex + 1],
+                                        listColors[lastChoseIndex + 1] ==
+                                                Color(0xfffafafa)
+                                            ? listTitleTextColors[0]
+                                            : listTitleTextColors[1],
+                                        null);
 
                                 isPickColorFinished = false;
 
