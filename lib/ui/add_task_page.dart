@@ -4,8 +4,10 @@ import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:todoapp/data/data.dart';
 import 'package:todoapp/data/repeat_choice_data.dart';
+import 'package:todoapp/data/special_repeat_data.dart';
 import 'package:todoapp/set_up_widgets/list_sheet.dart';
 import 'package:todoapp/set_up_widgets/schedule_sheet.dart';
+import 'package:todoapp/set_up_widgets/special_schedule_sheet.dart';
 
 import 'main_screen.dart';
 
@@ -26,15 +28,19 @@ class _AddTaskPageState extends State<AddTaskPage> {
     'Achievement task'
   ];
   List<Widget> _choices = List();
-  List<bool> _visibilities = [true, true, true];
+  List<bool> _visibilities = [true, true, true,false];
 
   TimeOfDay _time = TimeOfDay.now();
 
   ScheduleSheet _scheduleSheet = ScheduleSheet();
+  SpecialScheduleSheet _specialScheduleSheet = SpecialScheduleSheet();
   ListSheet _listSheet = ListSheet();
 
   RepeatChoiceData _repeatsChoiceData;
+  SpecialRepeatChoiceData _specialRepeatChoiceData;
+
   int _choseListIndex;
+
 
   @override
   void initState() {
@@ -42,6 +48,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
     _selectedChoice = _choicesList[0];
     _repeatsChoiceData = RepeatChoiceData();
+    _specialRepeatChoiceData = SpecialRepeatChoiceData();
 
     isFirstTime = true;
   }
@@ -162,7 +169,20 @@ class _AddTaskPageState extends State<AddTaskPage> {
                               );
                             },
                           ),
-                        )
+                        ),
+                        Visibility(
+                          visible: _visibilities[3],
+                          child: ListTile(
+                            leading: Image.asset(
+                              "images/calendar.png",
+                              width: 30.0,
+                              height: 30.0,
+                            ),
+                            title: Text("Schedule 2"),
+                            trailing: Icon(Icons.keyboard_arrow_right),
+                            onTap: _onSchedule2Press,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -267,9 +287,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
       case 0:
       case 2:
         _visibilities[0] = _visibilities[1] = _visibilities[2] = true;
+        _visibilities[3]=false;
         break;
       default:
-        _visibilities[1] = _visibilities[2] = false;
+        _visibilities[1] = _visibilities[2] = _visibilities[0]=  false;
+        _visibilities[3]=true;
     }
   }
 
@@ -314,6 +336,30 @@ class _AddTaskPageState extends State<AddTaskPage> {
     ).whenComplete(() {
       setState(() {
         _repeatsChoiceData = _scheduleSheet.repeatChoiceData;
+      });
+    });
+  }
+
+  void _onSchedule2Press() {
+    if (_specialScheduleSheet.schedulePickedDate == null) {
+      _specialScheduleSheet = SpecialScheduleSheet(data: _specialRepeatChoiceData, initTime: DateTime.now());
+    } else {
+      _specialScheduleSheet = SpecialScheduleSheet(
+        initTime: _specialScheduleSheet.schedulePickedDate,
+        data: _specialRepeatChoiceData,
+      );
+    }
+
+    showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (context) {
+        return _specialScheduleSheet;
+      },
+    ).whenComplete(() {
+      setState(() {
+        _specialRepeatChoiceData = _specialScheduleSheet.specialRepeatChoiceData;
       });
     });
   }
