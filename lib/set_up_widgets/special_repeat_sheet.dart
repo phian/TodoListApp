@@ -21,7 +21,7 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
   List<double> _opacitiesForFirstMenu = [1.0, 0.0];
   bool _isSecondMenuVisible = false;
 
-  List<double> _opacitiesForSecondMenu = [1.0, 0.0, 0.0, 0.0];
+  List<double> _opacitiesForSecondMenu = [0.0, 1.0, 0.0, 0.0];
   int _lastSelectedIndexInSecondMenu = 0;
 
   String _sRepeatTimeCount = "1";
@@ -30,7 +30,7 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
   List<String> _dailyChoiceCardContents = ["S", "M", "T", "W", "T", "F", "S"];
   List<Widget> _dailyChoiceCards;
   List<int> _selectedIndex;
-  bool _isWeeklyRepeat = false;
+  bool _isWeeklyRepeat = true;
 
   bool _isMonthlyRepeat = false;
   List<double> _opacitiesForFourthMenu = [1.0, 0.0];
@@ -56,7 +56,7 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
     _initTimeForEndDay = DateTime.now();
     _endDay = null;
 
-    _initPreviousChoiceState();
+    if (isSpecialFirstTime == false) _initPreviousChoiceState();
   }
 
   @override
@@ -940,10 +940,10 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
   void _updateCountText(int selectedIndex) {
     setState(() {
       switch (selectedIndex) {
-        case 0:
-          _sRepeatTimeCount = 1.toString();
-          _sRepeatTimeCount1 = "day";
-          break;
+        // case 0:
+        //   _sRepeatTimeCount = 1.toString();
+        //   _sRepeatTimeCount1 = "day";
+        //   break;
         case 1:
           _sRepeatTimeCount = 1.toString();
           _sRepeatTimeCount1 = "week";

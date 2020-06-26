@@ -8,3 +8,5 @@ class SpecialRepeatChoiceData {
   int endsAfetrNumberOfTimesChoice = 1;
   DateTime endsDateChoice = DateTime.now();
 }
+
+var isSpecialFirstTime; // Biến để check xem task có dc mở lên lần dầu tiên ko

@@ -141,8 +141,11 @@ class _SpecialScheduleSheetState extends State<SpecialScheduleSheet> {
         builder: (context) => _specialRepeatSheet).whenComplete(() {
       widget.specialRepeatChoiceData = _specialRepeatSheet.specialRepeatChoiceData;
     });
+    setState(() {
+      isFirstTime = false;
+    });
   }
-
+  
   
   
 }

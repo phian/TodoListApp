@@ -28,7 +28,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     'Achievement task'
   ];
   List<Widget> _choices = List();
-  List<bool> _visibilities = [true, true, true,false];
+  List<bool> _visibilities = [true, true, true, false];
 
   TimeOfDay _time = TimeOfDay.now();
 
@@ -41,7 +41,6 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
   int _choseListIndex;
 
-
   @override
   void initState() {
     super.initState();
@@ -51,6 +50,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     _specialRepeatChoiceData = SpecialRepeatChoiceData();
 
     isFirstTime = true;
+    isSpecialFirstTime = true;
   }
 
   @override
@@ -287,11 +287,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
       case 0:
       case 2:
         _visibilities[0] = _visibilities[1] = _visibilities[2] = true;
-        _visibilities[3]=false;
+        _visibilities[3] = false;
         break;
       default:
-        _visibilities[1] = _visibilities[2] = _visibilities[0]=  false;
-        _visibilities[3]=true;
+        _visibilities[1] = _visibilities[2] = _visibilities[0] = false;
+        _visibilities[3] = true;
     }
   }
 
@@ -342,7 +342,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
   void _onSchedule2Press() {
     if (_specialScheduleSheet.schedulePickedDate == null) {
-      _specialScheduleSheet = SpecialScheduleSheet(data: _specialRepeatChoiceData, initTime: DateTime.now());
+      _specialScheduleSheet = SpecialScheduleSheet(
+          data: _specialRepeatChoiceData, initTime: DateTime.now());
     } else {
       _specialScheduleSheet = SpecialScheduleSheet(
         initTime: _specialScheduleSheet.schedulePickedDate,
@@ -359,7 +360,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
       },
     ).whenComplete(() {
       setState(() {
-        _specialRepeatChoiceData = _specialScheduleSheet.specialRepeatChoiceData;
+        _specialRepeatChoiceData =
+            _specialScheduleSheet.specialRepeatChoiceData;
       });
     });
   }
