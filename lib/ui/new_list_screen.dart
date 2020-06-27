@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:todoapp/animation/fade_route_builder.dart';
+import 'package:todoapp/doit_database_bus/doit_database_helper.dart';
+import 'package:todoapp/doit_database_models/doit_lists_data.dart';
 import 'package:todoapp/ui_variables/finished_list.dart';
 import 'package:todoapp/ui_variables/list_screen_variables.dart';
 
@@ -19,16 +21,22 @@ class NewListScreen extends StatefulWidget {
   _NewListScreenState createState() => _NewListScreenState();
 }
 
-class _NewListScreenState extends State<NewListScreen> {
+class _NewListScreenState extends State<NewListScreen>
+    with TickerProviderStateMixin {
   // Các biến cho animation chuyển screen qua screen add task
   final Duration animationDuration = Duration(milliseconds: 200);
   final Duration delay = Duration(milliseconds: 200);
-
   GlobalKey rectGetterKey = RectGetter.createGlobalKey();
   Rect rect;
 
   String _listTitle;
   Color _listColor;
+  // biến để check xem ng dùng đã edit tên list thành tên mới hay chưa
+  bool _isFinished = false;
+
+  // Các biến dùng cho phần sửa task name
+  TextEditingController _editTaskTextController;
+  DatabaseHelper _databaseHelper = DatabaseHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +57,7 @@ class _NewListScreenState extends State<NewListScreen> {
       width: listWidgetWidth,
       height: listWidgetHeight,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: widget.listColor,
         body: Stack(
           children: <Widget>[
@@ -121,21 +130,118 @@ class _NewListScreenState extends State<NewListScreen> {
             padding: EdgeInsets.only(
               bottom: 40.0,
             ),
-            child: Text(
-              "$_listTitle",
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              softWrap: false,
-              textDirection: TextDirection.ltr,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  decoration: TextDecoration.none,
-                  fontSize: 30.0,
-                  color: _listColor == Color(0xfffafafa)
-                      ? Colors.black
-                      : Colors.white),
+            child: GestureDetector(
+              onTap: () {
+                _editTaskName();
+              },
+              child: Text(
+                "$_listTitle",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                softWrap: false,
+                textDirection: TextDirection.ltr,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    decoration: TextDecoration.none,
+                    fontSize: 30.0,
+                    color: _listColor == Color(0xfffafafa)
+                        ? Colors.black
+                        : Colors.white),
+              ),
             )),
       );
+
+  // Hàm để add một list mới
+  void _editTaskName() {
+    _editTaskTextController =
+        TextEditingController(text: "${listTitles[lastChoseIndex]}");
+
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
+        ),
+        isScrollControlled: true,
+        context: context,
+        builder: (context) {
+          return Container(
+            padding: EdgeInsets.only(top: 12.0, left: 50.0, right: 50.0),
+            height: MediaQuery.of(context).viewInsets.bottom == 0
+                ? 100.0
+                : 100 + MediaQuery.of(context).viewInsets.bottom,
+            child: TextField(
+              controller: _editTaskTextController,
+              maxLines: 1,
+              textAlign: TextAlign.center,
+              autofocus: true,
+              style: TextStyle(fontSize: 30.0),
+              decoration: InputDecoration(
+                  hintText: "New List",
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                  )),
+              onSubmitted: (value) {
+                setState(() {
+                  if (value.isEmpty == false &&
+                      listTitles[lastChoseIndex] != value) {
+                    listTitles[lastChoseIndex] = value;
+                    _isFinished = true;
+
+                    FocusScope.of(context).unfocus();
+
+                    //--------------------------------------------//
+                    _databaseHelper.updateListData(ListData(
+                        listId: lastChoseIndex,
+                        listName: listTitles[lastChoseIndex],
+                        listColor: listColors[lastChoseIndex + 1].toString()));
+                    //--------------------------------------------//
+
+                  }
+                });
+              },
+            ),
+          );
+        }).whenComplete(() {
+      if (_isFinished) {
+        setState(() {
+          _isFinished = false;
+          _updateListWidgets();
+
+          // Push về để cập nhật test mới
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
+            return NewListScreen(
+              listTiltle: listTitles[lastChoseIndex],
+              listColor: listColors[lastChoseIndex + 1],
+              listIcon: null,
+              index: lastChoseIndex,
+            );
+          }));
+        });
+      }
+    });
+  }
+
+  // Hàm để update widget của task screen khi người dùng đã thay đổi tên cho task xong
+  void _updateListWidgets() {
+    setState(() {
+      verticalListWidgets[lastChoseIndex] = verticalListWidget(
+          listTitles[lastChoseIndex],
+          listColors[lastChoseIndex + 1],
+          taskTitles,
+          listColors[lastChoseIndex + 1] == Color(0xfffafafa)
+              ? listTitleTextColors[0]
+              : listTitleTextColors[1],
+          null);
+
+      horizontalListWidgets[lastChoseIndex] = horizontalListWidget(
+          listTitles[lastChoseIndex],
+          listColors[lastChoseIndex + 1],
+          listColors[lastChoseIndex + 1] == Color(0xfffafafa)
+              ? listTitleTextColors[0]
+              : listTitleTextColors[1],
+          null);
+    });
+  }
 
   // Change color button
   Widget _changeColorButton() => Opacity(
