@@ -1,10 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:todoapp/ui_variables/list_colors.dart';
+import 'package:todoapp/ui_variables/list_screen_variables.dart';
 
 class ListSheet extends StatefulWidget {
   int choseListIndex = 0;
-  List<String> listTitles = ['No list', 'Add new list'];
-  List<Widget> listWidgets = [];
-  List<Color> listColors = [Colors.white, Colors.blue[300]];
+  List<String> listSheetListTitles = ['No list', 'Add new list'];
+  List<Widget> listSheetListWidgets = [];
+  List<Color> listSheetListColors = [Colors.white, Colors.blue[300]];
 
   @override
   _ListSheetState createState() => _ListSheetState();
@@ -19,7 +23,9 @@ class _ListSheetState extends State<ListSheet> with TickerProviderStateMixin {
 
   final _formKey = GlobalKey<FormState>();
   TextEditingController _controller;
-  String _newListTile;
+  String _newListTitle;
+
+  Random _ranColorFromListColors;
 
   @override
   void initState() {
@@ -27,14 +33,16 @@ class _ListSheetState extends State<ListSheet> with TickerProviderStateMixin {
 
     _chooseListSheetHeight = 205;
 
-    _listWidgets = widget.listWidgets;
-    _listTitles = widget.listTitles;
-    _listColors = widget.listColors;
+    _listWidgets = widget.listSheetListWidgets;
+    _listTitles = widget.listSheetListTitles;
+    _listColors = widget.listSheetListColors;
+
+    _ranColorFromListColors = Random();
 
     if (_listWidgets.length == 0) _initListChoices();
 
     _controller = TextEditingController();
-    _newListTile = "";
+    _newListTitle = "";
   }
 
   @override
@@ -63,10 +71,10 @@ class _ListSheetState extends State<ListSheet> with TickerProviderStateMixin {
                       onTap: () {
                         widget.choseListIndex = index;
 
-                        if (index == 0) {
+                        if (index == 0 || index > 1) {
                           Navigator.of(context).pop();
                         } else if (index == 1) {
-                          _createNewTask();
+                          _createNewList();
                         }
                       },
                     );
@@ -98,12 +106,16 @@ class _ListSheetState extends State<ListSheet> with TickerProviderStateMixin {
       );
 
   // Widget để tạo ra UI cho list
-  Widget _listWidget(String listTitle, Color listColor) => Column(
+  Widget _listWidget(String listTitle, Color listColor, Color listTitleColor) =>
+      Column(
         children: <Widget>[
           Container(
             height: 60,
             child: Center(
-              child: Text("$listTitle"),
+              child: Text(
+                "$listTitle",
+                style: TextStyle(color: listTitleColor),
+              ),
             ),
             decoration: BoxDecoration(
               color: listColor,
@@ -121,12 +133,24 @@ class _ListSheetState extends State<ListSheet> with TickerProviderStateMixin {
       _listWidgets.add(_listWidget(
         _listTitles[i],
         _listColors[i],
+        _listColors[i] == Colors.white ? Colors.black : Colors.white,
       ));
+    }
+
+    if (verticalListWidgets.length > 1) {
+      for (int i = 0; i < verticalListWidgets.length; i++) {
+        _listWidgets.add(_listWidget(
+            listTitles[i + 1],
+            listColors[i + 2],
+            listColors[i + 2] == Color(0xFFFAFAFA)
+                ? listTitleTextColors[0]
+                : listTitleTextColors[1]));
+      }
     }
   }
 
   // Hàm để show dialog cho người dùng add tên task mới
-  void _createNewTask() {
+  void _createNewList() {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -160,7 +184,7 @@ class _ListSheetState extends State<ListSheet> with TickerProviderStateMixin {
                         padding: EdgeInsets.all(8.0),
                         child: TextFormField(
                           onChanged: (value) {
-                            if (value.isEmpty == false) _newListTile = value;
+                            if (value.isEmpty == false) _newListTitle = value;
                           },
                           autofocus: true,
                           controller: _controller,
@@ -182,21 +206,19 @@ class _ListSheetState extends State<ListSheet> with TickerProviderStateMixin {
                         child: RaisedButton(
                           child: Text("OK"),
                           onPressed: () {
-                            if (_newListTile.isEmpty == false) {
+                            if (_newListTitle.isEmpty == false) {
                               setState(() {
-                                widget.listTitles.add(_newListTile);
-                                widget.listColors.add(Colors.white);
-                                widget.listWidgets.add(_listWidget(
-                                    widget.listTitles[
-                                        widget.listTitles.length - 1],
-                                    widget.listColors[
-                                        widget.listColors.length - 1]));
+                                _addNewListSheetWidget();
+
+                                if (verticalListWidgets.length == 0)
+                                  _addFirstCard();
+                                _addNewTaskListScreenWidget();
 
                                 if (_chooseListSheetHeight <
                                     MediaQuery.of(context).size.height *
                                         (2 / 3)) _chooseListSheetHeight += 60;
 
-                                _newListTile = "";
+                                _newListTitle = "";
                               });
                             }
 
@@ -212,5 +234,51 @@ class _ListSheetState extends State<ListSheet> with TickerProviderStateMixin {
             ),
           );
         });
+  }
+
+  // Hàm khởi tạo card đầu tiên
+  void _addFirstCard() {
+    verticalListWidgets.add(verticalListWidget(
+        "", listColors[0], taskTitles, listTitleTextColors[1], Icons.add));
+    horizontalListWidgets.add(horizontalListWidget(
+        "", listColors[0], listTitleTextColors[1], Icons.add));
+  }
+
+  // Hàm để add data cho các widget trong list sheet
+  void _addNewListSheetWidget() {
+// Add data cho các biến hiển thị ở list sheet
+    widget.listSheetListTitles.add(_newListTitle);
+    widget.listSheetListColors.add(listChoiceColors[
+        _ranColorFromListColors.nextInt(listChoiceColors.length)]);
+
+    widget.listSheetListWidgets.add(_listWidget(
+        widget.listSheetListTitles[widget.listSheetListTitles.length - 1],
+        widget.listSheetListColors[widget.listSheetListColors.length - 1],
+        widget.listSheetListColors[widget.listSheetListColors.length - 1] ==
+                Colors.white
+            ? Colors.black
+            : Colors.white));
+  }
+
+  // Hàm để add data cho các biến hiển thị ở main screen
+  void _addNewTaskListScreenWidget() {
+    // Add data cho các biến hiển thị list ở main screen
+    listTitles.add(_newListTitle);
+    listColors
+        .add(widget.listSheetListColors[widget.listSheetListColors.length - 1]);
+
+    horizontalListWidgets.add(horizontalListWidget(
+        listTitles[listTitles.length - 1],
+        listColors[listColors.length - 1],
+        listColors[listColors.length - 1] == Color(0xFFFAFAFA)
+            ? listTitleTextColors[0]
+            : listTitleTextColors[1]));
+    verticalListWidgets.add(verticalListWidget(
+        listTitles[listTitles.length - 1],
+        listColors[listColors.length - 1],
+        taskTitles,
+        listColors[listColors.length - 1] == Color(0xFFFAFAFA)
+            ? listTitleTextColors[0]
+            : listTitleTextColors[1]));
   }
 }

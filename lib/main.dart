@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:todoapp/data/data.dart';
+import 'package:todoapp/data/main_screen_data.dart';
 import 'package:todoapp/doit_database_bus/doit_database_helper.dart';
 import './ui/main_screen.dart';
 import 'dart:async';
@@ -41,7 +41,7 @@ class _MyAppState extends State<MyApp> {
       });
     });
 
-    Data data = Data(
+    MainScreenData data = MainScreenData(
         isBack: false, lastFocusedScreen: 0, isBackFromAddTaskScreen: false);
 
     Future.delayed(

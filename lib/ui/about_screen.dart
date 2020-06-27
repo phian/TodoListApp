@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:todoapp/ui/rating_screen.dart';
 
-import '../data/data.dart';
+import '../data/main_screen_data.dart';
 import 'main_screen.dart';
 
 class AboutScreen extends StatefulWidget {
@@ -150,7 +150,7 @@ class _AboutScreenState extends State<AboutScreen> {
 
   // Hàm để back về main screen
   void _backToMainScreen() {
-    Data data = Data(
+    MainScreenData data = MainScreenData(
         isBack: true,
         isBackFromAddTaskScreen: false,
         lastFocusedScreen: widget.lastFocusedScreen,

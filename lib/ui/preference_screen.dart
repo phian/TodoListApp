@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:todoapp/ui/main_screen.dart';
 
-import '../data/data.dart';
+import '../data/main_screen_data.dart';
 
 class PreferenceScreen extends StatefulWidget {
   final int lastFocusedScreen;
@@ -74,8 +74,8 @@ class _PreferenceScreenState extends State<PreferenceScreen> {
 // Hàm để chuyển trang
   Future<Widget> buildPageAsync() async {
     return Future.microtask(() {
-      Data data =
-          Data(isBack: true, lastFocusedScreen: widget.lastFocusedScreen);
+      MainScreenData data =
+          MainScreenData(isBack: true, lastFocusedScreen: widget.lastFocusedScreen);
       return HomeScreen(
         data: data,
       );
@@ -84,7 +84,7 @@ class _PreferenceScreenState extends State<PreferenceScreen> {
 
   // Hàm để back về main screen
   void _backToMainScreen() {
-    Data data = Data(
+    MainScreenData data = MainScreenData(
         isBack: true,
         isBackFromAddTaskScreen: false,
         lastFocusedScreen: widget.lastFocusedScreen,

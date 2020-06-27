@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../data/data.dart';
+import '../data/main_screen_data.dart';
 import 'main_screen.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -84,7 +84,7 @@ class _AccountScreenState extends State<AccountScreen> {
 
   // Hàm để back về main screen
   void _backToMainScreen() {
-    Data data = Data(
+    MainScreenData data = MainScreenData(
         isBack: true,
         isBackFromAddTaskScreen: false,
         lastFocusedScreen: widget.lastFocusedScreen,

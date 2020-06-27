@@ -60,32 +60,7 @@ flutter:
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
   assets:
-    - images/todo_app_slogan.png
-    - images/calendar_background.png
-    - images/goals.gif
-    - images/todo_app_icon.png
-    - images/search.gif
-    - images/help.gif
-    - images/home.png
-    - images/done_tasks.png
-    - images/tasks.png
-    - images/setting.png
-    - images/account.png
-    - images/search.png
-    - images/about.png
-    - images/getting_started.png
-    - images/help.png
-    - images/preference.png
-    - images/calendar.png
-    - images/notification.png
-    - images/smile.png
-    - images/question2.gif
-    - images/rating.flr
-    - images/thank_you.gif
-    - images/add.png
-    - images/swap.png
-    - images/change_color.png
-    - images/close.png
+    - images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

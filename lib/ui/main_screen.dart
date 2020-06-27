@@ -7,7 +7,7 @@ import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:todoapp/animation/fade_route_builder.dart';
-import 'package:todoapp/data/data.dart';
+import 'package:todoapp/data/main_screen_data.dart';
 import 'package:todoapp/ui/about_screen.dart';
 import 'package:todoapp/ui/account_screen.dart';
 import 'package:todoapp/ui/goals_screen.dart';
@@ -22,7 +22,7 @@ import 'add_task_page.dart';
 import 'getting_started_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  final Data data;
+  final MainScreenData data;
   bool isFirstTime = false;
 
   HomeScreen({this.data}) {

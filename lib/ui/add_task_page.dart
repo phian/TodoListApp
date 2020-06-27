@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:todoapp/data/data.dart';
+import 'package:todoapp/data/main_screen_data.dart';
 import 'package:todoapp/data/repeat_choice_data.dart';
 import 'package:todoapp/data/special_repeat_data.dart';
 import 'package:todoapp/set_up_widgets/list_sheet.dart';
@@ -228,7 +228,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
   // Hàm để back về main screen
   void _backToMainScreen() {
-    Data data = Data(
+    MainScreenData data = MainScreenData(
         isBack: false,
         isBackFromAddTaskScreen: true,
         lastFocusedScreen: widget.lastFocusedScreen,

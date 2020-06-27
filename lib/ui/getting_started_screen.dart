@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todoapp/ui/getting_started_second_screen.dart';
-import '../data/data.dart';
+import '../data/main_screen_data.dart';
 import '../presentation/forward_arrow_icon.dart';
 import 'main_screen.dart';
 
@@ -34,7 +34,6 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     _initAnimationForForwardButton();
@@ -46,7 +45,6 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
 
     _controllerForFirstText.dispose();
@@ -183,7 +181,7 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
 
   // Hàm để back về main screen
   void _backToMainScreen() {
-    Data data = Data(
+    MainScreenData data = MainScreenData(
         isBack: true,
         isBackFromAddTaskScreen: false,
         lastFocusedScreen: widget.lastFocusedScreen,
@@ -320,8 +318,8 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
   // Hàm để chuyển trang
   Future<Widget> buildPageAsync() async {
     return Future.microtask(() {
-      Data data =
-          Data(isBack: true, lastFocusedScreen: widget.lastFocusedScreen);
+      MainScreenData data =
+          MainScreenData(isBack: true, lastFocusedScreen: widget.lastFocusedScreen);
       return HomeScreen(
         data: data,
       );

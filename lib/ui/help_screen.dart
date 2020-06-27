@@ -3,7 +3,7 @@ import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import '../data/data.dart';
+import '../data/main_screen_data.dart';
 import '../presentation/facebook_icon.dart';
 import 'package:package_info/package_info.dart';
 
@@ -31,7 +31,6 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     _getAppVersion();
@@ -44,7 +43,6 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
 
     for (int i = 0; i < _controllers.length; i++) {
@@ -406,7 +404,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
 
   // Hàm để back về main screen
   void _backToMainScreen() {
-    Data data = Data(
+    MainScreenData data = MainScreenData(
         isBack: true,
         isBackFromAddTaskScreen: false,
         lastFocusedScreen: widget.lastFocusedScreen,

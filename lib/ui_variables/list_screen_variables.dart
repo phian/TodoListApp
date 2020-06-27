@@ -73,7 +73,7 @@ Widget verticalListWidget(String listTitle, Color listColor, int numberOfTasks,
             alignment: Alignment.centerRight,
             padding: EdgeInsets.only(right: 30.0),
             child: Text(
-              lastChoseIndex == 0 ? "" : "$numberOfTasks",
+              listIcon != null ? "" : "$numberOfTasks",
               style: TextStyle(
                 fontSize: 30.0,
                 color: listTitleColor,
