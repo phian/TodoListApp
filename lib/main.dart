@@ -12,7 +12,6 @@ export 'package:sqflite/src/factory_impl.dart' show databaseFactory;
 
 void main() => runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
-      
       home: MyApp(),
     ));
 
@@ -32,6 +31,8 @@ class _MyAppState extends State<MyApp> {
 
     _doitDatabaseHelper = DatabaseHelper();
     _doitDatabaseHelper.initDoitDatabase();
+
+    // _doitDatabaseHelper.dropTableIfExistsThenReCreate();
 
     _getDoitDatabasePath().then((pathValue) {
       _databaseExists(pathValue).then((isExist) {
@@ -59,16 +60,16 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+        backgroundColor: Colors.black,
         body: Center(
-      child: Image.asset(
-        'images/todo_app_slogan.png',
-        fit: BoxFit.cover,
-        height: double.infinity,
-        width: double.infinity,
-        alignment: Alignment.center,
-      ),
-    ));
+          child: Image.asset(
+            'images/todo_app_slogan.png',
+            fit: BoxFit.cover,
+            height: double.infinity,
+            width: double.infinity,
+            alignment: Alignment.center,
+          ),
+        ));
   }
 
   // Hàm để check xem database đã tồn tại hay chưa

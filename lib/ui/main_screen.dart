@@ -8,6 +8,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:todoapp/animation/fade_route_builder.dart';
 import 'package:todoapp/data/main_screen_data.dart';
+import 'package:todoapp/doit_database_bus/doit_database_helper.dart';
 import 'package:todoapp/ui/about_screen.dart';
 import 'package:todoapp/ui/account_screen.dart';
 import 'package:todoapp/ui/goals_screen.dart';
@@ -17,6 +18,7 @@ import 'package:todoapp/ui/search_screen.dart';
 import 'package:todoapp/ui/tasks_list_screen.dart';
 import 'package:todoapp/ui/tasks_screen.dart';
 import 'package:todoapp/ui_variables/finished_list.dart';
+import 'package:todoapp/ui_variables/list_screen_variables.dart';
 
 import 'add_task_page.dart';
 import 'getting_started_screen.dart';
@@ -91,6 +93,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   GlobalKey rectGetterKey = RectGetter.createGlobalKey();
   Rect rect;
 
+  DatabaseHelper _databaseHelper = DatabaseHelper();
+
   // Biến để khi ng dùng ấn qua setting menu thì sẽ disable các widget của main screen
   bool _mainScreenAbsorting = false;
 
@@ -100,6 +104,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     _blur = 0.0;
     _initAnimationForDOITSettingMenu();
+
+    if (verticalListWidgets.length == 0) {
+      _initFirstCard();
+      _initListWidgetsFromDbData();
+    }
   }
 
   // Hàm để check nếu ng dùng quay về main screen từ các screen trong setting
@@ -107,23 +116,35 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     // check xem có phải ng dùng vừa từ screen khác trong setting screen menu về hay không?
     if (widget.data.isBack) {
       _settingsScreenIndex = 3;
+      mainScreenSettingScreenIndex = _settingsScreenIndex;
+
       _changePage(_settingsScreenIndex);
 
+      // Cập nhật vị trí screen mà trc đó ng dùng focus
       _lastFocusedIconIndex = widget.data.lastFocusedScreen;
+      mainScreenLastFocusedIndex = widget.data.lastFocusedScreen;
 
       widget.data.isBack = false;
     }
+    // Xét nếu ng dùng back từ add task screen về
     if (widget.data.isBackFromAddTaskScreen) {
       if (widget.data.settingScreenIndex == -1) {
         _lastFocusedIconIndex = widget.data.lastFocusedScreen;
+        mainScreenLastFocusedIndex = _lastFocusedIconIndex;
+
         _settingsScreenIndex = -1;
+        mainScreenSettingScreenIndex = _settingsScreenIndex;
 
         _changePage(_lastFocusedIconIndex);
 
         widget.data.isBackFromAddTaskScreen = false;
       } else {
+        // Nếu ng dùng back về từ add task screen và trc đó screen mà ng là setting
         _lastFocusedIconIndex = widget.data.lastFocusedScreen;
+        mainScreenLastFocusedIndex = _lastFocusedIconIndex;
+
         _settingsScreenIndex = 3;
+        mainScreenSettingScreenIndex = _settingsScreenIndex;
 
         _changePage(_settingsScreenIndex);
 
@@ -137,6 +158,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     if (widget.isFirstTime) {
       _lastFocusedIconIndex = 0;
       _settingsScreenIndex = -1;
+
+      mainScreenLastFocusedIndex = _lastFocusedIconIndex;
+      mainScreenSettingScreenIndex = _settingsScreenIndex;
 
       _transitionXForMenuScreen = MediaQuery.of(context).size.width;
 
@@ -182,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height,
                       child: AnimatedContainer(
-                        duration: Duration(milliseconds: 300),
+                        duration: Duration(milliseconds: 250),
                         padding: EdgeInsets.only(
                             top: MediaQuery.of(context).size.height / 3,
                             left: MediaQuery.of(context).size.width -
@@ -476,7 +500,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       ),
                     ),
                     AnimatedContainer(
-                      duration: Duration(milliseconds: 300),
+                      duration: Duration(milliseconds: 250),
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
@@ -523,7 +547,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       backgroundColor: Color(0xFF425195),
                       elevation: 2.0,
                       child: Icon(Icons.add),
-                      onPressed: _onTap,
+                      onPressed: _onFABTap,
                     ),
                   ),
                 ),
@@ -634,12 +658,51 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+  // Hàm khởi tạo card đầu tiên
+  void _initFirstCard() {
+    verticalListWidgets.add(verticalListWidget(
+        "", listColors[0], taskTitles, listTitleTextColors[1], Icons.add));
+    horizontalListWidgets.add(horizontalListWidget(
+        "", listColors[0], listTitleTextColors[1], Icons.add));
+  }
+
+  // Hàm để khởi tạo các widget từ data dc đọc lên từ database
+  void _initListWidgetsFromDbData() {
+    setState(() {
+      _databaseHelper.getListsMap().then((value) {
+        for (int i = 0; i < value.length; i++) {
+          var listInfo = value[i].values.toList();
+          listTitles.add(listInfo[1]);
+          listColors.add(Color(
+              int.parse(listInfo[2].substring(10, 16), radix: 16) +
+                  0xFF000000));
+          verticalListWidgets.add(verticalListWidget(
+              listInfo[1],
+              listColors[listColors.length - 1],
+              taskTitles,
+              listColors[listColors.length - 1] == Color(0xFFFAFAFA)
+                  ? listTitleTextColors[0]
+                  : listTitleTextColors[1]));
+          horizontalListWidgets.add(horizontalListWidget(
+              listInfo[1],
+              listColors[listColors.length - 1],
+              listColors[listColors.length - 1] == Color(0xFFFAFAFA)
+                  ? listTitleTextColors[0]
+                  : listTitleTextColors[1]));
+        }
+      });
+    });
+  }
+
   // Hàm để cập nhật vị trí tab hiện tại của bottom bar
   void _changePage(int value) {
     setState(() {
       if (value != 3) {
         _lastFocusedIconIndex = value;
         _settingsScreenIndex = -1;
+
+        mainScreenLastFocusedIndex = _lastFocusedIconIndex;
+        mainScreenSettingScreenIndex = _settingsScreenIndex;
 
         _transitionXForMainScreen = 0.0;
         _transitionXForMenuScreen = MediaQuery.of(context).size.width;
@@ -654,6 +717,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         });
       } else {
         _settingsScreenIndex = 3;
+        mainScreenSettingScreenIndex = _settingsScreenIndex;
 
         _transitionXForMainScreen = -(MediaQuery.of(context).size.width * 0.75);
         _marginTop = 60;
@@ -770,8 +834,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _controllerForDOITMenu.forward();
   }
 
-// Hàm sự kiện để chạy animation
-  void _onTap() async {
+  // Hàm sự kiện để chạy animation
+  void _onFABTap() async {
     setState(() => rect = RectGetter.getRectFromKey(
         rectGetterKey)); //<-- set rect to be size of fab
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -779,11 +843,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       setState(() => rect = rect.inflate(1.1 *
           MediaQuery.of(context).size.longestSide)); //<-- set rect to be big
       Future.delayed(animationDuration + delay,
-          _goToNextPage); //<-- after delay, go to next page
+          _goToAddTaskPage); //<-- after delay, go to next page
     });
   }
 
-  void _goToNextPage() {
+  // Hàm để gọi lệnh chuyển sang trang thêm task
+  void _goToAddTaskPage() {
     isPickColorFinished = false;
     Navigator.of(context)
         .pushReplacement(FadeRouteBuilder(
@@ -794,6 +859,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         .then((_) => setState(() => rect = null));
   }
 
+  // Widget tạo animation
   Widget _ripple() {
     if (rect == null) {
       return Container();

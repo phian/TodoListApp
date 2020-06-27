@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todoapp/doit_database_bus/doit_database_helper.dart';
 import 'package:todoapp/ui/choose_list_color_screen.dart';
 import 'package:todoapp/ui/new_list_screen.dart';
 import 'package:todoapp/ui_variables/list_screen_variables.dart';
@@ -9,11 +10,16 @@ class TasksListScreen extends StatefulWidget {
 }
 
 class _TasksListScreenState extends State<TasksListScreen> {
+  DatabaseHelper _databaseHelper = DatabaseHelper();
+
   @override
   void initState() {
     super.initState();
 
-    if (verticalListWidgets.length == 0) _initFirstCard();
+    if (verticalListWidgets.length == 0) {
+      _initFirstCard();
+      _initListWidgetsFromDbData();
+    }
   }
 
   @override
@@ -56,6 +62,34 @@ class _TasksListScreenState extends State<TasksListScreen> {
         "", listColors[0], taskTitles, listTitleTextColors[1], Icons.add));
     horizontalListWidgets.add(horizontalListWidget(
         "", listColors[0], listTitleTextColors[1], Icons.add));
+  }
+
+  // Hàm để khởi tạo các widget từ data dc đọc lên từ database
+  void _initListWidgetsFromDbData() {
+    setState(() {
+      _databaseHelper.getListsMap().then((value) {
+        for (int i = 0; i < value.length; i++) {
+          var listInfo = value[i].values.toList();
+          listTitles.add(listInfo[1]);
+          listColors.add(Color(
+              int.parse(listInfo[2].substring(10, 16), radix: 16) +
+                  0xFF000000));
+          verticalListWidgets.add(verticalListWidget(
+              listInfo[1],
+              listColors[listColors.length - 1],
+              taskTitles,
+              listColors[listColors.length - 1] == Color(0xFFFAFAFA)
+                  ? listTitleTextColors[0]
+                  : listTitleTextColors[1]));
+          horizontalListWidgets.add(horizontalListWidget(
+              listInfo[1],
+              listColors[listColors.length - 1],
+              listColors[listColors.length - 1] == Color(0xFFFAFAFA)
+                  ? listTitleTextColors[0]
+                  : listTitleTextColors[1]));
+        }
+      });
+    });
   }
 
   // Widget hiển thị danh sách list đang có

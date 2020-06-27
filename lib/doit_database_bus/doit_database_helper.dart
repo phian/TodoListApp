@@ -82,6 +82,16 @@ class DatabaseHelper {
         "CREATE TABLE $scheduleTable($colScheduleId INTEGER PRIMARY KEY AUTOINCREMENT, $colScheduleRepeatDate TEXT, $colScheduleSetUpStatus INTEGER, $colScheduleFrequencyChoice INTEGER, $colScheduleRepeatTimes INTEGER, $colScheduleWeeklyChoiceDates TEXT, $colScheduleMonthlyChoice TEXT, $colScheduleEndsNeverChoice INTEGER, $colScheduleEndsNumberOfTimes INTEGER, $colScheduleEndsDate TEXT)");
   }
 
+  // Hàm để remove List table
+  Future<void> dropTableIfExistsThenReCreate() async {
+    Database doitDatabase = await this.getDoitDatabase;
+
+    await doitDatabase.execute("DROP TABLE IF EXISTS $listTable");
+
+    await doitDatabase.execute(
+        'CREATE TABLE $listTable($colListId INTEGER PRIMARY KEY AUTOINCREMENT, $colListName TEXT, $colListColor TEXT)');
+  }
+
   // Hàm để lấy thông tin từ list table
   Future<List<Map<String, dynamic>>> getListsMap() async {
     Database doitDatabase = await this.getDoitDatabase;
@@ -141,6 +151,7 @@ class DatabaseHelper {
 
     var updateResult = await doitDatabase.update(listTable, listData.toMap(),
         where: '$colListId = ?', whereArgs: [listData.listId]);
+    print(listData.listId);
     return updateResult;
   }
 

@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:todoapp/doit_database_bus/doit_database_helper.dart';
+import 'package:todoapp/doit_database_models/doit_lists_data.dart';
 import 'package:todoapp/ui_variables/list_colors.dart';
 import 'package:todoapp/ui_variables/list_screen_variables.dart';
 
@@ -26,12 +28,14 @@ class _ListSheetState extends State<ListSheet> with TickerProviderStateMixin {
   String _newListTitle;
 
   Random _ranColorFromListColors;
+  DatabaseHelper _databaseHelper = DatabaseHelper();
 
   @override
   void initState() {
     super.initState();
 
     _chooseListSheetHeight = 205;
+    _increaseListSheetHeight();
 
     _listWidgets = widget.listSheetListWidgets;
     _listTitles = widget.listSheetListTitles;
@@ -216,7 +220,7 @@ class _ListSheetState extends State<ListSheet> with TickerProviderStateMixin {
 
                                 if (_chooseListSheetHeight <
                                     MediaQuery.of(context).size.height *
-                                        (2 / 3)) _chooseListSheetHeight += 60;
+                                        (2 / 3)) _chooseListSheetHeight += 63;
 
                                 _newListTitle = "";
                               });
@@ -280,5 +284,26 @@ class _ListSheetState extends State<ListSheet> with TickerProviderStateMixin {
         listColors[listColors.length - 1] == Color(0xFFFAFAFA)
             ? listTitleTextColors[0]
             : listTitleTextColors[1]));
+
+    //------------------------------------------------------------------------//
+    var result = _databaseHelper.insertDataToListTable(ListData(
+        listName: listTitles[listTitles.length - 1],
+        listColor: listColors[listColors.length - 1].toString()));
+
+    result.then((value) {
+      print(value);
+    });
+
+    //------------------------------------------------------------------------//
+  }
+
+  // Hàm tăng kích thước sheet theo số list đang có
+  void _increaseListSheetHeight() {
+    if (verticalListWidgets.length > 1)
+      for (int i = 1; i < verticalListWidgets.length; i++) {
+        setState(() {
+          _chooseListSheetHeight += 42;
+        });
+      }
   }
 }

@@ -36,188 +36,215 @@ var listColorCirclesContainer = [
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[0]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[0]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[1]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[1]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[2]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[2]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[3]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[3]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[4]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[4]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[5]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[5]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[6]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[6]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[7]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[7]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[8]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[8]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[9]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[9]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[10]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[10]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[11]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[11]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[12]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[12]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[13]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[13]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[14]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[14]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[15]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[15]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[16]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[16]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[17]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[17]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[18]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[18]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[19]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[19]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[20]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[20]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[21]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[21]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[22]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[22]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[23]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[23]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[24]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[24]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[25]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[25]),
   ),
   Container(
     margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
     width: 20.0,
     height: 20.0,
     child: Text(""),
-    decoration: BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[26]),
+    decoration:
+        BoxDecoration(shape: BoxShape.circle, color: listChoiceColors[26]),
   ),
 ];

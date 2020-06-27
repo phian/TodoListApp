@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:todoapp/doit_database_bus/doit_database_helper.dart';
+import 'package:todoapp/doit_database_models/doit_lists_data.dart';
 import 'package:todoapp/ui/new_list_screen.dart';
 import 'package:todoapp/ui_variables/finished_list.dart';
 import 'package:todoapp/ui_variables/list_colors.dart';
@@ -15,6 +17,8 @@ class ChooseColorScreen extends StatefulWidget {
 }
 
 class _ChooseColorScreenState extends State<ChooseColorScreen> {
+  DatabaseHelper _databaseHelper = DatabaseHelper();
+
   @override
   Widget build(BuildContext context) {
     int columnCount = 3;
@@ -43,6 +47,12 @@ class _ChooseColorScreenState extends State<ChooseColorScreen> {
               null);
 
           isPickColorFinished = true;
+
+          //------------------------------------------------------------------//
+          _databaseHelper.insertDataToListTable(ListData(
+              listName: listTitles[listTitles.length - 1],
+              listColor: listColors[listColors.length - 1].toString()));
+          //------------------------------------------------------------------//
 
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
             return NewListScreen(
@@ -110,6 +120,13 @@ class _ChooseColorScreenState extends State<ChooseColorScreen> {
 
                                 isPickColorFinished = true;
 
+                                //--------------------------------------------//
+                                _databaseHelper.insertDataToListTable(ListData(
+                                    listName: listTitles[listTitles.length - 1],
+                                    listColor:
+                                        listChoiceColors[index].toString()));
+                                //--------------------------------------------//
+
                                 Navigator.pushReplacement(context,
                                     MaterialPageRoute(builder: (_) {
                                   return NewListScreen(
@@ -147,6 +164,14 @@ class _ChooseColorScreenState extends State<ChooseColorScreen> {
                                         null);
 
                                 isPickColorFinished = false;
+
+                                //--------------------------------------------//
+                                _databaseHelper.updateListData(ListData(
+                                    listId: lastChoseIndex,
+                                    listName: listTitles[lastChoseIndex],
+                                    listColor: listColors[lastChoseIndex + 1]
+                                        .toString()));
+                                //--------------------------------------------//
 
                                 Navigator.pushReplacement(context,
                                     MaterialPageRoute(builder: (_) {

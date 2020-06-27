@@ -35,6 +35,13 @@ var horizontalListWidgets = [];
 // Mảng chứa các item của task của 1 list khi người dùng chuyển sang chiều ngang
 var horizontalTaskWidgets = [];
 
+// Biến để lưu trữ lại vị trí màn hình mà trc đó ng dùng đang focus để sử dụng cho trang new list dùng khi chuyển qua trang add task
+var mainScreenLastFocusedIndex = 0;
+var mainScreenSettingScreenIndex = -1;
+
+// Biến để lưu trữ vị trí màu mà ng dùng chọn để dùng cho phần insert
+var selectedColorIndex;
+
 // Widget để tạo ra UI cho list
 Widget verticalListWidget(String listTitle, Color listColor, int numberOfTasks,
         Color listTitleColor,
