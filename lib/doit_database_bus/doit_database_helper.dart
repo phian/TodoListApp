@@ -83,7 +83,7 @@ class DatabaseHelper {
   }
 
   // Hàm để remove List table
-  Future<void> dropTableIfExistsThenReCreate() async {
+  Future<void> dropTableIfExistsThenRecreate() async {
     Database doitDatabase = await this.getDoitDatabase;
 
     await doitDatabase.execute("DROP TABLE IF EXISTS $listTable");

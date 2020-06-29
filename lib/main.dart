@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
     _doitDatabaseHelper = DatabaseHelper();
     _doitDatabaseHelper.initDoitDatabase();
 
-    // _doitDatabaseHelper.dropTableIfExistsThenReCreate();
+    // _doitDatabaseHelper.dropTableIfExistsThenRecreate();
 
     _getDoitDatabasePath().then((pathValue) {
       _databaseExists(pathValue).then((isExist) {

@@ -29,6 +29,11 @@ class _TasksListScreenState extends State<TasksListScreen> {
         listWidgetWidth = MediaQuery.of(context).size.width;
       });
     }
+    if (binTransformValue == null) {
+      setState(() {
+        binTransformValue = MediaQuery.of(context).size.height;
+      });
+    }
 
     return WillPopScope(
       // ignore: missing_return
@@ -48,6 +53,7 @@ class _TasksListScreenState extends State<TasksListScreen> {
                 _listScreenLists(),
                 _buildListsScreenHeader(),
                 _buildChoiceButtons(),
+                _buildDeleteBinWidget(),
               ],
             ),
           ),
@@ -116,9 +122,98 @@ class _TasksListScreenState extends State<TasksListScreen> {
             return GestureDetector(
               child: Hero(
                 tag: '$index',
-                child: isVertical
-                    ? verticalListWidgets[index]
-                    : horizontalListWidgets[index],
+                child: (() {
+                  // Check xem index của list đang là bao nhiêu để trả về widget tương ứng
+                  if (index == 0) {
+                    if (isVertical)
+                      return verticalListWidgets[index];
+                    else
+                      return horizontalListWidgets[index];
+                  }
+
+                  if (index != 0) {
+                    if (isVertical)
+                      return Draggable(
+                          onDragStarted: () {
+                            setState(() {
+                              dragIndex = index;
+                              binTransformValue =
+                                  -(MediaQuery.of(context).size.height * 0.06);
+                            });
+                          },
+                          onDragEnd: (details) {
+                            setState(() {
+                              // dragIndex = 0;
+                              binTransformValue =
+                                  MediaQuery.of(context).size.height;
+                            });
+                          },
+                          onDragCompleted: () {
+                            setState(() {});
+                          },
+                          data: index,
+                          maxSimultaneousDrags: 1,
+                          child: verticalListWidgets[index],
+                          childWhenDragging: Opacity(
+                            opacity: 0.7,
+                            child: Container(
+                              width: listWidgetWidth,
+                              height: listWidgetHeight,
+                              child: verticalListWidgets[index],
+                            ),
+                          ),
+                          feedback: Opacity(
+                            opacity: 0.7,
+                            child: Container(
+                              width: listWidgetWidth,
+                              height: listWidgetHeight,
+                              child: verticalListWidgets[index],
+                            ),
+                          ));
+                  }
+
+                  return Draggable(
+                      onDragStarted: () {
+                        setState(() {
+                          dragIndex = index;
+                          binTransformValue =
+                              -(MediaQuery.of(context).size.height * 0.06);
+                        });
+                      },
+                      onDragEnd: (details) {
+                        setState(() {
+                          // dragIndex = 0;
+                          binTransformValue =
+                              MediaQuery.of(context).size.height;
+                        });
+                      },
+                      onDragCompleted: () {
+                        setState(() {
+                          // dragIndex = 0;
+                        });
+                      },
+                      data: index,
+                      maxSimultaneousDrags: 1,
+                      child: horizontalListWidgets[index],
+                      childWhenDragging: Opacity(
+                        opacity: 0.7,
+                        child: Container(
+                          height: MediaQuery.of(context).size.height -
+                              (MediaQuery.of(context).size.height * 0.2),
+                          width: listWidgetWidth,
+                          child: horizontalListWidgets[index],
+                        ),
+                      ),
+                      feedback: Opacity(
+                        opacity: 0.7,
+                        child: Container(
+                          height: MediaQuery.of(context).size.height -
+                              (MediaQuery.of(context).size.height * 0.2),
+                          width: listWidgetWidth,
+                          child: horizontalListWidgets[index],
+                        ),
+                      ));
+                }()),
               ),
               onTap: () {
                 // Nếu ng dùng ấn dấu + để thêm task
@@ -156,19 +251,28 @@ class _TasksListScreenState extends State<TasksListScreen> {
                     }
                   });
                 } else if (index != 0) {
-                  lastChoseIndex = index;
-
-                  print(listColors[lastChoseIndex + 1]);
+                  lastListChoseIndex = index;
 
                   Navigator.push(context, MaterialPageRoute(builder: (_) {
                     return NewListScreen(
-                      listTiltle: listTitles[lastChoseIndex],
-                      listColor: listColors[lastChoseIndex + 1],
+                      listTiltle: listTitles[lastListChoseIndex],
+                      listColor: listColors[lastListChoseIndex + 1],
                       listIcon: null,
-                      index: lastChoseIndex,
+                      index: lastListChoseIndex,
                     );
                   }));
                 }
+              },
+              onTapDown: (details) {
+                setState(() {
+                  binTransformValue =
+                      -(MediaQuery.of(context).size.height * 0.06);
+                });
+              },
+              onTapCancel: () {
+                setState(() {
+                  binTransformValue = MediaQuery.of(context).size.height;
+                });
               },
             );
           },
@@ -261,7 +365,7 @@ class _TasksListScreenState extends State<TasksListScreen> {
         if (listTitles.length != previousLength) {
           // Cấp nhật vị trí mới cho phần chọn item và cập nhật độ dài mới của list title để lưu trữ lại
           previousLength = listTitles.length;
-          lastChoseIndex = verticalListWidgets.length - 1;
+          lastListChoseIndex = verticalListWidgets.length - 1;
 
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
             return ChooseColorScreen(
@@ -283,13 +387,13 @@ class _TasksListScreenState extends State<TasksListScreen> {
   void _changeListItemSizes(bool isVertical) {
     setState(() {
       // gán biến tạm để lưu giá trị trc đó mà ng dùng chọn, sau khi add item đầu tiên thì sẽ reset lại
-      int temp = lastChoseIndex;
+      int temp = lastListChoseIndex;
 
       if (isVertical) {
         listWidgetHeight = 90.0;
         listWidgetWidth = MediaQuery.of(context).size.width;
 
-        lastChoseIndex = 0;
+        lastListChoseIndex = 0;
 
         for (int i = 0; i < verticalListWidgets.length; i++) {
           verticalListWidgets[i] = i == 0
@@ -303,12 +407,12 @@ class _TasksListScreenState extends State<TasksListScreen> {
                       ? listTitleTextColors[0]
                       : listTitleTextColors[1]);
 
-          lastChoseIndex = temp;
+          lastListChoseIndex = temp;
         }
       } else {
         listWidgetWidth = MediaQuery.of(context).size.width * 0.75;
 
-        lastChoseIndex = 0;
+        lastListChoseIndex = 0;
 
         for (int i = 0; i < horizontalListWidgets.length; i++) {
           horizontalListWidgets[i] = i == 0
@@ -321,9 +425,71 @@ class _TasksListScreenState extends State<TasksListScreen> {
                       ? listTitleTextColors[0]
                       : listTitleTextColors[1]);
 
-          lastChoseIndex = temp;
+          lastListChoseIndex = temp;
         }
       }
     });
   }
+
+  // Widget để chứa hình bin dùng cho việc xoá list
+  Widget _buildDeleteBinWidget() => Container(
+        alignment: Alignment.bottomCenter,
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 350),
+          transform: Matrix4.translationValues(0.0, binTransformValue, 0.0),
+          width: 60.0,
+          height: 60.0,
+          child: DragTarget(
+            builder: (context, List<int> acceptedData, rejectedData) {
+              if (acceptedData.isEmpty)
+                binWidgetImage = Image.asset(
+                  "images/trash_with_closed_lid.png",
+                  width: 60.0,
+                  height: 60.0,
+                );
+              else {
+                binWidgetImage = Image.asset(
+                  "images/trash_with_open_lid.png",
+                  width: 60.0,
+                  height: 60.0,
+                );
+              }
+              return binWidgetImage;
+            },
+            onWillAccept: (data) {
+              return true;
+            },
+            onAccept: (data) async {
+              if (dragIndex == data) {
+                // Nếu ng dùng thả list ra và chấp nhận xoá thì sẽ remove list item đó theo id truy vấn từ vị trí tương ứng với vị trị kéo item
+                var result = await _databaseHelper.getListsMap();
+
+                if (result.length > 0) {
+                  for (int i = 0; i < result.length; i++) {
+                    if (i + 1 == dragIndex) {
+                      var listInfo = result[i].values.toList();
+                      _databaseHelper.deleteListData(listInfo[0]);
+
+                      verticalListWidgets.removeAt(dragIndex);
+                      horizontalListWidgets.removeAt(dragIndex);
+                      listTitles.removeAt(dragIndex);
+                      listColors.removeAt(dragIndex + 1);
+
+                      setState(() {
+                        previousLength--;
+                        lastListChoseIndex = 0;
+                        dragIndex = 0;
+                        binTransformValue = MediaQuery.of(context).size.height;
+                      });
+                    }
+                  }
+                }
+              }
+            },
+            onLeave: (data) {
+              setState(() {});
+            },
+          ),
+        ),
+      );
 }

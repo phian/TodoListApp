@@ -29,7 +29,7 @@ class _ChooseColorScreenState extends State<ChooseColorScreen> {
         if (isChangeColorClicked == false) {
           listColors.add(listChoiceColors[13]);
 
-          verticalListWidgets[lastChoseIndex] = verticalListWidget(
+          verticalListWidgets[lastListChoseIndex] = verticalListWidget(
               listTitles[listTitles.length - 1],
               listColors[listColors.length - 1],
               taskTitles,
@@ -38,7 +38,7 @@ class _ChooseColorScreenState extends State<ChooseColorScreen> {
                   : listTitleTextColors[1],
               null);
 
-          horizontalListWidgets[lastChoseIndex] = horizontalListWidget(
+          horizontalListWidgets[lastListChoseIndex] = horizontalListWidget(
               listTitles[listTitles.length - 1],
               listColors[listColors.length - 1],
               listColors[listColors.length - 1] == Color(0xfffafafa)
@@ -59,7 +59,7 @@ class _ChooseColorScreenState extends State<ChooseColorScreen> {
               listTiltle: listTitles[listTitles.length - 1],
               listColor: listColors[listColors.length - 1],
               listIcon: null,
-              index: lastChoseIndex,
+              index: lastListChoseIndex,
             );
           }));
         } else {
@@ -97,7 +97,7 @@ class _ChooseColorScreenState extends State<ChooseColorScreen> {
                               if (isChangeColorClicked == false) {
                                 listColors.add(listChoiceColors[index]);
 
-                                verticalListWidgets[lastChoseIndex] =
+                                verticalListWidgets[lastListChoseIndex] =
                                     verticalListWidget(
                                         listTitles[listTitles.length - 1],
                                         listColors[listColors.length - 1],
@@ -108,7 +108,7 @@ class _ChooseColorScreenState extends State<ChooseColorScreen> {
                                             : listTitleTextColors[1],
                                         null);
 
-                                horizontalListWidgets[lastChoseIndex] =
+                                horizontalListWidgets[lastListChoseIndex] =
                                     horizontalListWidget(
                                         listTitles[listTitles.length - 1],
                                         listColors[listColors.length - 1],
@@ -135,29 +135,29 @@ class _ChooseColorScreenState extends State<ChooseColorScreen> {
                                     listColor:
                                         listColors[listColors.length - 1],
                                     listIcon: null,
-                                    index: lastChoseIndex,
+                                    index: lastListChoseIndex,
                                   );
                                 }));
                               } else {
-                                listColors[lastChoseIndex + 1] =
+                                listColors[lastListChoseIndex + 1] =
                                     listChoiceColors[index];
 
-                                verticalListWidgets[lastChoseIndex] =
+                                verticalListWidgets[lastListChoseIndex] =
                                     verticalListWidget(
-                                        listTitles[lastChoseIndex],
-                                        listColors[lastChoseIndex + 1],
+                                        listTitles[lastListChoseIndex],
+                                        listColors[lastListChoseIndex + 1],
                                         taskTitles,
-                                        listColors[lastChoseIndex + 1] ==
+                                        listColors[lastListChoseIndex + 1] ==
                                                 Color(0xfffafafa)
                                             ? listTitleTextColors[0]
                                             : listTitleTextColors[1],
                                         null);
 
-                                horizontalListWidgets[lastChoseIndex] =
+                                horizontalListWidgets[lastListChoseIndex] =
                                     horizontalListWidget(
-                                        listTitles[lastChoseIndex],
-                                        listColors[lastChoseIndex + 1],
-                                        listColors[lastChoseIndex + 1] ==
+                                        listTitles[lastListChoseIndex],
+                                        listColors[lastListChoseIndex + 1],
+                                        listColors[lastListChoseIndex + 1] ==
                                                 Color(0xfffafafa)
                                             ? listTitleTextColors[0]
                                             : listTitleTextColors[1],
@@ -167,19 +167,21 @@ class _ChooseColorScreenState extends State<ChooseColorScreen> {
 
                                 //--------------------------------------------//
                                 _databaseHelper.updateListData(ListData(
-                                    listId: lastChoseIndex,
-                                    listName: listTitles[lastChoseIndex],
-                                    listColor: listColors[lastChoseIndex + 1]
-                                        .toString()));
+                                    listId: lastListChoseIndex,
+                                    listName: listTitles[lastListChoseIndex],
+                                    listColor:
+                                        listColors[lastListChoseIndex + 1]
+                                            .toString()));
                                 //--------------------------------------------//
 
                                 Navigator.pushReplacement(context,
                                     MaterialPageRoute(builder: (_) {
                                   return NewListScreen(
-                                    listTiltle: listTitles[lastChoseIndex],
-                                    listColor: listColors[lastChoseIndex + 1],
+                                    listTiltle: listTitles[lastListChoseIndex],
+                                    listColor:
+                                        listColors[lastListChoseIndex + 1],
                                     listIcon: null,
-                                    index: lastChoseIndex,
+                                    index: lastListChoseIndex,
                                   );
                                 }));
 

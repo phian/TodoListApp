@@ -174,6 +174,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _checkFirstTime();
     _initSettingMenuWidget(); // Gọi hàm để khởi tạo
 
+    // chuyển bin xuống dưới màn hình
+    binTransformValue = MediaQuery.of(context).size.height;
+
     return AnimatedOpacity(
       opacity: _mainScreenOpacity,
       duration: Duration(milliseconds: 300),
@@ -690,6 +693,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ? listTitleTextColors[0]
                   : listTitleTextColors[1]));
         }
+
+        // Cập nhật lại giá trị số lượng list hiện tại đang có để tranh khi ng dùng reload app và add task mới khi back sẽ ko bị lỗi
+        previousLength = verticalListWidgets.length;
       });
     });
   }

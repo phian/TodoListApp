@@ -5,6 +5,7 @@ import 'package:todoapp/doit_database_bus/doit_database_helper.dart';
 import 'package:todoapp/doit_database_models/doit_lists_data.dart';
 import 'package:todoapp/ui_variables/finished_list.dart';
 import 'package:todoapp/ui_variables/list_screen_variables.dart';
+import 'package:todoapp/ui_variables/task_screen_variables.dart';
 
 import 'add_task_page.dart';
 import 'choose_list_color_screen.dart';
@@ -154,7 +155,7 @@ class _NewListScreenState extends State<NewListScreen>
   // Hàm để add một list mới
   void _editTaskName() {
     _editTaskTextController =
-        TextEditingController(text: "${listTitles[lastChoseIndex]}");
+        TextEditingController(text: "${listTitles[lastListChoseIndex]}");
 
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
@@ -183,17 +184,18 @@ class _NewListScreenState extends State<NewListScreen>
               onSubmitted: (value) {
                 setState(() {
                   if (value.isEmpty == false &&
-                      listTitles[lastChoseIndex] != value) {
-                    listTitles[lastChoseIndex] = value;
+                      listTitles[lastListChoseIndex] != value) {
+                    listTitles[lastListChoseIndex] = value;
                     _isFinished = true;
 
                     FocusScope.of(context).unfocus();
 
                     //--------------------------------------------//
                     _databaseHelper.updateListData(ListData(
-                        listId: lastChoseIndex,
-                        listName: listTitles[lastChoseIndex],
-                        listColor: listColors[lastChoseIndex + 1].toString()));
+                        listId: lastListChoseIndex,
+                        listName: listTitles[lastListChoseIndex],
+                        listColor:
+                            listColors[lastListChoseIndex + 1].toString()));
                     //--------------------------------------------//
 
                   }
@@ -210,10 +212,10 @@ class _NewListScreenState extends State<NewListScreen>
           // Push về để cập nhật test mới
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
             return NewListScreen(
-              listTiltle: listTitles[lastChoseIndex],
-              listColor: listColors[lastChoseIndex + 1],
+              listTiltle: listTitles[lastListChoseIndex],
+              listColor: listColors[lastListChoseIndex + 1],
               listIcon: null,
-              index: lastChoseIndex,
+              index: lastListChoseIndex,
             );
           }));
         });
@@ -224,19 +226,19 @@ class _NewListScreenState extends State<NewListScreen>
   // Hàm để update widget của task screen khi người dùng đã thay đổi tên cho task xong
   void _updateListWidgets() {
     setState(() {
-      verticalListWidgets[lastChoseIndex] = verticalListWidget(
-          listTitles[lastChoseIndex],
-          listColors[lastChoseIndex + 1],
+      verticalListWidgets[lastListChoseIndex] = verticalListWidget(
+          listTitles[lastListChoseIndex],
+          listColors[lastListChoseIndex + 1],
           taskTitles,
-          listColors[lastChoseIndex + 1] == Color(0xfffafafa)
+          listColors[lastListChoseIndex + 1] == Color(0xfffafafa)
               ? listTitleTextColors[0]
               : listTitleTextColors[1],
           null);
 
-      horizontalListWidgets[lastChoseIndex] = horizontalListWidget(
-          listTitles[lastChoseIndex],
-          listColors[lastChoseIndex + 1],
-          listColors[lastChoseIndex + 1] == Color(0xfffafafa)
+      horizontalListWidgets[lastListChoseIndex] = horizontalListWidget(
+          listTitles[lastListChoseIndex],
+          listColors[lastListChoseIndex + 1],
+          listColors[lastListChoseIndex + 1] == Color(0xfffafafa)
               ? listTitleTextColors[0]
               : listTitleTextColors[1],
           null);
@@ -269,7 +271,6 @@ class _NewListScreenState extends State<NewListScreen>
 
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (_) {
-                  print(listTitles[listTitles.length - 1]);
                   return ChooseColorScreen(
                     listTitle: listTitles[listTitles.length - 1],
                   );
@@ -311,6 +312,9 @@ class _NewListScreenState extends State<NewListScreen>
 
   // Hàm sự kiện để chạy animation
   void _onAddButtonPressed() async {
+    // Cập nhật list dc ng dùng chọn để add task
+    choseListIndex = lastListChoseIndex;
+
     setState(() => rect = RectGetter.getRectFromKey(
         rectGetterKey)); //<-- set rect to be size of fab
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -318,12 +322,12 @@ class _NewListScreenState extends State<NewListScreen>
       setState(() => rect = rect.inflate(1.1 *
           MediaQuery.of(context).size.longestSide)); //<-- set rect to be big
       Future.delayed(animationDuration + delay,
-          _goToAddTaskPage); //<-- after delay, go to next page
+          _goToAddTaskScreen); //<-- after delay, go to next page
     });
   }
 
   // Hàm để gọi lệnh chuyển sang trang thêm task
-  void _goToAddTaskPage() {
+  void _goToAddTaskScreen() {
     isPickColorFinished = false;
     Navigator.of(context)
         .pushReplacement(FadeRouteBuilder(

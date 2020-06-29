@@ -26,7 +26,7 @@ var previousLength = 1;
 var isVertical = true; // Biến check xem ng dùng đang chọn chiều ngang hay dọc
 
 // Biến để lưu trữ vị trí ng dùng chọn để nếu ng dùng có đổi màu thì có thể cập nhật theo vị trí này
-var lastChoseIndex = 0;
+var lastListChoseIndex = 0;
 var taskTitles = 0; // Biến dếm số lượn task đang có trang database
 var isChangeColorClicked = false; // Biến để check xem ng dùng có đổi màu hay ko
 
@@ -41,6 +41,11 @@ var mainScreenSettingScreenIndex = -1;
 
 // Biến để lưu trữ vị trí màu mà ng dùng chọn để dùng cho phần insert
 var selectedColorIndex;
+
+// Biến để thay đổi transform cho trash icon và thay đổi hình ảnh icon khi ng dùng drag item đến bin
+var binTransformValue;
+var binWidgetImage;
+var dragIndex; // Biến để xét xem list item nào đang dc drag
 
 // Widget để tạo ra UI cho list
 Widget verticalListWidget(String listTitle, Color listColor, int numberOfTasks,
@@ -131,17 +136,19 @@ Widget horizontalListWidget(
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: () {
-                                  lastChoseIndex = index;
+                                  lastListChoseIndex = index;
 
-                                  print(listColors[lastChoseIndex + 1]);
+                                  print(listColors[lastListChoseIndex + 1]);
 
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (_) {
                                     return NewListScreen(
-                                      listTiltle: listTitles[lastChoseIndex],
-                                      listColor: listColors[lastChoseIndex + 1],
+                                      listTiltle:
+                                          listTitles[lastListChoseIndex],
+                                      listColor:
+                                          listColors[lastListChoseIndex + 1],
                                       listIcon: null,
-                                      index: lastChoseIndex,
+                                      index: lastListChoseIndex,
                                     );
                                   }));
                                 },

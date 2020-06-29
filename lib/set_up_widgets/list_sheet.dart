@@ -5,9 +5,9 @@ import 'package:todoapp/doit_database_bus/doit_database_helper.dart';
 import 'package:todoapp/doit_database_models/doit_lists_data.dart';
 import 'package:todoapp/ui_variables/list_colors.dart';
 import 'package:todoapp/ui_variables/list_screen_variables.dart';
+import 'package:todoapp/ui_variables/task_screen_variables.dart';
 
 class ListSheet extends StatefulWidget {
-  int choseListIndex = 0;
   List<String> listSheetListTitles = ['No list', 'Add new list'];
   List<Widget> listSheetListWidgets = [];
   List<Color> listSheetListColors = [Colors.white, Colors.blue[300]];
@@ -73,9 +73,11 @@ class _ListSheetState extends State<ListSheet> with TickerProviderStateMixin {
                     return GestureDetector(
                       child: _listWidgets[index],
                       onTap: () {
-                        widget.choseListIndex = index;
-
                         if (index == 0 || index > 1) {
+                          index == 0
+                              ? choseListIndex = index
+                              : choseListIndex = index - 1;
+
                           Navigator.of(context).pop();
                         } else if (index == 1) {
                           _createNewList();
@@ -212,10 +214,10 @@ class _ListSheetState extends State<ListSheet> with TickerProviderStateMixin {
                           onPressed: () {
                             if (_newListTitle.isEmpty == false) {
                               setState(() {
-                                _addNewListSheetWidget();
-
                                 if (verticalListWidgets.length == 0)
                                   _addFirstCard();
+
+                                _addNewListSheetWidget();
                                 _addNewTaskListScreenWidget();
 
                                 if (_chooseListSheetHeight <
@@ -285,15 +287,12 @@ class _ListSheetState extends State<ListSheet> with TickerProviderStateMixin {
             ? listTitleTextColors[0]
             : listTitleTextColors[1]));
 
+    choseListIndex = verticalListWidgets.length - 1;
+
     //------------------------------------------------------------------------//
     var result = _databaseHelper.insertDataToListTable(ListData(
         listName: listTitles[listTitles.length - 1],
         listColor: listColors[listColors.length - 1].toString()));
-
-    result.then((value) {
-      print(value);
-    });
-
     //------------------------------------------------------------------------//
   }
 
