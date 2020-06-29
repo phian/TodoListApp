@@ -93,7 +93,7 @@ class _ChooseColorScreenState extends State<ChooseColorScreen> {
                         child: FadeInAnimation(
                           child: GestureDetector(
                             child: listColorCirclesContainer[index],
-                            onTap: () {
+                            onTap: () async {
                               if (isChangeColorClicked == false) {
                                 listColors.add(listChoiceColors[index]);
 
@@ -166,12 +166,29 @@ class _ChooseColorScreenState extends State<ChooseColorScreen> {
                                 isPickColorFinished = false;
 
                                 //--------------------------------------------//
-                                _databaseHelper.updateListData(ListData(
-                                    listId: lastListChoseIndex,
-                                    listName: listTitles[lastListChoseIndex],
-                                    listColor:
-                                        listColors[lastListChoseIndex + 1]
-                                            .toString()));
+                                // Nếu ng dùng chọn màu xong thì sẽ cập nhật lại giá trị màu mới vào db
+                                var result =
+                                    await _databaseHelper.getListsMap();
+
+                                for (int i = 0; i < result.length; i++) {
+                                  if (i + 1 == lastListChoseIndex) {
+                                    var listInfo = result[i].values.toList();
+                                    _databaseHelper.updateListData(ListData(
+                                        listId: listInfo[0],
+                                        listName:
+                                            listTitles[lastListChoseIndex],
+                                        listColor:
+                                            listColors[lastListChoseIndex + 1]
+                                                .toString()));
+
+                                    setState(() {
+                                      dragIndex = 0;
+                                    });
+
+                                    break;
+                                  }
+                                }
+
                                 //--------------------------------------------//
 
                                 Navigator.pushReplacement(context,
