@@ -8,6 +8,8 @@ import 'package:page_transition/page_transition.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:todoapp/animation/fade_route_builder.dart';
 import 'package:todoapp/data/main_screen_data.dart';
+import 'package:todoapp/data/repeat_choice_data.dart';
+import 'package:todoapp/data/special_repeat_data.dart';
 import 'package:todoapp/doit_database_bus/doit_database_helper.dart';
 import 'package:todoapp/ui/about_screen.dart';
 import 'package:todoapp/ui/account_screen.dart';
@@ -102,6 +104,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
+    // reset lại biến check schedule
+    isSpecialFirstTime = false;
+    isNormalFirstTime = false;
+
     _blur = 0.0;
     _initAnimationForDOITSettingMenu();
 
@@ -182,7 +188,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       duration: Duration(milliseconds: 300),
       child: SafeArea(
         child: WillPopScope(
-          // apkcombo.com/vi-vn/how-to-install/
+          // ignore: missing_return
           onWillPop: () async {
             if (_transitionXForMainScreen == 0.0) {
               _onWillPop();

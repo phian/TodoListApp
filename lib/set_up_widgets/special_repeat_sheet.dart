@@ -3,7 +3,6 @@ import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:todoapp/data/special_repeat_data.dart';
 
-
 class SpecialRepeatSheet extends StatefulWidget {
   SpecialRepeatChoiceData specialRepeatChoiceData =
       SpecialRepeatChoiceData(); // Biến để lưu trữ các data cần thiết khi người dùng hoàn thành set up để lưu trữ dữ liệu
@@ -21,11 +20,11 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
   List<double> _opacitiesForFirstMenu = [1.0, 0.0];
   bool _isSecondMenuVisible = false;
 
-  List<double> _opacitiesForSecondMenu = [0.0, 1.0, 0.0, 0.0];
+  List<double> _opacitiesForSecondMenu = [1.0, 0.0, 0.0];
   int _lastSelectedIndexInSecondMenu = 0;
 
   String _sRepeatTimeCount = "1";
-  String _sRepeatTimeCount1 = "day";
+  String _sRepeatTimeCount1 = "week";
   int _iRepeatTimeCount = 1;
   List<String> _dailyChoiceCardContents = ["S", "M", "T", "W", "T", "F", "S"];
   List<Widget> _dailyChoiceCards;
@@ -49,7 +48,6 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     _initDailyRepeatCardList();
@@ -100,7 +98,8 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
                       _changeEndsWidgetIconOpacity(0);
                       _initDailyRepeatCardList();
 
-                      widget.specialRepeatChoiceData = SpecialRepeatChoiceData();
+                      widget.specialRepeatChoiceData =
+                          SpecialRepeatChoiceData();
                     });
                   },
                   title: Text("Off"),
@@ -116,6 +115,8 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
                       _opacitiesForFirstMenu[1] = 1.0;
 
                       _isSecondMenuVisible = true;
+                      _isWeeklyRepeat = true;
+                      _isMonthlyRepeat = false;
 
                       widget.specialRepeatChoiceData.isOnOrOff = 1;
                     });
@@ -137,36 +138,52 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
                           "FREQUENCY",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        // ListTile(
-                        //   onTap: () {
-                        //     _changeSecondMenuIconOpacity(0);
+                        ListTile(
+                          onTap: () {
+                            // Gán để biết rằng ng dùng đã có set up schedule
+                            isSpecialFirstTime = false;
 
-                        //     _isWeeklyRepeat = false;
-                        //     _isMonthlyRepeat = false;
+                            _changeSecondMenuIconOpacity(0);
 
-                        //     _resetMonthlyChoiceIconOpacity();
+                            setState(() {
+                              if (_isWeeklyRepeat == false) {
+                                _isWeeklyRepeat = true;
+                                _isMonthlyRepeat = false;
 
-                        //     widget.repeatChoiceData.frequencyChoice = 0;
-                        //   },
-                        //   title: Text("Daily: bỏ cái này"),
-                        //   leading: Opacity(
-                        //     opacity: _opacitiesForSecondMenu[0],
-                        //     child: Icon(Icons.check),
-                        //   ),
-                        // ),
+                                _initDailyRepeatCardList();
+                              }
+                            });
+
+                            _resetMonthlyChoiceIconOpacity();
+
+                            widget.specialRepeatChoiceData.frequencyChoice = 0;
+                          },
+                          title: Text("Weekly"),
+                          leading: Opacity(
+                            opacity: _opacitiesForSecondMenu[0],
+                            child: Icon(Icons.check),
+                          ),
+                        ),
                         ListTile(
                           onTap: () {
                             _changeSecondMenuIconOpacity(1);
 
-                            _isWeeklyRepeat = true;
-                            _isMonthlyRepeat = false;
+                            setState(() {
+                              if (_isMonthlyRepeat == false) {
+                                _isMonthlyRepeat = true;
+                                _isWeeklyRepeat = false;
+                              }
+                              _selectedIndex = [];
+                              widget.specialRepeatChoiceData
+                                  .weekRepeatDateChoiceIndex = [];
+                            });
 
-                            _resetMonthlyChoiceIconOpacity();
-                            _initDailyRepeatCardList();
+                            _changeMonthlyRepeatDateName();
+                            _calculateOrderPlaceOfCurrentDate();
 
                             widget.specialRepeatChoiceData.frequencyChoice = 1;
                           },
-                          title: Text("Weekly"),
+                          title: Text("Monthly"),
                           leading: Opacity(
                             opacity: _opacitiesForSecondMenu[1],
                             child: Icon(Icons.check),
@@ -176,34 +193,21 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
                           onTap: () {
                             _changeSecondMenuIconOpacity(2);
 
-                            _isMonthlyRepeat = true;
-                            _isWeeklyRepeat = false;
-
-                            _changeMonthlyRepeatDateName();
-                            _calculateOrderPlaceOfCurrentDate();
-
-                            widget.specialRepeatChoiceData.frequencyChoice = 2;
-                          },
-                          title: Text("Monthly"),
-                          leading: Opacity(
-                            opacity: _opacitiesForSecondMenu[2],
-                            child: Icon(Icons.check),
-                          ),
-                        ),
-                        ListTile(
-                          onTap: () {
-                            _changeSecondMenuIconOpacity(3);
-
-                            _isWeeklyRepeat = false;
-                            _isMonthlyRepeat = false;
+                            setState(() {
+                              _isWeeklyRepeat = false;
+                              _isMonthlyRepeat = false;
+                              _selectedIndex = [];
+                              widget.specialRepeatChoiceData
+                                  .weekRepeatDateChoiceIndex = [];
+                            });
 
                             _resetMonthlyChoiceIconOpacity();
 
-                            widget.specialRepeatChoiceData.frequencyChoice = 3;
+                            widget.specialRepeatChoiceData.frequencyChoice = 2;
                           },
                           title: Text("Yearly"),
                           leading: Opacity(
-                            opacity: _opacitiesForSecondMenu[3],
+                            opacity: _opacitiesForSecondMenu[2],
                             child: Icon(Icons.check),
                           ),
                         ),
@@ -292,8 +296,8 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
                                           _sRepeatTimeCount =
                                               _iRepeatTimeCount.toString();
 
-                                          widget.specialRepeatChoiceData.repeatTimes =
-                                              _iRepeatTimeCount;
+                                          widget.specialRepeatChoiceData
+                                              .repeatTimes = _iRepeatTimeCount;
 
                                           _changeRepeatCountTextToMultiple();
                                         });
@@ -452,7 +456,8 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
 
                                     _endDay = null;
 
-                                    widget.specialRepeatChoiceData.endsChoice = 0;
+                                    widget.specialRepeatChoiceData.endsChoice =
+                                        0;
                                   });
                                 },
                                 leading: Opacity(
@@ -473,7 +478,8 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
 
                                     _endDay = null;
 
-                                    widget.specialRepeatChoiceData.endsChoice = 1;
+                                    widget.specialRepeatChoiceData.endsChoice =
+                                        1;
                                   });
                                 },
                                 leading: Opacity(
@@ -576,7 +582,8 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
                                       });
                                     });
 
-                                    widget.specialRepeatChoiceData.endsChoice = 2;
+                                    widget.specialRepeatChoiceData.endsChoice =
+                                        2;
                                   });
                                 },
                                 leading: Opacity(
@@ -615,7 +622,7 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
         _opacitiesForFourthMenu[1] = 0.0;
 
         _isSecondMenuVisible = false;
-        _isWeeklyRepeat = false;
+        _isWeeklyRepeat = true;
         _isMonthlyRepeat = false;
 
         _resetFrequencyWidgetState();
@@ -630,32 +637,22 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
 
       if (widget.specialRepeatChoiceData.isOnOrOff == 1) {
         switch (widget.specialRepeatChoiceData.frequencyChoice) {
-          // case 0:
-          //   _opacitiesForSecondMenu[0] = 1.0;
-          //   _opacitiesForSecondMenu[1] =
-          //       _opacitiesForSecondMenu[2] = _opacitiesForSecondMenu[3] = 0.0;
-          //   _lastSelectedIndexInSecondMenu = 0;
+          case 0:
+            _opacitiesForSecondMenu[0] = 1.0;
+            _opacitiesForSecondMenu[1] = _opacitiesForSecondMenu[2] = 0.0;
 
-          //   _iRepeatTimeCount = widget.repeatChoiceData.repeatTimes;
-          //   _sRepeatTimeCount = _iRepeatTimeCount.toString();
-          //   _changeRepeatCountTextToMultiple();
-          //   break;
-          case 1:
-            _opacitiesForSecondMenu[1] = 1.0;
-            _opacitiesForSecondMenu[0] =
-                _opacitiesForSecondMenu[2] = _opacitiesForSecondMenu[3] = 0.0;
-
-            _lastSelectedIndexInSecondMenu = 1;
+            _isWeeklyRepeat = true;
+            _isMonthlyRepeat = false;
+            _lastSelectedIndexInSecondMenu = 0;
 
             _iRepeatTimeCount = widget.specialRepeatChoiceData.repeatTimes;
             _sRepeatTimeCount = _iRepeatTimeCount.toString();
             _changeRepeatCountTextToMultiple();
             break;
-          case 2:
-            _opacitiesForSecondMenu[2] = 1.0;
-            _opacitiesForSecondMenu[1] =
-                _opacitiesForSecondMenu[0] = _opacitiesForSecondMenu[3] = 0.0;
-            _lastSelectedIndexInSecondMenu = 2;
+          case 1:
+            _opacitiesForSecondMenu[1] = 1.0;
+            _opacitiesForSecondMenu[0] = _opacitiesForSecondMenu[2] = 0.0;
+            _lastSelectedIndexInSecondMenu = 1;
 
             _isMonthlyRepeat = true;
             _isWeeklyRepeat = false;
@@ -666,12 +663,11 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
             _sRepeatTimeCount = _iRepeatTimeCount.toString();
             _changeRepeatCountTextToMultiple();
             break;
-          case 3:
-            _opacitiesForSecondMenu[3] = 1.0;
-            _opacitiesForSecondMenu[1] =
-                _opacitiesForSecondMenu[2] = _opacitiesForSecondMenu[0] = 0.0;
+          case 2:
+            _opacitiesForSecondMenu[2] = 1.0;
+            _opacitiesForSecondMenu[1] = _opacitiesForSecondMenu[0] = 0.0;
 
-            _lastSelectedIndexInSecondMenu = 3;
+            _lastSelectedIndexInSecondMenu = 2;
 
             _iRepeatTimeCount = widget.specialRepeatChoiceData.repeatTimes;
             _sRepeatTimeCount = _iRepeatTimeCount.toString();
@@ -680,9 +676,10 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
         }
       }
 
-      if (widget.specialRepeatChoiceData.frequencyChoice == 1) {
+      if (widget.specialRepeatChoiceData.frequencyChoice == 0) {
         _dailyChoiceCards = [];
-        _selectedIndex = widget.specialRepeatChoiceData.weekRepeatDateChoiceIndex;
+        _selectedIndex =
+            widget.specialRepeatChoiceData.weekRepeatDateChoiceIndex;
 
         _isWeeklyRepeat = true;
         _isMonthlyRepeat = false;
@@ -721,7 +718,7 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
             ));
           }
         }
-      } else if (widget.specialRepeatChoiceData.frequencyChoice == 2) {
+      } else if (widget.specialRepeatChoiceData.frequencyChoice == 1) {
         if (widget.specialRepeatChoiceData.monthlyRepeatChoice == 0) {
           _opacitiesForFourthMenu[0] = 1.0;
           _opacitiesForFourthMenu[1] = 0.0;
@@ -729,6 +726,9 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
           _opacitiesForFourthMenu[0] = 0.0;
           _opacitiesForFourthMenu[1] = 1.0;
         }
+      } else {
+        _isWeeklyRepeat = false;
+        _isMonthlyRepeat = false;
       }
 
       switch (widget.specialRepeatChoiceData.endsChoice) {
@@ -821,7 +821,8 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
     setState(() {
       if (_selectedIndex.toSet().toList().contains(selectedIndex) == false) {
         _selectedIndex.add(selectedIndex);
-        widget.specialRepeatChoiceData.weekRepeatDateChoiceIndex.add(selectedIndex);
+        widget.specialRepeatChoiceData.weekRepeatDateChoiceIndex
+            .add(selectedIndex);
 
         if (selectedIndex == 0) {
           _dailyChoiceCards[selectedIndex] = _dailyRepeatChoiceCard(
@@ -897,7 +898,8 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
         }
 
         _selectedIndex.remove(selectedIndex);
-        widget.specialRepeatChoiceData.weekRepeatDateChoiceIndex.remove(selectedIndex);
+        widget.specialRepeatChoiceData.weekRepeatDateChoiceIndex
+            .remove(selectedIndex);
       }
     });
   }
@@ -913,9 +915,8 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
       _opacitiesForSecondMenu[_lastSelectedIndexInSecondMenu] =
           _lastSelectedIndexInSecondMenu != 0 ? 0.0 : 1.0;
 
-      
       _changeSecondMenuIconOpacity(_lastSelectedIndexInSecondMenu);
-      _lastSelectedIndexInSecondMenu = 1;
+      _lastSelectedIndexInSecondMenu = 0;
     });
   }
 
@@ -940,19 +941,15 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
   void _updateCountText(int selectedIndex) {
     setState(() {
       switch (selectedIndex) {
-        // case 0:
-        //   _sRepeatTimeCount = 1.toString();
-        //   _sRepeatTimeCount1 = "day";
-        //   break;
-        case 1:
+        case 0:
           _sRepeatTimeCount = 1.toString();
           _sRepeatTimeCount1 = "week";
           break;
-        case 2:
+        case 1:
           _sRepeatTimeCount = 1.toString();
           _sRepeatTimeCount1 = "month";
           break;
-        case 3:
+        case 2:
           _sRepeatTimeCount = 1.toString();
           _sRepeatTimeCount1 = "year";
           break;
@@ -965,15 +962,12 @@ class _SpecialRepeatSheetState extends State<SpecialRepeatSheet> {
     setState(() {
       switch (_lastSelectedIndexInSecondMenu) {
         case 0:
-          _sRepeatTimeCount1 = _iRepeatTimeCount > 1 ? "days" : "day";
-          break;
-        case 1:
           _sRepeatTimeCount1 = _iRepeatTimeCount > 1 ? "weeks" : "week";
           break;
-        case 2:
+        case 1:
           _sRepeatTimeCount1 = _iRepeatTimeCount > 1 ? "months" : "month";
           break;
-        case 3:
+        case 2:
           _sRepeatTimeCount1 = _iRepeatTimeCount > 1 ? "years" : "year";
           break;
       }
