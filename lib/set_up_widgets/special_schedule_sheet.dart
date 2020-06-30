@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:todoapp/data/repeat_choice_data.dart';
 import 'package:todoapp/set_up_widgets/repeat_sheet.dart';
 import 'package:todoapp/set_up_widgets/special_repeat_sheet.dart';
 import 'package:todoapp/data/special_repeat_data.dart';
@@ -21,7 +20,6 @@ class SpecialScheduleSheet extends StatefulWidget {
 }
 
 class _SpecialScheduleSheetState extends State<SpecialScheduleSheet> {
-  
   String _scheduleChoseDateText;
   DateTime _scheduleChoseDateTime;
 
@@ -71,17 +69,15 @@ class _SpecialScheduleSheetState extends State<SpecialScheduleSheet> {
             ],
           ),
           ListTile(
-            leading: Icon(Icons.check),
-            title: Text('Choose date'),
-            trailing: Text(_scheduleChoseDateText),
-            onTap: () {
-              setState(() {
-                
-                _scheduleChoseDateText = DateFormat("EEEEEEEE dd MMMM yyyy")
-                    .format(_scheduleChoseDateTime);
-              });
+              leading: Icon(Icons.check),
+              title: Text('Choose date'),
+              trailing: Text(_scheduleChoseDateText),
+              onTap: () {
+                setState(() {
+                  _scheduleChoseDateText = DateFormat("EEEEEEEE dd MMMM yyyy")
+                      .format(_scheduleChoseDateTime);
+                });
 
-              
                 showRoundedDatePicker(
                   theme: ThemeData.dark(),
                   context: context,
@@ -97,11 +93,9 @@ class _SpecialScheduleSheetState extends State<SpecialScheduleSheet> {
 
                     _scheduleChoseDateText = DateFormat("EEEEEEEE dd MMMM yyyy")
                         .format(_scheduleChoseDateTime);
-                    
                   });
                 });
-              } 
-          ),
+              }),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -139,13 +133,11 @@ class _SpecialScheduleSheetState extends State<SpecialScheduleSheet> {
         backgroundColor: Colors.transparent,
         context: context,
         builder: (context) => _specialRepeatSheet).whenComplete(() {
-      widget.specialRepeatChoiceData = _specialRepeatSheet.specialRepeatChoiceData;
+      widget.specialRepeatChoiceData =
+          _specialRepeatSheet.specialRepeatChoiceData;
     });
     setState(() {
-      isFirstTime = false;
+      isSpecialFirstTime = false;
     });
   }
-  
-  
-  
 }

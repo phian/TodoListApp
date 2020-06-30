@@ -50,7 +50,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     _repeatsChoiceData = RepeatChoiceData();
     _specialRepeatChoiceData = SpecialRepeatChoiceData();
 
-    isFirstTime = true;
+    isNormalFirstTime = true;
     isSpecialFirstTime = true;
   }
 

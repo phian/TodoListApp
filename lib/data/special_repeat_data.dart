@@ -1,6 +1,6 @@
 class SpecialRepeatChoiceData {
   int isOnOrOff = 0;
-  int frequencyChoice = 1;
+  int frequencyChoice = 0;
   int repeatTimes = 1;
   List<int> weekRepeatDateChoiceIndex = [];
   int monthlyRepeatChoice;
@@ -9,4 +9,5 @@ class SpecialRepeatChoiceData {
   DateTime endsDateChoice = DateTime.now();
 }
 
-var isSpecialFirstTime; // Biến để check xem task có dc mở lên lần dầu tiên ko
+// Biến để check xem task có dc mở lên lần dầu tiên ko
+var isSpecialFirstTime = true;

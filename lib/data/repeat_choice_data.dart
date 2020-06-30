@@ -10,4 +10,5 @@ class RepeatChoiceData {
   DateTime endsDateChoice = DateTime.now();
 }
 
-var isFirstTime; // Biến để check xem task có dc mở lên lần dầu tiên ko
+// Biến để check xem task có dc mở lên lần dầu tiên ko
+var isNormalFirstTime = true;

@@ -54,7 +54,7 @@ class _RepeatSheetState extends State<RepeatSheet> {
     _initTimeForEndDay = DateTime.now();
     _endDay = null;
 
-    if (isFirstTime == false) _initPreviousChoiceState();
+    if (isNormalFirstTime == false) _initPreviousChoiceState();
   }
 
   @override
@@ -135,10 +135,16 @@ class _RepeatSheetState extends State<RepeatSheet> {
                         ),
                         ListTile(
                           onTap: () {
+                            // Gán để biết rằng ng dùng đã có set up schedule
+                            isNormalFirstTime = false;
+
                             _changeSecondMenuIconOpacity(0);
 
                             _isWeeklyRepeat = false;
                             _isMonthlyRepeat = false;
+                            _selectedIndex = [];
+                            widget.repeatChoiceData.weekRepeatDateChoiceIndex =
+                                [];
 
                             _resetMonthlyChoiceIconOpacity();
 
@@ -154,11 +160,14 @@ class _RepeatSheetState extends State<RepeatSheet> {
                           onTap: () {
                             _changeSecondMenuIconOpacity(1);
 
-                            _isWeeklyRepeat = true;
-                            _isMonthlyRepeat = false;
+                            if (_isWeeklyRepeat == false) {
+                              _isWeeklyRepeat = true;
+                              _isMonthlyRepeat = false;
+
+                              _initDailyRepeatCardList();
+                            }
 
                             _resetMonthlyChoiceIconOpacity();
-                            _initDailyRepeatCardList();
 
                             widget.repeatChoiceData.frequencyChoice = 1;
                           },
@@ -172,8 +181,13 @@ class _RepeatSheetState extends State<RepeatSheet> {
                           onTap: () {
                             _changeSecondMenuIconOpacity(2);
 
-                            _isMonthlyRepeat = true;
-                            _isWeeklyRepeat = false;
+                            if (_isMonthlyRepeat == false) {
+                              _isMonthlyRepeat = true;
+                              _isWeeklyRepeat = false;
+                            }
+                            _selectedIndex = [];
+                            widget.repeatChoiceData.weekRepeatDateChoiceIndex =
+                                [];
 
                             _changeMonthlyRepeatDateName();
                             _calculateOrderPlaceOfCurrentDate();
@@ -192,6 +206,9 @@ class _RepeatSheetState extends State<RepeatSheet> {
 
                             _isWeeklyRepeat = false;
                             _isMonthlyRepeat = false;
+                            _selectedIndex = [];
+                            widget.repeatChoiceData.weekRepeatDateChoiceIndex =
+                                [];
 
                             _resetMonthlyChoiceIconOpacity();
 

@@ -150,14 +150,14 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
                               return;
                             } else if (DateFormat("dd MMMM yyyy")
                                     .format(_scheduleChoseDateTime) ==
-                                DateFormat("dd MMMM yyyy").format(
-                                    DateTime.now().add(Duration(
+                                DateFormat("dd MMMM yyyy").format(DateTime.now()
+                                    .add(Duration(
                                         days: 6 - DateTime.now().weekday)))) {
                               _selectedScheduleIndex = 2;
                             } else if (DateFormat("dd MMMM yyyy")
                                     .format(_scheduleChoseDateTime) ==
-                                DateFormat("dd MMMM yyyy").format(
-                                    DateTime.now().add(Duration(
+                                DateFormat("dd MMMM yyyy").format(DateTime.now()
+                                    .add(Duration(
                                         days: 7 - DateTime.now().weekday)))) {
                               _selectedScheduleIndex = 3;
                             }
@@ -242,7 +242,7 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
     });
 
     setState(() {
-      isFirstTime = false;
+      isNormalFirstTime = false;
     });
   }
 
