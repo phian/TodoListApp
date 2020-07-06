@@ -203,6 +203,19 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         color: Colors.white,
                         child: Icon(Icons.close),
                         onPressed: () {
+                          // Reset lại các giá trị đã set trong schedule sheet
+                          setState(() {
+                            _scheduleSheet.repeatChoiceData =
+                                RepeatChoiceData();
+                            _specialScheduleSheet.specialRepeatChoiceData =
+                                SpecialRepeatChoiceData();
+
+                            _repeatsChoiceData =
+                                _scheduleSheet.repeatChoiceData;
+                            _specialRepeatChoiceData =
+                                _specialScheduleSheet.specialRepeatChoiceData;
+                          });
+
                           _backToMainScreen();
                         },
                       ),

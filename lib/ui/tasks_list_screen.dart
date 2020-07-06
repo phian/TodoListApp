@@ -149,7 +149,10 @@ class _TasksListScreenState extends State<TasksListScreen> {
                             });
                           },
                           onDragCompleted: () {
-                            setState(() {});
+                            setState(() {
+                              binTransformValue =
+                                  MediaQuery.of(context).size.height;
+                            });
                           },
                           data: index,
                           maxSimultaneousDrags: 1,
@@ -190,6 +193,8 @@ class _TasksListScreenState extends State<TasksListScreen> {
                       onDragCompleted: () {
                         setState(() {
                           // dragIndex = 0;
+                          binTransformValue =
+                              MediaQuery.of(context).size.height;
                         });
                       },
                       data: index,
@@ -265,14 +270,16 @@ class _TasksListScreenState extends State<TasksListScreen> {
               },
               onTapDown: (details) {
                 setState(() {
-                  binTransformValue =
-                      -(MediaQuery.of(context).size.height * 0.06);
+                  if (index != 0)
+                    binTransformValue =
+                        -(MediaQuery.of(context).size.height * 0.06);
                 });
               },
-              onTapCancel: () {
-                setState(() {
-                  binTransformValue = MediaQuery.of(context).size.height;
-                });
+              onTapUp: (details) {
+                if (index != 0)
+                  setState(() {
+                    binTransformValue = MediaQuery.of(context).size.height;
+                  });
               },
             );
           },

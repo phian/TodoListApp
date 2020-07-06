@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:todoapp/animation/flare_controller.dart';
@@ -10,6 +9,7 @@ import 'package:todoapp/animation/rating_background_color.dart';
 import 'package:todoapp/slider_widgets/rating_slider_painter.dart';
 import 'package:todoapp/slider_widgets/rating_title.dart';
 import 'package:todoapp/ui/about_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'dart:math' as math;
 import 'package:vector_math/vector_math_64.dart' as vector;
 
@@ -48,7 +48,7 @@ class _RatingScreenState extends State<RatingScreen>
 
     _flareController = FlareRateController();
     _slideState = SlideState.VeryBad;
-    SystemChrome.setEnabledSystemUIOverlays([]);
+    // SystemChrome.setEnabledSystemUIOverlays([]);
 
     _ratingAnimatonController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 750))
@@ -221,7 +221,8 @@ class _RatingScreenState extends State<RatingScreen>
       );
 
   // Nút submit
-  Widget _buildBottomWidgets() => Align(
+  Widget _buildBottomWidgets() => Container(
+        transform: Matrix4.translationValues(0.0, -15.0, 0.0),
         alignment: Alignment.bottomCenter,
         child: GestureDetector(
           onTapDown: _onTapDown,
@@ -333,6 +334,8 @@ class _RatingScreenState extends State<RatingScreen>
                 setState(() {
                   _transitionForRatingScreen =
                       MediaQuery.of(context).size.height;
+
+                  _checkSlideStateAndSendToEmail();
                 });
 
                 Navigator.push(
@@ -375,5 +378,44 @@ class _RatingScreenState extends State<RatingScreen>
               lastFocusedScreen: widget.lastFocusedScreen,
             ),
             duration: Duration(milliseconds: 300)));
+  }
+
+  // Hàm để mở email trong máy của ng dùng và chuyển phần rating vào đó
+  _launchURL(String toMailAddress, String subject, String body) async {
+    var url = 'mailto:$toMailAddress?subject=$subject&body=$body';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  // Hàm để check xem trạng thái rating là gì và gọi hàm tương ứng
+  void _checkSlideStateAndSendToEmail() {
+    String address = "phiannguyen1806@gmail.com",
+        address1 = "",
+        subject = "[Rating for DOIT]",
+        body = "Your app is ";
+
+    switch (_slideState) {
+      case SlideState.VeryBad:
+        body += "very bad 😠";
+        break;
+      case SlideState.Bad:
+        body += "bad 😔";
+        break;
+      case SlideState.Good:
+        body += "good 😉";
+        break;
+      case SlideState.VeryGood:
+        body += "very good 😜";
+        break;
+      case SlideState.Perfect:
+        body += "very perfect ❤";
+        break;
+    }
+
+    _launchURL("$address", "$subject", "$body");
+    _launchURL("$address1", "$subject", "$body");
   }
 }
