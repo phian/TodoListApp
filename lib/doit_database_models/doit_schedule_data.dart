@@ -45,10 +45,11 @@ class ScheduleData {
   // Constructor để phân tách ListData object từ một Map object
   ScheduleData.fromScheduleMapObject(Map<String, dynamic> scheduleMap) {
     this.scheduleId = scheduleMap['SCHEDULE_ID'];
+
     this.scheduleRepeatDate = scheduleMap['REPEAT_DATE'];
     this.scheduleSetUpStatus = scheduleMap['SCHEDULE_STATUS'];
     this.scheduleFrequencyChoice = scheduleMap['FREQUENCY_CHOICE'];
-    this.scheduleRerepeatTimes = scheduleMap['REPEAT_TIMES'];
+    this.scheduleRerepeatTimes = scheduleMap['REPEAT_TIMES']; //TODO: đặt lại tên biến .................................
     this.scheduleWeeklyChoiceDates = scheduleMap['WEEKLY_CHOICE_DATES'];
     this.scheduleMonthlyChoice = scheduleMap['MONTHLY_CHOICE'];
     this.scheduleEndsNeverChoice = scheduleMap['NEVER_CHOICE'];

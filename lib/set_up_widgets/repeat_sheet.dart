@@ -37,13 +37,11 @@ class _RepeatSheetState extends State<RepeatSheet> {
   String _monthlyRepeatTimeOrder;
 
   List<double> _opacitiesForFifthMenu = [1.0, 0.0, 0.0];
-  String _endSecondChoiceText = "After a number of times",
-      _endSecondChoiceMultiCountText;
+  String _endSecondChoiceText = "After a number of times", _endSecondChoiceMultiCountText;
   int _endSecondChoiceCount;
   bool _isSecondChoiceButtonVisible = false;
 
-  String
-      _endDay; // Biến để hiển thị format cho ngày mà người dùng chọn trong phần ENDS
+  String _endDay; // Biến để hiển thị format cho ngày mà người dùng chọn trong phần ENDS
   DateTime _initTimeForEndDay;
 
   @override
@@ -61,8 +59,7 @@ class _RepeatSheetState extends State<RepeatSheet> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
         color: Colors.white,
       ),
       child: ListView(
@@ -143,8 +140,7 @@ class _RepeatSheetState extends State<RepeatSheet> {
                             _isWeeklyRepeat = false;
                             _isMonthlyRepeat = false;
                             _selectedIndex = [];
-                            widget.repeatChoiceData.weekRepeatDateChoiceIndex =
-                                [];
+                            widget.repeatChoiceData.weekRepeatDateChoiceIndex = [];
 
                             _resetMonthlyChoiceIconOpacity();
 
@@ -186,8 +182,7 @@ class _RepeatSheetState extends State<RepeatSheet> {
                               _isWeeklyRepeat = false;
                             }
                             _selectedIndex = [];
-                            widget.repeatChoiceData.weekRepeatDateChoiceIndex =
-                                [];
+                            widget.repeatChoiceData.weekRepeatDateChoiceIndex = [];
 
                             _changeMonthlyRepeatDateName();
                             _calculateOrderPlaceOfCurrentDate();
@@ -207,8 +202,7 @@ class _RepeatSheetState extends State<RepeatSheet> {
                             _isWeeklyRepeat = false;
                             _isMonthlyRepeat = false;
                             _selectedIndex = [];
-                            widget.repeatChoiceData.weekRepeatDateChoiceIndex =
-                                [];
+                            widget.repeatChoiceData.weekRepeatDateChoiceIndex = [];
 
                             _resetMonthlyChoiceIconOpacity();
 
@@ -247,23 +241,18 @@ class _RepeatSheetState extends State<RepeatSheet> {
                                   Icons.check,
                                   color: Colors.transparent,
                                 ),
-                                title: Text(
-                                    "$_sRepeatTimeCount $_sRepeatTimeCount1"),
+                                title: Text("$_sRepeatTimeCount $_sRepeatTimeCount1"),
                               ),
                             ),
                             Container(
-                              padding: EdgeInsets.only(
-                                  top: 15.0,
-                                  left:
-                                      MediaQuery.of(context).size.width / 2.6),
+                              padding: EdgeInsets.only(top: 15.0, left: MediaQuery.of(context).size.width / 2.6),
                               child: Row(
                                 children: <Widget>[
                                   Container(
                                     width: 70.0,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(10.0),
-                                          bottomLeft: Radius.circular(10.0)),
+                                          topLeft: Radius.circular(10.0), bottomLeft: Radius.circular(10.0)),
                                       border: Border.all(color: Colors.black),
                                     ),
                                     height: 30.0,
@@ -273,12 +262,9 @@ class _RepeatSheetState extends State<RepeatSheet> {
                                         setState(() {
                                           if (_iRepeatTimeCount > 1) {
                                             _iRepeatTimeCount--;
-                                            _sRepeatTimeCount =
-                                                _iRepeatTimeCount.toString();
+                                            _sRepeatTimeCount = _iRepeatTimeCount.toString();
 
-                                            widget.repeatChoiceData
-                                                    .repeatTimes =
-                                                _iRepeatTimeCount;
+                                            widget.repeatChoiceData.repeatTimes = _iRepeatTimeCount;
 
                                             _changeRepeatCountTextToMultiple();
                                           }
@@ -288,12 +274,10 @@ class _RepeatSheetState extends State<RepeatSheet> {
                                   ),
                                   Container(
                                     width: 70.0,
-                                    transform: Matrix4.translationValues(
-                                        -1.0, 0.0, 0.0),
+                                    transform: Matrix4.translationValues(-1.0, 0.0, 0.0),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(10.0),
-                                          bottomRight: Radius.circular(10.0)),
+                                          topRight: Radius.circular(10.0), bottomRight: Radius.circular(10.0)),
                                       border: Border.all(color: Colors.black),
                                     ),
                                     height: 30.0,
@@ -302,11 +286,9 @@ class _RepeatSheetState extends State<RepeatSheet> {
                                       onPressed: () {
                                         setState(() {
                                           _iRepeatTimeCount++;
-                                          _sRepeatTimeCount =
-                                              _iRepeatTimeCount.toString();
+                                          _sRepeatTimeCount = _iRepeatTimeCount.toString();
 
-                                          widget.repeatChoiceData.repeatTimes =
-                                              _iRepeatTimeCount;
+                                          widget.repeatChoiceData.repeatTimes = _iRepeatTimeCount;
 
                                           _changeRepeatCountTextToMultiple();
                                         });
@@ -330,10 +312,7 @@ class _RepeatSheetState extends State<RepeatSheet> {
                                   "REPEAT ON",
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 )),
-                                visible: (_isWeeklyRepeat == false &&
-                                        _isMonthlyRepeat == false)
-                                    ? false
-                                    : true,
+                                visible: (_isWeeklyRepeat == false && _isMonthlyRepeat == false) ? false : true,
                               ),
                               Visibility(
                                 visible: _isWeeklyRepeat,
@@ -409,16 +388,11 @@ class _RepeatSheetState extends State<RepeatSheet> {
                                             _opacitiesForFourthMenu[1] = 0.0;
                                             _opacitiesForFourthMenu[0] = 1.0;
 
-                                            widget.repeatChoiceData
-                                                .monthlyRepeatChoice = 0;
+                                            widget.repeatChoiceData.monthlyRepeatChoice = 0;
                                           });
                                         },
-                                        leading: Opacity(
-                                            child: Icon(Icons.check),
-                                            opacity:
-                                                _opacitiesForFourthMenu[0]),
-                                        title: Text(
-                                            "Day ${DateTime.now().day} of month"),
+                                        leading: Opacity(child: Icon(Icons.check), opacity: _opacitiesForFourthMenu[0]),
+                                        title: Text("Day ${DateTime.now().day} of month"),
                                       ),
                                       ListTile(
                                         onTap: () {
@@ -426,16 +400,14 @@ class _RepeatSheetState extends State<RepeatSheet> {
                                             _opacitiesForFourthMenu[1] = 1.0;
                                             _opacitiesForFourthMenu[0] = 0.0;
 
-                                            widget.repeatChoiceData
-                                                .monthlyRepeatChoice = 1;
+                                            widget.repeatChoiceData.monthlyRepeatChoice = 1;
                                           });
                                         },
                                         leading: Opacity(
                                           child: Icon(Icons.check),
                                           opacity: _opacitiesForFourthMenu[1],
                                         ),
-                                        title: Text(
-                                            "Every $_monthlyRepeatTimeOrder $_monthlyRepeatDateName"),
+                                        title: Text("Every $_monthlyRepeatTimeOrder $_monthlyRepeatDateName"),
                                       ),
                                     ],
                                   ),
@@ -459,8 +431,7 @@ class _RepeatSheetState extends State<RepeatSheet> {
                                   _changeEndsWidgetIconOpacity(0);
 
                                   setState(() {
-                                    _endSecondChoiceText =
-                                        "After a number of times";
+                                    _endSecondChoiceText = "After a number of times";
                                     _isSecondChoiceButtonVisible = false;
 
                                     _endDay = null;
@@ -499,55 +470,38 @@ class _RepeatSheetState extends State<RepeatSheet> {
                                     Visibility(
                                       visible: _isSecondChoiceButtonVisible,
                                       child: Container(
-                                        padding: EdgeInsets.only(
-                                            left: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                40),
+                                        padding: EdgeInsets.only(left: MediaQuery.of(context).size.width / 40),
                                         child: Row(
                                           children: <Widget>[
                                             Container(
                                               width: 70.0,
                                               decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.only(
-                                                    topLeft:
-                                                        Radius.circular(10.0),
-                                                    bottomLeft:
-                                                        Radius.circular(10.0)),
-                                                border: Border.all(
-                                                    color: Colors.black),
+                                                    topLeft: Radius.circular(10.0), bottomLeft: Radius.circular(10.0)),
+                                                border: Border.all(color: Colors.black),
                                               ),
                                               height: 30.0,
                                               child: FlatButton(
-                                                child: Center(
-                                                    child: Icon(Icons.remove)),
+                                                child: Center(child: Icon(Icons.remove)),
                                                 onPressed: () {
-                                                  _onIncreaseOrDecreaseInEndsChoice(
-                                                      false);
+                                                  _onIncreaseOrDecreaseInEndsChoice(false);
                                                 },
                                               ),
                                             ),
                                             Container(
                                               width: 70.0,
-                                              transform:
-                                                  Matrix4.translationValues(
-                                                      -1.0, 0.0, 0.0),
+                                              transform: Matrix4.translationValues(-1.0, 0.0, 0.0),
                                               decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.only(
-                                                    topRight:
-                                                        Radius.circular(10.0),
-                                                    bottomRight:
-                                                        Radius.circular(10.0)),
-                                                border: Border.all(
-                                                    color: Colors.black),
+                                                    topRight: Radius.circular(10.0),
+                                                    bottomRight: Radius.circular(10.0)),
+                                                border: Border.all(color: Colors.black),
                                               ),
                                               height: 30.0,
                                               child: FlatButton(
-                                                child: Center(
-                                                    child: Icon(Icons.add)),
+                                                child: Center(child: Icon(Icons.add)),
                                                 onPressed: () {
-                                                  _onIncreaseOrDecreaseInEndsChoice(
-                                                      true);
+                                                  _onIncreaseOrDecreaseInEndsChoice(true);
                                                 },
                                               ),
                                             ),
@@ -563,27 +517,22 @@ class _RepeatSheetState extends State<RepeatSheet> {
                                   _changeEndsWidgetIconOpacity(2);
 
                                   setState(() {
-                                    _endSecondChoiceText =
-                                        "After a number of times";
+                                    _endSecondChoiceText = "After a number of times";
                                     _isSecondChoiceButtonVisible = false;
 
-                                    _endDay = DateFormat('dd MMMM yyyy')
-                                        .format(_initTimeForEndDay);
+                                    _endDay = DateFormat('dd MMMM yyyy').format(_initTimeForEndDay);
 
                                     showRoundedDatePicker(
                                       context: context,
                                       theme: ThemeData.dark(),
                                       initialDate: _initTimeForEndDay,
-                                      firstDate: DateTime.now()
-                                          .subtract(Duration(days: 1)),
+                                      firstDate: DateTime.now().subtract(Duration(days: 1)),
                                       lastDate: DateTime(2100),
                                     ).then((value) {
                                       setState(() {
                                         if (value != null) {
-                                          widget.repeatChoiceData
-                                              .endsDateChoice = value;
-                                          _endDay = DateFormat('dd MMMM yyyy')
-                                              .format(value);
+                                          widget.repeatChoiceData.endsDateChoice = value;
+                                          _endDay = DateFormat('dd MMMM yyyy').format(value);
                                           _initTimeForEndDay = value;
                                         }
                                       });
@@ -645,8 +594,7 @@ class _RepeatSheetState extends State<RepeatSheet> {
         switch (widget.repeatChoiceData.frequencyChoice) {
           case 0:
             _opacitiesForSecondMenu[0] = 1.0;
-            _opacitiesForSecondMenu[1] =
-                _opacitiesForSecondMenu[2] = _opacitiesForSecondMenu[3] = 0.0;
+            _opacitiesForSecondMenu[1] = _opacitiesForSecondMenu[2] = _opacitiesForSecondMenu[3] = 0.0;
             _lastSelectedIndexInSecondMenu = 0;
 
             _iRepeatTimeCount = widget.repeatChoiceData.repeatTimes;
@@ -655,8 +603,7 @@ class _RepeatSheetState extends State<RepeatSheet> {
             break;
           case 1:
             _opacitiesForSecondMenu[1] = 1.0;
-            _opacitiesForSecondMenu[0] =
-                _opacitiesForSecondMenu[2] = _opacitiesForSecondMenu[3] = 0.0;
+            _opacitiesForSecondMenu[0] = _opacitiesForSecondMenu[2] = _opacitiesForSecondMenu[3] = 0.0;
 
             _lastSelectedIndexInSecondMenu = 1;
 
@@ -666,8 +613,7 @@ class _RepeatSheetState extends State<RepeatSheet> {
             break;
           case 2:
             _opacitiesForSecondMenu[2] = 1.0;
-            _opacitiesForSecondMenu[1] =
-                _opacitiesForSecondMenu[0] = _opacitiesForSecondMenu[3] = 0.0;
+            _opacitiesForSecondMenu[1] = _opacitiesForSecondMenu[0] = _opacitiesForSecondMenu[3] = 0.0;
             _lastSelectedIndexInSecondMenu = 2;
 
             _isMonthlyRepeat = true;
@@ -681,8 +627,7 @@ class _RepeatSheetState extends State<RepeatSheet> {
             break;
           case 3:
             _opacitiesForSecondMenu[3] = 1.0;
-            _opacitiesForSecondMenu[1] =
-                _opacitiesForSecondMenu[2] = _opacitiesForSecondMenu[0] = 0.0;
+            _opacitiesForSecondMenu[1] = _opacitiesForSecondMenu[2] = _opacitiesForSecondMenu[0] = 0.0;
 
             _lastSelectedIndexInSecondMenu = 3;
 
@@ -710,9 +655,7 @@ class _RepeatSheetState extends State<RepeatSheet> {
               transitionX,
               _selectedIndex.contains(i) ? Colors.black : Colors.white,
               _selectedIndex.contains(i) ? Colors.white : Colors.black,
-              BorderRadius.only(
-                  topLeft: Radius.circular(10.0),
-                  bottomLeft: Radius.circular(10.0)),
+              BorderRadius.only(topLeft: Radius.circular(10.0), bottomLeft: Radius.circular(10.0)),
             ));
           } else if (i == _dailyChoiceCardContents.length - 1) {
             _dailyChoiceCards.add(_dailyRepeatChoiceCard(
@@ -720,9 +663,7 @@ class _RepeatSheetState extends State<RepeatSheet> {
               transitionX,
               _selectedIndex.contains(i) ? Colors.black : Colors.white,
               _selectedIndex.contains(i) ? Colors.white : Colors.black,
-              BorderRadius.only(
-                  topRight: Radius.circular(10.0),
-                  bottomRight: Radius.circular(10.0)),
+              BorderRadius.only(topRight: Radius.circular(10.0), bottomRight: Radius.circular(10.0)),
             ));
           } else {
             _dailyChoiceCards.add(_dailyRepeatChoiceCard(
@@ -752,12 +693,9 @@ class _RepeatSheetState extends State<RepeatSheet> {
           _changeEndsWidgetIconOpacity(1);
           _isSecondChoiceButtonVisible = true;
 
-          _endSecondChoiceCount =
-              widget.repeatChoiceData.endsAfetrNumberOfTimesChoice;
-          _endSecondChoiceMultiCountText =
-              _endSecondChoiceCount > 1 ? "times" : "time";
-          _endSecondChoiceText =
-              "After $_endSecondChoiceCount $_endSecondChoiceMultiCountText";
+          _endSecondChoiceCount = widget.repeatChoiceData.endsAfetrNumberOfTimesChoice;
+          _endSecondChoiceMultiCountText = _endSecondChoiceCount > 1 ? "times" : "time";
+          _endSecondChoiceText = "After $_endSecondChoiceCount $_endSecondChoiceMultiCountText";
           break;
         default:
           _changeEndsWidgetIconOpacity(2);
@@ -772,16 +710,13 @@ class _RepeatSheetState extends State<RepeatSheet> {
   // Hàm để khởi tạo cho các ô đã
 
   // Card dùng cho phần pick thứ trong daily repeat
-  Widget _dailyRepeatChoiceCard(String cardContent, double transitionX,
-      Color backgroundColor, Color textColor, BorderRadius boxRadius) {
+  Widget _dailyRepeatChoiceCard(
+      String cardContent, double transitionX, Color backgroundColor, Color textColor, BorderRadius boxRadius) {
     return Container(
         transform: Matrix4.translationValues(transitionX, 0.0, 0.0),
-        padding:
-            EdgeInsets.only(top: 5.0, bottom: 5.0, left: 15.0, right: 15.0),
-        decoration: BoxDecoration(
-            color: backgroundColor,
-            border: Border.all(color: Colors.black),
-            borderRadius: boxRadius),
+        padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 15.0, right: 15.0),
+        decoration:
+            BoxDecoration(color: backgroundColor, border: Border.all(color: Colors.black), borderRadius: boxRadius),
         child: Text(
           "$cardContent",
           style: TextStyle(color: textColor),
@@ -803,9 +738,7 @@ class _RepeatSheetState extends State<RepeatSheet> {
           transitionX,
           Colors.white,
           Colors.black,
-          BorderRadius.only(
-              topLeft: Radius.circular(10.0),
-              bottomLeft: Radius.circular(10.0)),
+          BorderRadius.only(topLeft: Radius.circular(10.0), bottomLeft: Radius.circular(10.0)),
         ));
       } else if (i == _dailyChoiceCardContents.length - 1) {
         _dailyChoiceCards.add(_dailyRepeatChoiceCard(
@@ -813,9 +746,7 @@ class _RepeatSheetState extends State<RepeatSheet> {
           transitionX,
           Colors.white,
           Colors.black,
-          BorderRadius.only(
-              topRight: Radius.circular(10.0),
-              bottomRight: Radius.circular(10.0)),
+          BorderRadius.only(topRight: Radius.circular(10.0), bottomRight: Radius.circular(10.0)),
         ));
       } else {
         _dailyChoiceCards.add(_dailyRepeatChoiceCard(
@@ -876,8 +807,7 @@ class _RepeatSheetState extends State<RepeatSheet> {
               _dailyChoiceCardContents[selectedIndex],
               selectedIndex == 0
                   ? 0.0
-                  : -(selectedIndex +
-                      1), // Do khi chạy vòng lặp |trasitionX| luôn lớn hơn i (selectedIndex) một đơn vị
+                  : -(selectedIndex + 1), // Do khi chạy vòng lặp |trasitionX| luôn lớn hơn i (selectedIndex) một đơn vị
               Colors.white,
               Colors.black,
               BorderRadius.only(
@@ -923,8 +853,7 @@ class _RepeatSheetState extends State<RepeatSheet> {
       _sRepeatTimeCount1 = "day";
 
       _opacitiesForSecondMenu[0] = 1.0;
-      _opacitiesForSecondMenu[_lastSelectedIndexInSecondMenu] =
-          _lastSelectedIndexInSecondMenu != 0 ? 0.0 : 1.0;
+      _opacitiesForSecondMenu[_lastSelectedIndexInSecondMenu] = _lastSelectedIndexInSecondMenu != 0 ? 0.0 : 1.0;
 
       _changeSecondMenuIconOpacity(0);
       _lastSelectedIndexInSecondMenu = 0;
@@ -1016,11 +945,9 @@ class _RepeatSheetState extends State<RepeatSheet> {
         _endSecondChoiceCount++;
 
         _endSecondChoiceMultiCountText = "times";
-        _endSecondChoiceText =
-            "After $_endSecondChoiceCount $_endSecondChoiceMultiCountText";
+        _endSecondChoiceText = "After $_endSecondChoiceCount $_endSecondChoiceMultiCountText";
 
-        widget.repeatChoiceData.endsAfetrNumberOfTimesChoice =
-            _endSecondChoiceCount;
+        widget.repeatChoiceData.endsAfetrNumberOfTimesChoice = _endSecondChoiceCount;
       });
     } else {
       setState(() {
@@ -1028,19 +955,15 @@ class _RepeatSheetState extends State<RepeatSheet> {
           _endSecondChoiceCount--;
 
           _endSecondChoiceMultiCountText = "times";
-          _endSecondChoiceText =
-              "After $_endSecondChoiceCount $_endSecondChoiceMultiCountText";
+          _endSecondChoiceText = "After $_endSecondChoiceCount $_endSecondChoiceMultiCountText";
 
-          widget.repeatChoiceData.endsAfetrNumberOfTimesChoice =
-              _endSecondChoiceCount;
+          widget.repeatChoiceData.endsAfetrNumberOfTimesChoice = _endSecondChoiceCount;
         }
         if (_endSecondChoiceCount == 1) {
           _endSecondChoiceMultiCountText = "time";
-          _endSecondChoiceText =
-              "After $_endSecondChoiceCount $_endSecondChoiceMultiCountText";
+          _endSecondChoiceText = "After $_endSecondChoiceCount $_endSecondChoiceMultiCountText";
 
-          widget.repeatChoiceData.endsAfetrNumberOfTimesChoice =
-              _endSecondChoiceCount;
+          widget.repeatChoiceData.endsAfetrNumberOfTimesChoice = _endSecondChoiceCount;
         }
       });
     }
@@ -1101,11 +1024,9 @@ class _RepeatSheetState extends State<RepeatSheet> {
         case 3:
           _monthlyRepeatTimeOrder = "3rd";
           break;
-        case 4:
-          _monthlyRepeatTimeOrder = "4th";
-          break;
+
         default:
-          _monthlyRepeatTimeOrder = "5th";
+          _monthlyRepeatTimeOrder = "4th";
           break;
       }
     });

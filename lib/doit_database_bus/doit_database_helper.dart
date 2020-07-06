@@ -40,8 +40,7 @@ class DatabaseHelper {
 
   factory DatabaseHelper() {
     if (_doitDatabaseHelper == null) {
-      _doitDatabaseHelper = DatabaseHelper
-          ._createInstance(); // Thực thi một lần duy nhất, singleton object
+      _doitDatabaseHelper = DatabaseHelper._createInstance(); // Thực thi một lần duy nhất, singleton object
     }
 
     return _doitDatabaseHelper;
@@ -59,13 +58,11 @@ class DatabaseHelper {
   // Hàm để khởi tạo database
   Future<Database> initDoitDatabase() async {
     // Lấy đường dẫn iOS và Android để lưu trữ database
-    Directory doitDatabaseStoredDirectory =
-        await getApplicationDocumentsDirectory();
+    Directory doitDatabaseStoredDirectory = await getApplicationDocumentsDirectory();
     String doitDatabasePath = doitDatabaseStoredDirectory.path + 'doit.db';
 
     // Mở hoặc khởi tạo database tại đường dẫn được đưa trc
-    var doitDatabase = await openDatabase(doitDatabasePath,
-        version: 1, onCreate: _createDoitDatabase);
+    var doitDatabase = await openDatabase(doitDatabasePath, version: 1, onCreate: _createDoitDatabase);
 
     return doitDatabase;
   }
@@ -129,7 +126,7 @@ class DatabaseHelper {
   Future<int> insertDataToTaskTable(TaskData taskData) async {
     Database doitDatabase = await this.getDoitDatabase;
 
-    var insertResult = await doitDatabase.insert(listTable, taskData.toMap());
+    var insertResult = await doitDatabase.insert(taskTable, taskData.toMap());
     return insertResult;
   }
 
@@ -137,8 +134,7 @@ class DatabaseHelper {
   Future<int> insertDataToScheduleTable(ScheduleData scheduleData) async {
     Database doitDatabase = await this.getDoitDatabase;
 
-    var insertResult =
-        await doitDatabase.insert(listTable, scheduleData.toMap());
+    var insertResult = await doitDatabase.insert(scheduleTable, scheduleData.toMap());
     return insertResult;
   }
   //----------------------------------------------------------------------------------------//
@@ -149,8 +145,8 @@ class DatabaseHelper {
   Future<int> updateListData(ListData listData) async {
     var doitDatabase = await this.getDoitDatabase;
 
-    var updateResult = await doitDatabase.update(listTable, listData.toMap(),
-        where: '$colListId = ?', whereArgs: [listData.listId]);
+    var updateResult =
+        await doitDatabase.update(listTable, listData.toMap(), where: '$colListId = ?', whereArgs: [listData.listId]);
     print(listData.listId);
     return updateResult;
   }
@@ -159,8 +155,8 @@ class DatabaseHelper {
   Future<int> updateTaskData(TaskData taskData) async {
     var doitDatabase = await this.getDoitDatabase;
 
-    var updateResult = await doitDatabase.update(taskTable, taskData.toMap(),
-        where: '$colTaskId = ?', whereArgs: [taskData.taskId]);
+    var updateResult =
+        await doitDatabase.update(taskTable, taskData.toMap(), where: '$colTaskId = ?', whereArgs: [taskData.taskId]);
     return updateResult;
   }
 
@@ -168,9 +164,8 @@ class DatabaseHelper {
   Future<int> updateScheduleData(ScheduleData scheduleData) async {
     var doitDatabase = await this.getDoitDatabase;
 
-    var updateResult = await doitDatabase.update(
-        scheduleTable, scheduleData.toMap(),
-        where: '$colScheduleId = ?', whereArgs: [scheduleData.scheduleId]);
+    var updateResult = await doitDatabase
+        .update(scheduleTable, scheduleData.toMap(), where: '$colScheduleId = ?', whereArgs: [scheduleData.scheduleId]);
     return updateResult;
   }
   //----------------------------------------------------------------------------------------//
@@ -181,8 +176,7 @@ class DatabaseHelper {
   Future<int> deleteListData(int listId) async {
     var doitDatabase = await this.getDoitDatabase;
 
-    var deleteResult = await doitDatabase
-        .delete(listTable, where: '$colListId = ?', whereArgs: [listId]);
+    var deleteResult = await doitDatabase.delete(listTable, where: '$colListId = ?', whereArgs: [listId]);
     return deleteResult;
   }
 
@@ -190,8 +184,7 @@ class DatabaseHelper {
   Future<int> deleteTaskData(int taskId) async {
     var doitDatabase = await this.getDoitDatabase;
 
-    var deleteResult = await doitDatabase
-        .delete(taskTable, where: '$colTaskId = ?', whereArgs: [taskId]);
+    var deleteResult = await doitDatabase.delete(taskTable, where: '$colTaskId = ?', whereArgs: [taskId]);
     return deleteResult;
   }
 
@@ -199,8 +192,7 @@ class DatabaseHelper {
   Future<int> deleteScheduleData(int scheduleId) async {
     var doitDatabase = await this.getDoitDatabase;
 
-    var deleteResult = await doitDatabase.delete(scheduleTable,
-        where: '$colScheduleId = ?', whereArgs: [scheduleId]);
+    var deleteResult = await doitDatabase.delete(scheduleTable, where: '$colScheduleId = ?', whereArgs: [scheduleId]);
     return deleteResult;
   }
   //----------------------------------------------------------------------------------------//
@@ -210,18 +202,24 @@ class DatabaseHelper {
   // Hàm để lấy số lượng phần tử từ bảng list
   Future<int> getListObjectsCount() async {
     var doitDatabase = await this.getDoitDatabase;
-    List<Map<String, dynamic>> listTableObjects =
-        await doitDatabase.rawQuery('Select COUNT (*) FROM $listTable');
+    List<Map<String, dynamic>> listTableObjects = await doitDatabase.rawQuery('Select COUNT (*) FROM $listTable');
 
     int countResult = Sqflite.firstIntValue(listTableObjects);
     return countResult;
   }
 
+  // Lấy ID schedule
+  Future<int> getNewScheduleID() async {
+    var doitDatabase = await this.getDoitDatabase;
+
+    return Future.value(
+        Sqflite.firstIntValue(await doitDatabase.rawQuery('SELECT max($colScheduleId) from $scheduleTable')));
+  }
+
   // Hàm để lấy số lượng phần tử từ bảng task
   Future<int> getTaskObjectsCount() async {
     var doitDatabase = await this.getDoitDatabase;
-    List<Map<String, dynamic>> taskTableObjects =
-        await doitDatabase.rawQuery('Select COUNT (*) FROM $taskTable');
+    List<Map<String, dynamic>> taskTableObjects = await doitDatabase.rawQuery('Select COUNT (*) FROM $taskTable');
 
     int countResult = Sqflite.firstIntValue(taskTableObjects);
     return countResult;
