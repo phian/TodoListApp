@@ -10,7 +10,7 @@ class _GoalsScreenState extends State<GoalsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Color(0xFFFAF3F0),
+        color: Color(0xDDFFE4D4),
         child: Column(
           children: <Widget>[
             Stack(

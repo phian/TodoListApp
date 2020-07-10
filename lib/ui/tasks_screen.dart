@@ -37,7 +37,6 @@ class _TasksScreenState extends State<TasksScreen>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     _tabController = TabController(vsync: this, length: 3);
@@ -63,7 +62,7 @@ class _TasksScreenState extends State<TasksScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Color(0xFFFAF3F0),
+        color: Color(0xDDFFE4D4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -74,7 +73,7 @@ class _TasksScreenState extends State<TasksScreen>
                   width: MediaQuery.of(context).size.width,
                   height: 200.0,
                   decoration: BoxDecoration(
-                      color: Color(0xFFFAF3F0),
+                      color: Color(0xFFFFE4D4),
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       boxShadow: [
                         BoxShadow(
@@ -92,7 +91,8 @@ class _TasksScreenState extends State<TasksScreen>
                         child: ClipRRect(
                           child: Image.asset(
                             'images/calendar_background.png',
-                            fit: BoxFit.fill,
+                            width: MediaQuery.of(context).size.width,
+                            fit: BoxFit.cover,
                           ),
                           borderRadius: BorderRadius.circular(30),
                         ),

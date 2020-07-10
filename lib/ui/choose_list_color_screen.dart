@@ -71,7 +71,7 @@ class _ChooseColorScreenState extends State<ChooseColorScreen> {
       },
       child: SafeArea(
           child: Scaffold(
-        backgroundColor: Color(0xFFFAF3F0),
+        backgroundColor: Color(0xFFFFE4D4),
         body: Stack(
           children: <Widget>[
             AnimationLimiter(

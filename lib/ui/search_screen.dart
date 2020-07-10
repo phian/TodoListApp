@@ -52,7 +52,7 @@ class _SearchScreenState extends State<SearchScreen>
           _backToMainScreen();
         },
         child: Scaffold(
-          backgroundColor: Color(0xFFFAF3F0),
+          backgroundColor: Color(0xFFFFE4D4),
           body: Container(
             child: Stack(
               children: <Widget>[
@@ -66,16 +66,10 @@ class _SearchScreenState extends State<SearchScreen>
                         child: FlatButton(
                           child: Icon(
                             Icons.arrow_back,
-                            color: Colors.lightBlueAccent,
+                            color: Color(0xFF425195),
                             size: 40.0,
                           ),
                           onPressed: () async {
-//                      if (Navigator.canPop(context)) {
-//                        Navigator.pop(context);
-//                      } else {
-//                        SystemNavigator.pop();
-//                      }
-
                             setState(() {
                               _focus = false;
                             });
@@ -93,7 +87,7 @@ class _SearchScreenState extends State<SearchScreen>
                             style: TextStyle(
                                 fontWeight: FontWeight.w300,
                                 fontSize: 40.0,
-                                color: Colors.lightBlueAccent,
+                                color: Color(0xFF425195),
                                 fontFamily: 'Adamina')),
                       ),
                     ),
@@ -155,7 +149,7 @@ class _SearchScreenState extends State<SearchScreen>
                             decoration: BoxDecoration(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10.0)),
-                              color: Colors.cyan,
+                              color: Color(0xFF425195),
                             ),
                             height: 50.0,
                             child: Row(
@@ -220,7 +214,7 @@ class _SearchScreenState extends State<SearchScreen>
   void _initUserChoiceWidgets() {
     for (int i = 0; i < 3; i++) {
       _userChoicesCards.add(_userChoiceCard(
-          _userChoicesList[i], i == 1 ? Color(0xFFFAF3F0) : Colors.cyan));
+          _userChoicesList[i], i == 1 ? Color(0xFFFFE4D4) : Color(0xFF425195)));
     }
   }
 
@@ -229,9 +223,9 @@ class _SearchScreenState extends State<SearchScreen>
     setState(() {
       if (changeIndex != lastFocusedIndex) {
         _userChoicesCards[lastFocusedIndex] =
-            _userChoiceCard(_userChoicesList[lastFocusedIndex], Colors.cyan);
+            _userChoiceCard(_userChoicesList[lastFocusedIndex], Color(0xFF425195));
         _userChoicesCards[changeIndex] =
-            _userChoiceCard(_userChoicesList[changeIndex], Color(0xFFFAF3F0));
+            _userChoiceCard(_userChoicesList[changeIndex], Color(0xFFFFE4D4));
 
         _lastFocusChoiceIndex = changeIndex;
       }
@@ -250,7 +244,7 @@ class _SearchScreenState extends State<SearchScreen>
       child: Center(
         child: Text(
           "$userChoice",
-          style: TextStyle(fontSize: 15.0, fontFamily: 'Roboto'),
+          style: TextStyle(fontSize: 15.0, fontFamily: 'Roboto', color: Colors.black87),
         ),
       ),
     );

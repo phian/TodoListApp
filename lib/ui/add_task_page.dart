@@ -26,7 +26,11 @@ class AddTaskPage extends StatefulWidget {
 
 class _AddTaskPageState extends State<AddTaskPage> {
   String _selectedChoice = "";
-  List<String> _choicesList = ['Normal task', 'Special task', 'Achievement task'];
+  List<String> _choicesList = [
+    'Normal task',
+    'Special task',
+    'Achievement task'
+  ];
   List<Widget> _choices = List();
   List<bool> _visibilities = [true, true, true, false];
 
@@ -85,210 +89,216 @@ class _AddTaskPageState extends State<AddTaskPage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
+      // ignore: missing_return
       onWillPop: () async {
         _backToMainScreen();
       },
       child: Scaffold(
         body: SafeArea(
-          child: Stack(
-            children: <Widget>[
-              ListView(
-                padding: EdgeInsets.only(top: 20, left: 15, right: 15),
-                physics: AlwaysScrollableScrollPhysics(
-                  parent: BouncingScrollPhysics(),
-                ),
-                children: <Widget>[
-                  Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.only(left: 25, right: 25, top: 8, bottom: 8),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 6,
-                          spreadRadius: 5,
-                          color: Colors.grey[200],
-                        )
-                      ],
-                    ),
-                    child: TextField(
-                      //autofocus: true,
-                      controller: _textController,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintStyle: TextStyle(
-                          color: Colors.black12,
+          child: Container(
+            color: Color(0xDDFFE4D4),
+            child: Stack(
+              children: <Widget>[
+                ListView(
+                  padding: EdgeInsets.only(top: 20, left: 15, right: 15),
+                  physics: AlwaysScrollableScrollPhysics(
+                    parent: BouncingScrollPhysics(),
+                  ),
+                  children: <Widget>[
+                    Container(
+                      alignment: Alignment.center,
+                      padding:
+                          EdgeInsets.only(left: 25, right: 25, top: 8, bottom: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     blurRadius: 6,
+                        //     spreadRadius: 5,
+                        //     color: Colors.grey[200],
+                        //   )
+                        // ],
+                      ),
+                      child: TextField(
+                        //autofocus: true,
+                        controller: _textController,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintStyle: TextStyle(
+                            color: Colors.black38,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          hintText: "Task name",
+                        ),
+                        maxLines: null,
+                        style: TextStyle(
+                          color: Colors.black,
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
                         ),
-                        hintText: "Task name",
+                        cursorColor: Colors.black,
                       ),
-                      maxLines: null,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      children: _buildChoiceList(),
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Card(
+                      margin: EdgeInsets.all(10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      cursorColor: Colors.black,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Wrap(
-                    alignment: WrapAlignment.center,
-                    children: _buildChoiceList(),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Card(
-                    margin: EdgeInsets.all(10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Column(
-                      children: <Widget>[
-                        Visibility(
-                          visible: _visibilities[0],
-                          child: ListTile(
-                            leading: Image.asset(
-                              "images/calendar.png",
-                              width: 30.0,
-                              height: 30.0,
+                      child: Column(
+                        children: <Widget>[
+                          Visibility(
+                            visible: _visibilities[0],
+                            child: ListTile(
+                              leading: Image.asset(
+                                "images/calendar.png",
+                                width: 30.0,
+                                height: 30.0,
+                              ),
+                              title: Text("Schedule"),
+                              trailing: Icon(Icons.keyboard_arrow_right),
+                              onTap: _onSchedulePress,
                             ),
-                            title: Text("Schedule"),
-                            trailing: Icon(Icons.keyboard_arrow_right),
-                            onTap: _onSchedulePress,
                           ),
-                        ),
-                        Visibility(
-                          visible: _visibilities[1],
-                          child: ListTile(
-                            leading: Image.asset(
-                              "images/tasks.png",
-                              width: 30.0,
-                              height: 30.0,
+                          Visibility(
+                            visible: _visibilities[1],
+                            child: ListTile(
+                              leading: Image.asset(
+                                "images/tasks.png",
+                                width: 30.0,
+                                height: 30.0,
+                              ),
+                              title: Text("Choose List"),
+                              trailing: Icon(Icons.keyboard_arrow_right),
+                              onTap: _onListPress,
                             ),
-                            title: Text("Choose List"),
-                            trailing: Icon(Icons.keyboard_arrow_right),
-                            onTap: _onListPress,
                           ),
-                        ),
-                        Visibility(
-                          visible: _visibilities[2],
-                          child: ListTile(
-                            leading: Image.asset(
-                              "images/notification.png",
-                              width: 30.0,
-                              height: 30.0,
-                            ), //list icon
-                            title: Text("Reminder"),
-                            trailing: Icon(Icons.keyboard_arrow_right),
-                            onTap: () {
-                              //FocusScope.of(context).unfocus();
-                              Navigator.of(context).push(
-                                showPicker(
-                                  value: _time,
-                                  context: context,
-                                  onChange: onTimeChanged,
-                                  is24HrFormat: false,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        Visibility(
-                          visible: _visibilities[3],
-                          child: ListTile(
-                            leading: Image.asset(
-                              "images/calendar.png",
-                              width: 30.0,
-                              height: 30.0,
+                          Visibility(
+                            visible: _visibilities[2],
+                            child: ListTile(
+                              leading: Image.asset(
+                                "images/notification.png",
+                                width: 30.0,
+                                height: 30.0,
+                              ), //list icon
+                              title: Text("Reminder"),
+                              trailing: Icon(Icons.keyboard_arrow_right),
+                              onTap: () {
+                                //FocusScope.of(context).unfocus();
+                                Navigator.of(context).push(
+                                  showPicker(
+                                    value: _time,
+                                    context: context,
+                                    onChange: onTimeChanged,
+                                    is24HrFormat: false,
+                                  ),
+                                );
+                              },
                             ),
-                            title: Text("Schedule 2"),
-                            trailing: Icon(Icons.keyboard_arrow_right),
-                            onTap: _onSchedule2Press,
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                ],
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2 - 2,
-                      child: FlatButton(
-                        color: Colors.white,
-                        child: Icon(Icons.close),
-                        onPressed: () {
-                          // Reset lại các giá trị đã set trong schedule sheet
-                          setState(() {
-                            _scheduleSheet.repeatChoiceData =
-                                RepeatChoiceData();
-                            _specialScheduleSheet.specialRepeatChoiceData =
-                                SpecialRepeatChoiceData();
-
-                            _repeatsChoiceData =
-                                _scheduleSheet.repeatChoiceData;
-                            _specialRepeatChoiceData =
-                                _specialScheduleSheet.specialRepeatChoiceData;
-                          });
-
-                          _backToMainScreen();
-                        },
+                          Visibility(
+                            visible: _visibilities[3],
+                            child: ListTile(
+                              leading: Image.asset(
+                                "images/calendar.png",
+                                width: 30.0,
+                                height: 30.0,
+                              ),
+                              title: Text("Schedule 2"),
+                              trailing: Icon(Icons.keyboard_arrow_right),
+                              onTap: _onSchedule2Press,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2 - 2,
-                      child: FlatButton(
-                        color: Colors.white,
-                        child: Icon(Icons.done),
-                        onPressed: () async {
-                          //==================================
-                          //           them task normal
-                          // var strWeekChoice = convertArrayToString(_repeatsChoiceData.weekRepeatDateChoiceIndex);
-                          // _databaseHelper.insertDataToScheduleTable(
-                          //   ScheduleData(
-                          //     scheduleRepeatDate: _scheduleSheet.schedulePickedDate.toString(),
-                          //     scheduleSetUpStatus: _repeatsChoiceData.isOnOrOff,
-                          //     scheduleFrequencyChoice: _repeatsChoiceData.frequencyChoice,
-                          //     scheduleRerepeatTimes: _repeatsChoiceData.repeatTimes,
-                          //     scheduleWeeklyChoiceDates: strWeekChoice,
-                          //     scheduleMonthlyChoice: _repeatsChoiceData.monthlyRepeatChoice.toString(),
-                          //     scheduleEndsNeverChoice: _repeatsChoiceData.endsChoice,
-                          //     scheduleEndsDate: _repeatsChoiceData.endsDateChoice.toString(),
-                          //     scheduleEndsNumberOfTimes: _repeatsChoiceData.endsAfetrNumberOfTimesChoice,
-                          //   ),
-                          // );
-
-                          // _databaseHelper.insertDataToTaskTable(
-                          //   TaskData(
-                          //     taskName: _textController.text,
-                          //     listId: _choseListIndex,
-                          //     taskStatus: 0,
-                          //     taskType: _selectedIndex,
-                          //     taskRemainderTime: _time.toString(),
-                          //     scheduleId: await _databaseHelper.getNewScheduleID(),
-                          //   ),
-                          // );
-                          print(convertArrayToString(_repeatsChoiceData.weekRepeatDateChoiceIndex));
-                        },
-                      ),
+                    SizedBox(
+                      height: 40,
                     ),
                   ],
                 ),
-              )
-            ],
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2 - 2,
+                        child: FlatButton(
+                          color: Colors.white,
+                          child: Icon(Icons.close),
+                          onPressed: () {
+                            // Reset lại các giá trị đã set trong schedule sheet
+                            setState(() {
+                              _scheduleSheet.repeatChoiceData =
+                                  RepeatChoiceData();
+                              _specialScheduleSheet.specialRepeatChoiceData =
+                                  SpecialRepeatChoiceData();
+
+                              _repeatsChoiceData =
+                                  _scheduleSheet.repeatChoiceData;
+                              _specialRepeatChoiceData =
+                                  _specialScheduleSheet.specialRepeatChoiceData;
+                            });
+
+                            _backToMainScreen();
+                          },
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2 - 2,
+                        child: FlatButton(
+                          color: Colors.white,
+                          child: Icon(Icons.done),
+                          onPressed: () async {
+                            //==================================
+                            //           them task normal
+                            // var strWeekChoice = convertArrayToString(_repeatsChoiceData.weekRepeatDateChoiceIndex);
+                            // _databaseHelper.insertDataToScheduleTable(
+                            //   ScheduleData(
+                            //     scheduleRepeatDate: _scheduleSheet.schedulePickedDate.toString(),
+                            //     scheduleSetUpStatus: _repeatsChoiceData.isOnOrOff,
+                            //     scheduleFrequencyChoice: _repeatsChoiceData.frequencyChoice,
+                            //     scheduleRerepeatTimes: _repeatsChoiceData.repeatTimes,
+                            //     scheduleWeeklyChoiceDates: strWeekChoice,
+                            //     scheduleMonthlyChoice: _repeatsChoiceData.monthlyRepeatChoice.toString(),
+                            //     scheduleEndsNeverChoice: _repeatsChoiceData.endsChoice,
+                            //     scheduleEndsDate: _repeatsChoiceData.endsDateChoice.toString(),
+                            //     scheduleEndsNumberOfTimes: _repeatsChoiceData.endsAfetrNumberOfTimesChoice,
+                            //   ),
+                            // );
+
+                            // _databaseHelper.insertDataToTaskTable(
+                            //   TaskData(
+                            //     taskName: _textController.text,
+                            //     listId: _choseListIndex,
+                            //     taskStatus: 0,
+                            //     taskType: _selectedIndex,
+                            //     taskRemainderTime: _time.toString(),
+                            //     scheduleId: await _databaseHelper.getNewScheduleID(),
+                            //   ),
+                            // );
+                            print(convertArrayToString(
+                                _repeatsChoiceData.weekRepeatDateChoiceIndex));
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -321,7 +331,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
         padding: const EdgeInsets.all(2.0),
         child: ChoiceChip(
           label: Text(_choicesList[i]),
-          labelStyle: TextStyle(color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
+          labelStyle: TextStyle(
+              color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
           ),
@@ -383,7 +394,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
   void _onSchedulePress() {
     if (_scheduleSheet.schedulePickedDate == null) {
-      _scheduleSheet = ScheduleSheet(data: _repeatsChoiceData, initTime: DateTime.now());
+      _scheduleSheet =
+          ScheduleSheet(data: _repeatsChoiceData, initTime: DateTime.now());
     } else {
       _scheduleSheet = ScheduleSheet(
         initTime: _scheduleSheet.schedulePickedDate,
@@ -407,7 +419,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
   void _onSchedule2Press() {
     if (_specialScheduleSheet.schedulePickedDate == null) {
-      _specialScheduleSheet = SpecialScheduleSheet(data: _specialRepeatChoiceData, initTime: DateTime.now());
+      _specialScheduleSheet = SpecialScheduleSheet(
+          data: _specialRepeatChoiceData, initTime: DateTime.now());
     } else {
       _specialScheduleSheet = SpecialScheduleSheet(
         initTime: _specialScheduleSheet.schedulePickedDate,
@@ -424,7 +437,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
       },
     ).whenComplete(() {
       setState(() {
-        _specialRepeatChoiceData = _specialScheduleSheet.specialRepeatChoiceData;
+        _specialRepeatChoiceData =
+            _specialScheduleSheet.specialRepeatChoiceData;
       });
     });
   }

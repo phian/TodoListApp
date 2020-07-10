@@ -44,17 +44,19 @@ class _TasksListScreenState extends State<TasksListScreen> {
       },
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: Color(0xFFFAF3F0),
-          body: AnimatedOpacity(
-            duration: Duration(milliseconds: 350),
-            opacity: listScreenOpacity,
-            child: Stack(
-              children: <Widget>[
-                _listScreenLists(),
-                _buildListsScreenHeader(),
-                _buildChoiceButtons(),
-                _buildDeleteBinWidget(),
-              ],
+          body: Container(
+            color: Color(0xDDFFE4D4),
+            child: AnimatedOpacity(
+              duration: Duration(milliseconds: 350),
+              opacity: listScreenOpacity,
+              child: Stack(
+                children: <Widget>[
+                  _listScreenLists(),
+                  _buildListsScreenHeader(),
+                  _buildChoiceButtons(),
+                  _buildDeleteBinWidget(),
+                ],
+              ),
             ),
           ),
         ),

@@ -63,7 +63,6 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     _initAnimationForCardColumn();
@@ -75,7 +74,6 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
 
     _controllerForCardColumn.dispose();

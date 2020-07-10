@@ -88,7 +88,7 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
                                 fontFamily: 'Roboto',
                                 fontSize: 30.0,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.brown),
+                                color: Color(0xFF425195)),
                           ),
                         ),
                       ),
@@ -110,7 +110,7 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
                               style: TextStyle(
                                   fontFamily: 'Roboto',
                                   fontSize: 16.0,
-                                  color: Colors.brown),
+                                  color: Color(0xFF425195)),
                             ),
                           ),
                         ),

@@ -31,7 +31,7 @@ class _AboutScreenState extends State<AboutScreen> {
           transform:
               Matrix4.translationValues(0.0, _transitionForAboutScreen, 0.0),
           child: Scaffold(
-            backgroundColor: Color(0xFFFAF3F0),
+            backgroundColor: Color(0xFFFFE4D4),
             body: Container(
               child: Stack(
                 children: <Widget>[
@@ -57,7 +57,7 @@ class _AboutScreenState extends State<AboutScreen> {
             child: FlatButton(
               child: Icon(
                 Icons.arrow_back,
-                color: Colors.lightBlueAccent,
+                color: Color(0xFF425195),
                 size: 40.0,
               ),
               onPressed: () async {
@@ -75,7 +75,7 @@ class _AboutScreenState extends State<AboutScreen> {
               style: TextStyle(
                   fontSize: 35.0,
                   fontWeight: FontWeight.w300,
-                  color: Colors.lightBlueAccent),
+                  color:Color(0xFF425195)),
             ),
           ),
         ),
@@ -105,7 +105,7 @@ class _AboutScreenState extends State<AboutScreen> {
                 fit: BoxFit.cover,
                 width: 45.0,
                 height: 45.0,
-                color: Colors.lightBlueAccent,
+                color: Color(0xFF425195),
               ),
             ),
           ),

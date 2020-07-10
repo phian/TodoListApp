@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:todoapp/ui/sign_in_or_create_account_screen.dart';
 
 import '../data/main_screen_data.dart';
 import 'main_screen.dart';
@@ -26,7 +27,7 @@ class _AccountScreenState extends State<AccountScreen> {
           _backToMainScreen();
         },
         child: Scaffold(
-          backgroundColor: Color(0xFFFAF3F0),
+          backgroundColor: Color(0xFFFFE4D4),
           body: Stack(
             children: <Widget>[
               _buildAccountScreenHeader(),
@@ -51,7 +52,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 },
                 child: Icon(
                   Icons.arrow_back,
-                  color: Colors.lightBlueAccent,
+                  color: Color(0xFF425195),
                   size: 32.0,
                 ),
               ),
@@ -67,7 +68,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     fontSize: 30.0,
                     fontWeight: FontWeight.w300,
                     fontFamily: 'Roboto',
-                    color: Colors.lightBlueAccent),
+                    color: Color(0xFF425195)),
               ),
             ),
           ),
@@ -79,7 +80,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   "images/account.png",
                   width: 45.0,
                   height: 45.0,
-                  color: Colors.lightBlueAccent,
+                  color: Color(0xFF425195),
                 )),
           ),
         ],
@@ -101,6 +102,15 @@ class _AccountScreenState extends State<AccountScreen> {
                 setState(() {
                   _accountScreenOpacity = 1.0;
                 });
+
+                Navigator.pushReplacement(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.rightToLeftWithFade,
+                        child: SignInOrCreateAccountScreen(
+                          lastFocusedScreen: widget.lastFocusedScreen,
+                        ),
+                        duration: Duration(milliseconds: 300)));
               },
               onTapCancel: () {
                 setState(() {

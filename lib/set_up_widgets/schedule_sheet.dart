@@ -316,7 +316,6 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
         DateFormat("dd MMMM yyyy").format(temp) ==
             DateFormat("dd MMMM yyyy").format(DateTime.now())) {
       _selectedScheduleIndex = 2;
-
       return;
     }
     //------------------------------------------------------------------------//

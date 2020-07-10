@@ -211,7 +211,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   overflow: Overflow.clip,
                   children: <Widget>[
                     Container(
-                      color: Color(0xFFFAF3F0),
+                      color: Color(0xDDFFE4D4),
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height,
                       child: AnimatedContainer(
