@@ -101,14 +101,34 @@ class _HabbitsSettingScreenState extends State<HabbitsSettingScreen> {
                           transform: Matrix4.translationValues(0.0, 10.0, 0.0),
                           child: Text("Necessary Habits",
                               style: TextStyle(
-                                  color: Colors.black,
+                                  color: () {
+                                    if (_currentTime.hour >= 0 &&
+                                        _currentTime.hour < 12) {
+                                      return Colors.black;
+                                    } else if (_currentTime.hour >= 12 &&
+                                        _currentTime.hour < 18) {
+                                      return Colors.black;
+                                    } else {
+                                      return Colors.white;
+                                    }
+                                  }(),
                                   fontSize: 27.0,
                                   fontWeight: FontWeight.w100)),
                         ),
                         background: Stack(
                           children: <Widget>[
                             Image.asset(
-                              "images/afternoon.gif",
+                              () {
+                                if (_currentTime.hour >= 0 &&
+                                    _currentTime.hour < 12) {
+                                  return "images/morning.gif";
+                                } else if (_currentTime.hour >= 12 &&
+                                    _currentTime.hour < 18) {
+                                  return "images/afternoon.gif";
+                                } else {
+                                  return "images/night.gif";
+                                }
+                              }(),
                               width: MediaQuery.of(context).size.width,
                               fit: BoxFit.cover,
                             ),
@@ -118,7 +138,20 @@ class _HabbitsSettingScreenState extends State<HabbitsSettingScreen> {
                               child: Text(
                                 "$_greetingTitle",
                                 textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 25.0),
+                                style: TextStyle(
+                                  fontSize: 25.0,
+                                  color: () {
+                                    if (_currentTime.hour >= 0 &&
+                                        _currentTime.hour < 12) {
+                                      return Colors.black;
+                                    } else if (_currentTime.hour >= 12 &&
+                                        _currentTime.hour < 18) {
+                                      return Colors.black;
+                                    } else {
+                                      return Colors.white;
+                                    }
+                                  }(),
+                                ),
                               ),
                             ),
                           ],
@@ -208,7 +241,16 @@ class _HabbitsSettingScreenState extends State<HabbitsSettingScreen> {
                 child: Icon(
                   Icons.arrow_back,
                   size: 30.0,
-                  color: Colors.black,
+                  color: () {
+                    if (_currentTime.hour >= 0 && _currentTime.hour < 12) {
+                      return Colors.black;
+                    } else if (_currentTime.hour >= 12 &&
+                        _currentTime.hour < 18) {
+                      return Colors.black;
+                    } else {
+                      return Colors.white;
+                    }
+                  }(),
                 ),
                 onPressed: _backToAccountScreen,
               ),
