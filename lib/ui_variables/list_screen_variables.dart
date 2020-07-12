@@ -4,17 +4,12 @@ import 'package:todoapp/ui/new_list_screen.dart';
 // var typeColors = [Colors.red, Colors.black]; //
 var verticalListWidgets = []; // mảng lưu trữ các item của list view
 var listTitles = [""]; // mảng lưu trữ các title của các list
+var listId = [];
 
 // Biến dùng cho animation ẩn list view screen khi người dùng ấn add list
 var listScreenOpacity = 1.0;
-var listTitleTextColors = [
-  Colors.black,
-  Colors.white
-]; // mảng lưu trữ màu của title của các list item
-var listColors = [
-  Colors.pink[300],
-  Colors.white
-]; // mảng lưu trữ màu của các list item
+var listTitleTextColors = [Colors.black, Colors.white]; // mảng lưu trữ màu của title của các list item
+var listColors = [Colors.pink[300], Colors.white]; // mảng lưu trữ màu của các list item
 
 var scrollDirection = Axis.vertical; // Điều chỉnh hướng scroll của list view
 // Hai biến dùng cho kích thước của một list item
@@ -48,8 +43,7 @@ var binWidgetImage;
 var dragIndex; // Biến để xét xem list item nào đang dc drag
 
 // Widget để tạo ra UI cho list
-Widget verticalListWidget(String listTitle, Color listColor, int numberOfTasks,
-        Color listTitleColor,
+Widget verticalListWidget(String listTitle, Color listColor, int numberOfTasks, Color listTitleColor,
         [IconData listIcon]) =>
     Container(
       width: listWidgetWidth,
@@ -102,9 +96,7 @@ Widget verticalListWidget(String listTitle, Color listColor, int numberOfTasks,
     );
 
 // Widget để tạo ra UI cho list theo chiều ngang
-Widget horizontalListWidget(
-        String listTitle, Color listColor, Color listTitleColor,
-        [IconData listIcon]) =>
+Widget horizontalListWidget(String listTitle, Color listColor, Color listTitleColor, [IconData listIcon]) =>
     Container(
       width: listWidgetWidth,
       child: Stack(
@@ -140,13 +132,10 @@ Widget horizontalListWidget(
 
                                   print(listColors[lastListChoseIndex + 1]);
 
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (_) {
+                                  Navigator.push(context, MaterialPageRoute(builder: (_) {
                                     return NewListScreen(
-                                      listTiltle:
-                                          listTitles[lastListChoseIndex],
-                                      listColor:
-                                          listColors[lastListChoseIndex + 1],
+                                      listTiltle: listTitles[lastListChoseIndex],
+                                      listColor: listColors[lastListChoseIndex + 1],
                                       listIcon: null,
                                       index: lastListChoseIndex,
                                     );
