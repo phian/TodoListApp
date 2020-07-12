@@ -43,9 +43,18 @@ class _PreferenceScreenState extends State<PreferenceScreen> {
         children: <Widget>[
           Align(
             alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 8.0),
+            child: Container(
+              transform: Matrix4.translationValues(
+                0.0,
+                -3.0,
+                0.0,
+              ),
+              width: 70.0,
+              height: 70.0,
               child: FlatButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(90.0),
+                ),
                 onPressed: () async {
                   _backToMainScreen();
                 },

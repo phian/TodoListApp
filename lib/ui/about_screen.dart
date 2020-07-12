@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:todoapp/ui/rating_screen.dart';
 
@@ -17,6 +18,12 @@ class AboutScreen extends StatefulWidget {
 
 class _AboutScreenState extends State<AboutScreen> {
   double _transitionForAboutScreen = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +60,13 @@ class _AboutScreenState extends State<AboutScreen> {
         Align(
           alignment: Alignment.topLeft,
           child: Container(
-            padding: const EdgeInsets.only(top: 15.0),
+            margin: const EdgeInsets.only(top: 3.0),
+            width: 70.0,
+            height: 70.0,
             child: FlatButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(90.0),
+              ),
               child: Icon(
                 Icons.arrow_back,
                 color: Color(0xFF425195),
@@ -73,9 +85,10 @@ class _AboutScreenState extends State<AboutScreen> {
             child: Text(
               "ABOUT",
               style: TextStyle(
-                  fontSize: 35.0,
-                  fontWeight: FontWeight.w300,
-                  color:Color(0xFF425195)),
+                fontSize: 35.0,
+                fontWeight: FontWeight.w300,
+                color: Color(0xFF425195),
+              ),
             ),
           ),
         ),

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:rect_getter/rect_getter.dart';
@@ -103,6 +104,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
 
     // reset lại biến check schedule
     isSpecialFirstTime = false;
@@ -207,6 +209,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           child: Stack(
             children: <Widget>[
               Scaffold(
+                backgroundColor: Colors.white,
                 body: Stack(
                   overflow: Overflow.clip,
                   children: <Widget>[
@@ -563,7 +566,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 floatingActionButtonLocation:
                     FloatingActionButtonLocation.endDocked,
                 bottomNavigationBar: BubbleBottomBar(
-                  backgroundColor: Color(0xFFFAF3F0),
+                  backgroundColor: Colors.white,
                   opacity: .2,
                   currentIndex: _settingsScreenIndex == -1
                       ? _lastFocusedIconIndex

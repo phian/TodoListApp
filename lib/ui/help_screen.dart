@@ -94,9 +94,13 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
         children: <Widget>[
           Align(
             alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 9.0),
+            child: Container(
+              width: 70.0,
+              height: 70.0,
               child: FlatButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(90.0),
+                ),
                 onPressed: () async {
                   _backToMainScreen();
                 },

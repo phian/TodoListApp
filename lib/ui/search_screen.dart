@@ -62,20 +62,27 @@ class _SearchScreenState extends State<SearchScreen>
                     Transform.translate(
                       offset: Offset(0.0, _animationForMiddleText.value),
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: FlatButton(
-                          child: Icon(
-                            Icons.arrow_back,
-                            color: Color(0xFF425195),
-                            size: 40.0,
-                          ),
-                          onPressed: () async {
-                            setState(() {
-                              _focus = false;
-                            });
+                        padding: const EdgeInsets.only(top: 8.0, left: 5.0),
+                        child: Container(
+                          width: 70.0,
+                          height: 70.0,
+                          child: FlatButton(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(90.0),
+                            ),
+                            child: Icon(
+                              Icons.arrow_back,
+                              color: Color(0xFF425195),
+                              size: 40.0,
+                            ),
+                            onPressed: () async {
+                              setState(() {
+                                _focus = false;
+                              });
 
-                            _backToMainScreen();
-                          },
+                              _backToMainScreen();
+                            },
+                          ),
                         ),
                       ),
                     ),
@@ -222,8 +229,8 @@ class _SearchScreenState extends State<SearchScreen>
   void _changeFocusChoiceCardColor(int changeIndex, int lastFocusedIndex) {
     setState(() {
       if (changeIndex != lastFocusedIndex) {
-        _userChoicesCards[lastFocusedIndex] =
-            _userChoiceCard(_userChoicesList[lastFocusedIndex], Color(0xFF425195));
+        _userChoicesCards[lastFocusedIndex] = _userChoiceCard(
+            _userChoicesList[lastFocusedIndex], Color(0xFF425195));
         _userChoicesCards[changeIndex] =
             _userChoiceCard(_userChoicesList[changeIndex], Color(0xFFFFE4D4));
 
@@ -244,7 +251,8 @@ class _SearchScreenState extends State<SearchScreen>
       child: Center(
         child: Text(
           "$userChoice",
-          style: TextStyle(fontSize: 15.0, fontFamily: 'Roboto', color: Colors.black87),
+          style: TextStyle(
+              fontSize: 15.0, fontFamily: 'Roboto', color: Colors.black87),
         ),
       ),
     );

@@ -42,21 +42,19 @@ class _TasksListScreenState extends State<TasksListScreen> {
           listScreenOpacity = 1.0;
         });
       },
-      child: SafeArea(
-        child: Scaffold(
-          body: Container(
-            color: Color(0xDDFFE4D4),
-            child: AnimatedOpacity(
-              duration: Duration(milliseconds: 350),
-              opacity: listScreenOpacity,
-              child: Stack(
-                children: <Widget>[
-                  _listScreenLists(),
-                  _buildListsScreenHeader(),
-                  _buildChoiceButtons(),
-                  _buildDeleteBinWidget(),
-                ],
-              ),
+      child: Scaffold(
+        body: Container(
+          color: Color(0xDDFFE4D4),
+          child: AnimatedOpacity(
+            duration: Duration(milliseconds: 350),
+            opacity: listScreenOpacity,
+            child: Stack(
+              children: <Widget>[
+                _listScreenLists(),
+                _buildListsScreenHeader(),
+                _buildChoiceButtons(),
+                _buildDeleteBinWidget(),
+              ],
             ),
           ),
         ),
@@ -304,7 +302,7 @@ class _TasksListScreenState extends State<TasksListScreen> {
               decoration: TextDecoration.none,
               fontFamily: 'Roboto',
               fontSize: 40,
-              color: Colors.red,
+              color: Color(0xFFD34157),
               fontWeight: FontWeight.w900),
         ),
       );
@@ -312,16 +310,20 @@ class _TasksListScreenState extends State<TasksListScreen> {
   // Các nút chọn dạng hiển thị
   Widget _buildChoiceButtons() => Container(
         alignment: Alignment.topRight,
-        padding: EdgeInsets.only(top: 18.0, right: 30.0),
+        padding: EdgeInsets.only(bottom: 10.0, right: 10.0),
         child: Container(
-          width: 50.0,
-          height: 50.0,
-          child: IconButton(
-            alignment: Alignment.center,
-            icon: Container(
+          width: 90.0,
+          height: 90.0,
+          child: FlatButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(90.0),
+              ),
+            ),
+            child: Container(
                 child: Image.asset(
               'images/swap.png',
-              color: Colors.grey,
+              color: Color(0xFF425195),
               fit: BoxFit.cover,
             )),
             onPressed: () {

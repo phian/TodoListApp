@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:todoapp/ui/habit_schedule_setting_screen.dart';
 import 'package:todoapp/ui/preference_screen.dart';
 
 class HabbitsSettingScreen extends StatefulWidget {
@@ -22,9 +23,20 @@ class _HabbitsSettingScreenState extends State<HabbitsSettingScreen> {
   // List chứa các type của habits
   List<String> _habitTypesList;
   // List chứa đường dẫn hình ảnh
-  List<String> _habitImagePaths;
+  List<String> _healthHabitImagePaths,
+      _careerHabitImagePaths,
+      _fitnessHabitImagesPaths,
+      _reduceStressImagePaths;
   // List chứa các title habit
-  List<String> _habitTitles;
+  List<String> _healthHabitTitles,
+      _careerHabitsTitles,
+      _fitnessHabitTitles,
+      _reduceStressHabitTitles;
+
+  // Các list để gom toàn bộ các đường dẫn và title để add
+  List<List<String>> _allHabitImagePaths;
+  List<List<String>> _allHabitTitles;
+  List<int> _allHabitItemAmount;
 
   @override
   void initState() {
@@ -233,72 +245,104 @@ class _HabbitsSettingScreenState extends State<HabbitsSettingScreen> {
                 ),
               ),
             ),
-            Container(
-              width: 73.0,
-              child: FlatButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0)),
-                child: Icon(
-                  Icons.arrow_back,
-                  size: 30.0,
-                  color: () {
-                    if (_currentTime.hour >= 0 && _currentTime.hour < 12) {
-                      return Colors.black;
-                    } else if (_currentTime.hour >= 12 &&
-                        _currentTime.hour < 18) {
-                      return Colors.black;
-                    } else {
-                      return Colors.white;
-                    }
-                  }(),
-                ),
-                onPressed: _backToAccountScreen,
-              ),
+            Align(
               alignment: Alignment.topLeft,
-              margin: EdgeInsets.symmetric(vertical: 9.0),
+              child: Container(
+                width: 70.0,
+                height: 70.0,
+                child: FlatButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(90.0),
+                  ),
+                  child: Icon(
+                    Icons.arrow_back,
+                    size: 30.0,
+                    color: () {
+                      if (_currentTime.hour >= 0 && _currentTime.hour < 12) {
+                        return Colors.black;
+                      } else if (_currentTime.hour >= 12 &&
+                          _currentTime.hour < 18) {
+                        return Colors.black;
+                      } else {
+                        return Colors.white;
+                      }
+                    }(),
+                  ),
+                  onPressed: _backToAccountScreen,
+                ),
+              ),
             ),
           ],
         ),
       );
 
   // Danh sách các habits
-  Widget _habitCards(String imagePath, String imageTitle, int itemsAmount) =>
+  Widget _habitCards(List<String> imagePaths, List<String> imageTitles,
+          int itemsAmount, int tag) =>
       Container(
         width: MediaQuery.of(context).size.width * 0.7,
         height: MediaQuery.of(context).size.height * 0.5,
         child: Swiper(
-          onTap: (index) {
-            print("Index $index tapped");
-          },
-          onIndexChanged: (index) {
-            print("index: $index");
-          },
           index: 0,
           scrollDirection: Axis.horizontal,
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Color(0xFF425195),
-                    borderRadius: BorderRadius.circular(10.0)),
-                child: Stack(
-                  children: <Widget>[
-                    Image.asset(
-                      imagePath,
-                      fit: BoxFit.cover,
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(bottom: 30.0),
-                      alignment: Alignment.bottomCenter,
-                      child: Text(
-                        "$imageTitle",
-                        maxLines: 2,
-                        textAlign: TextAlign.center,
-                        style:
-                            TextStyle(fontSize: 30.0, color: Color(0xFFFFE4D4)),
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (_) {
+                  return HabitScheduleSettingScreen(
+                    imageHabitType: () {
+                      int typeIndex;
+
+                      for (int i = 0; i < _allHabitTitles.length; i++) {
+                        for (int j = 0; j < _allHabitTitles[i].length; j++) {
+                          if (imageTitles[index] == _allHabitTitles[i][j]) {
+                            typeIndex = i;
+                            break;
+                          }
+                        }
+                        if (typeIndex != null) break;
+                      }
+
+                      return _habitTypesList[typeIndex];
+                    }(),
+                    imagePath: imagePaths[index],
+                    imageTag: () {
+                      return tag + index;
+                    }(),
+                    imageTitle: imageTitles[index],
+                  );
+                }));
+              },
+              child: Hero(
+                tag: () {
+                  return index + tag;
+                }(),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Color(0xFF425195),
+                      borderRadius: BorderRadius.circular(10.0)),
+                  child: Stack(
+                    children: <Widget>[
+                      Image.asset(
+                        imagePaths[index],
+                        fit: BoxFit.cover,
                       ),
-                    ),
-                  ],
+                      Container(
+                        padding: EdgeInsets.only(bottom: 30.0),
+                        alignment: Alignment.bottomCenter,
+                        child: Text(
+                          imageTitles[index],
+                          maxLines: 2,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 30.0,
+                            color: Color(0xFFFFE4D4),
+                            decoration: TextDecoration.none,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );
@@ -318,21 +362,95 @@ class _HabbitsSettingScreenState extends State<HabbitsSettingScreen> {
       "Fitness habits",
       "Reduce stress habits"
     ];
-    _habitImagePaths = [
+    // Images path
+    _healthHabitImagePaths = [
       "images/drink_water.png",
+      "images/drink_water.png",
+      "images/drink_water.png",
+      "images/drink_water.png",
+      "images/drink_water.png",
+      "images/drink_water.png",
+    ];
+    _careerHabitImagePaths = [
       "images/career_habit.png",
+      "images/career_habit.png",
+      "images/career_habit.png",
+      "images/career_habit.png",
+      "images/career_habit.png",
+      "images/career_habit.png",
+    ];
+    _fitnessHabitImagesPaths = [
       "images/fitness.png",
-      "images/reduce_stress.png"
+      "images/fitness.png",
+      "images/fitness.png",
+      "images/fitness.png",
+      "images/fitness.png",
+      "images/fitness.png",
     ];
-    _habitTitles = [
-      "Drink water",
-      "Take a short rest",
-      "Do a small Yoga excercise",
-      "Relax your body"
+    _reduceStressImagePaths = [
+      "images/reduce_stress.png",
+      "images/reduce_stress.png",
+      "images/reduce_stress.png",
+      "images/reduce_stress.png",
+      "images/reduce_stress.png",
+      "images/reduce_stress.png",
     ];
+    _allHabitImagePaths = [];
+    _allHabitImagePaths.add(_healthHabitImagePaths);
+    _allHabitImagePaths.add(_careerHabitImagePaths);
+    _allHabitImagePaths.add(_fitnessHabitImagesPaths);
+    _allHabitImagePaths.add(_reduceStressImagePaths);
+
+    // Habit titles
+    _healthHabitTitles = [
+      "Drink Water",
+      "Drink Water",
+      "Drink Water",
+      "Drink Water",
+      "Drink Water",
+      "Drink Water",
+    ];
+    _careerHabitsTitles = [
+      "Take A Short Rest",
+      "Take A Short Rest",
+      "Take A Short Rest",
+      "Take A Short Rest",
+      "Take A Short Rest",
+      "Take A Short Rest",
+    ];
+    _fitnessHabitTitles = [
+      "Do A Small Yoga Excercise",
+      "Do A Small Yoga Excercise",
+      "Do A Small Yoga Excercise",
+      "Do A Small Yoga Excercise",
+      "Do A Small Yoga Excercise",
+      "Do A Small Yoga Excercise",
+    ];
+    _reduceStressHabitTitles = [
+      "Relax Your Body",
+      "Relax Your Body",
+      "Relax Your Body",
+      "Relax Your Body",
+      "Relax Your Body",
+      "Relax Your Body",
+    ];
+    _allHabitTitles = [];
+    _allHabitTitles.add(_healthHabitTitles);
+    _allHabitTitles.add(_careerHabitsTitles);
+    _allHabitTitles.add(_fitnessHabitTitles);
+    _allHabitTitles.add(_reduceStressHabitTitles);
+
+    // All habit items amount
+    _allHabitItemAmount = [6, 6, 6, 6];
+
     _habitCardsList = [];
 
-    for (int i = 0; i < _habitImagePaths.length; i++)
-      _habitCardsList.add(_habitCards(_habitImagePaths[i], _habitTitles[i], 5));
+    // Biến để để add tag cho các item của habit list
+    int increaseTag = 0;
+    for (int i = 0; i < _allHabitImagePaths.length; i++) {
+      _habitCardsList.add(_habitCards(_allHabitImagePaths[i],
+          _allHabitTitles[i], _allHabitItemAmount[i], increaseTag));
+      increaseTag += 6;
+    }
   }
 }

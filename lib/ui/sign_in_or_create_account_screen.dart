@@ -1,5 +1,6 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:todoapp/teddy_animation_files/teddy_controller.dart';
 import 'package:todoapp/teddy_animation_files/tracking_text_input.dart';
@@ -34,9 +35,18 @@ class _SignInOrCreateAccountScreenState
   List<Widget> _signInChoiceWidgets;
   List<Color> _signInTitleColors;
 
+  Size _screenSize;
+
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration(milliseconds: 500), () {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) {
+          SystemChrome.setEnabledSystemUIOverlays([]);
+        },
+      );
+    });
 
     _teddyController = TeddyController();
     _isUserNameAndPasswordEnable = false;
@@ -60,26 +70,25 @@ class _SignInOrCreateAccountScreenState
   @override
   Widget build(BuildContext context) {
     _buttonScale = 1 - _buttonAniController.value;
+    _screenSize = MediaQuery.of(context).size;
 
-    return SafeArea(
-      child: WillPopScope(
-        // ignore: missing_return
-        onWillPop: () async {
-          _backToAccountScreen();
-        },
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          backgroundColor: Color(0xFFFFE4D4),
-          // backgroundColor: Colors.grey,
-          body: Stack(
-            children: <Widget>[
-              _buildTeddyFlare(),
-              _buildLoginScreenHeader(),
-              _signinAccountForm(),
-              _buildAccountSignInChoice(),
-              _buildSigninScreenFooter(),
-            ],
-          ),
+    return WillPopScope(
+      // ignore: missing_return
+      onWillPop: () async {
+        _backToAccountScreen();
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Color(0xFFFFE4D4),
+        // backgroundColor: Colors.grey,
+        body: Stack(
+          children: <Widget>[
+            _buildTeddyFlare(),
+            _buildLoginScreenHeader(),
+            _signinAccountForm(),
+            _buildAccountSignInChoice(),
+            _buildSigninScreenFooter(),
+          ],
         ),
       ),
     );
@@ -94,7 +103,7 @@ class _SignInOrCreateAccountScreenState
             child: AccountScreen(
               lastFocusedScreen: widget.lastFocusedScreen,
             ),
-            duration: Duration(milliseconds: 300)));
+            duration: Duration(milliseconds: 400)));
   }
 
   // Sign in screen header
@@ -149,7 +158,10 @@ class _SignInOrCreateAccountScreenState
                   ),
                   Divider(
                     height: 0.0,
-                    thickness: 1.0,
+                    thickness: 0.5,
+                    color: _isUserNameAndPasswordEnable
+                        ? Colors.grey
+                        : Colors.transparent,
                   ),
                   Visibility(
                     visible: _isUserNameAndPasswordEnable,
@@ -169,7 +181,10 @@ class _SignInOrCreateAccountScreenState
                   ),
                   Divider(
                     height: 0.0,
-                    thickness: 1.0,
+                    thickness: 0.3,
+                    color: _isUserNameAndPasswordEnable
+                        ? Colors.grey
+                        : Colors.transparent,
                   ),
                   Visibility(
                     visible: _isUserNameAndPasswordEnable,
@@ -208,7 +223,8 @@ class _SignInOrCreateAccountScreenState
           child: Container(
             height: 60.0,
             decoration: BoxDecoration(
-                color: Color(0xFFD34157), borderRadius: BorderRadius.circular(20.0)),
+                color: Color(0xFFD34157),
+                borderRadius: BorderRadius.circular(20.0)),
             width: MediaQuery.of(context).size.width - 45.0,
             child: Center(
               child: Text(
@@ -224,12 +240,16 @@ class _SignInOrCreateAccountScreenState
   // Teddy
   Widget _buildTeddyFlare() => Container(
         padding: EdgeInsets.symmetric(
-            vertical: MediaQuery.of(context).size.height * 0.05),
+            vertical: MediaQuery.of(context).size.height * 0.057),
         alignment: Alignment.topCenter,
         child: AnimatedContainer(
           duration: Duration(milliseconds: 300),
-          width: _isUserNameAndPasswordEnable ? 280.0 : 330.0,
-          height: _isUserNameAndPasswordEnable ? 280.0 : 330.0,
+          width: _isUserNameAndPasswordEnable
+              ? _screenSize.width * 0.68
+              : _screenSize.width * 0.8,
+          height: _isUserNameAndPasswordEnable
+              ? _screenSize.height * 0.383
+              : _screenSize.height * 0.435,
           child: ClipOval(
             child: CircleAvatar(
               backgroundColor: Color(0xFFF883B8),
@@ -247,11 +267,12 @@ class _SignInOrCreateAccountScreenState
 
   // Sign in choice
   Widget _buildAccountSignInChoice() => Container(
-        padding:
-            EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.06),
+        padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).size.height * 0.06,
+            left: MediaQuery.of(context).size.height * 0.03),
         alignment: Alignment.bottomCenter,
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.6,
+          width: MediaQuery.of(context).size.width * 0.65,
           height: 100.0,
           child: Column(
             children: <Widget>[

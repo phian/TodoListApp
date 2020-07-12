@@ -34,7 +34,7 @@ class TaskData {
   }
 
   // Constructor để phân tách ListData object từ một Map object
-  TaskData.formTaskMapObject(Map<String, dynamic> taskMap) {
+  TaskData.fromTaskMapObject(Map<String, dynamic> taskMap) { 
     this.taskId = taskMap['TASK_ID'];
     this.listId = taskMap['LIST_ID'];
     this.scheduleId = taskMap['SCHEDULE_ID'];

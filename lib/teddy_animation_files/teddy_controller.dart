@@ -142,9 +142,10 @@ class TeddyController extends FlareControls {
     var emailCheck = RegExp(
         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
-    if (_password.isNotEmpty && emailCheck.hasMatch(_emailAddress) && _userName.isNotEmpty) {
+    if (emailCheck.hasMatch(_emailAddress) &&
+        _emailAddress != "phiannguyen1806@gmail.com") {
       play("success");
-    } else {
+    } else if (_emailAddress == "phiannguyen1806@gmail.com") {
       play("fail");
     }
   }

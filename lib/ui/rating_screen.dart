@@ -1,5 +1,6 @@
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:todoapp/animation/rating_face_controller.dart';
@@ -46,7 +47,7 @@ class _RatingScreenState extends State<RatingScreen>
 
     _flareController = FlareRateController();
     _slideState = SlideState.VeryBad;
-    // SystemChrome.setEnabledSystemUIOverlays([]);
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
 
     _ratingAnimatonController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 750))
@@ -74,16 +75,16 @@ class _RatingScreenState extends State<RatingScreen>
   Widget build(BuildContext context) {
     _buttonScale = 1 - _buttonAniController.value;
 
-    return SafeArea(
-      child: WillPopScope(
-        // ignore: missing_return
-        onWillPop: () async {
-          _backToAboutScreen();
-        },
-        child: AnimatedContainer(
-          duration: Duration(milliseconds: 300),
-          transform:
-              Matrix4.translationValues(0.0, _transitionForRatingScreen, 0.0),
+    return WillPopScope(
+      // ignore: missing_return
+      onWillPop: () async {
+        _backToAboutScreen();
+      },
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 300),
+        transform:
+            Matrix4.translationValues(0.0, _transitionForRatingScreen, 0.0),
+        child: SafeArea(
           child: Scaffold(
             backgroundColor: ratingBackgroundTween
                 .evaluate(AlwaysStoppedAnimation(_dragPercent)),

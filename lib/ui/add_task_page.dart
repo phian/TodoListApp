@@ -93,9 +93,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
       onWillPop: () async {
         _backToMainScreen();
       },
-      child: Scaffold(
-        body: SafeArea(
-          child: Container(
+      child: SafeArea(
+        child: Scaffold(
+          body: Container(
             color: Color(0xDDFFE4D4),
             child: Stack(
               children: <Widget>[
@@ -107,8 +107,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
                   children: <Widget>[
                     Container(
                       alignment: Alignment.center,
-                      padding:
-                          EdgeInsets.only(left: 25, right: 25, top: 8, bottom: 8),
+                      padding: EdgeInsets.only(
+                          left: 25, right: 25, top: 8, bottom: 8),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(8),

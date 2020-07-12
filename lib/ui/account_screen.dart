@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:todoapp/ui/sign_in_or_create_account_screen.dart';
 
@@ -17,6 +18,19 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   double _accountScreenOpacity = 1.0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(Duration(milliseconds: 350), () {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) {
+          SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+        },
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +58,18 @@ class _AccountScreenState extends State<AccountScreen> {
         children: <Widget>[
           Align(
             alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 8.0),
+            child: Container(
+              transform: Matrix4.translationValues(
+                0.0,
+                -3.0,
+                0.0,
+              ),
+              width: 70.0,
+              height: 70.0,
               child: FlatButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(90.0),
+                ),
                 onPressed: () async {
                   _backToMainScreen();
                 },
@@ -110,7 +133,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         child: SignInOrCreateAccountScreen(
                           lastFocusedScreen: widget.lastFocusedScreen,
                         ),
-                        duration: Duration(milliseconds: 300)));
+                        duration: Duration(milliseconds: 400)));
               },
               onTapCancel: () {
                 setState(() {

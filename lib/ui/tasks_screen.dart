@@ -242,6 +242,7 @@ class _TasksScreenState extends State<TasksScreen>
                             style: TextStyle(fontSize: 25.0),
                           ),
                           Container(
+                            margin: EdgeInsets.only(top: 3.0),
                             height: 3.0,
                             width: 40.0,
                             decoration: BoxDecoration(
@@ -262,6 +263,7 @@ class _TasksScreenState extends State<TasksScreen>
                           style: TextStyle(fontSize: 25.0),
                         ),
                         Container(
+                          margin: EdgeInsets.only(top: 3.0),
                           height: 3.0,
                           width: 40.0,
                           decoration: BoxDecoration(
@@ -281,6 +283,7 @@ class _TasksScreenState extends State<TasksScreen>
                           style: TextStyle(fontSize: 25.0),
                         ),
                         Container(
+                          margin: EdgeInsets.only(top: 3.0),
                           height: 3.0,
                           width: 40.0,
                           decoration: BoxDecoration(
