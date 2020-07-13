@@ -37,14 +37,15 @@ class _TasksScreenState extends State<TasksScreen>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
     _tabController = TabController(vsync: this, length: 3);
     _tabController.addListener(() {
       if (_tabController.index != _tabController.previousIndex) {
         setState(() {
           _selectedTabIndex = _tabController.index;
+
+          DatesListScreen _dateListScreen = DatesListScreen();
+          _dateListScreen.addTodayTaskTilesListItem();
         });
       }
     });
@@ -219,6 +220,9 @@ class _TasksScreenState extends State<TasksScreen>
                   onTap: (index) {
                     setState(() {
                       _selectedTabIndex = index;
+
+                      DatesListScreen _dateListScreen = DatesListScreen();
+                      _dateListScreen.addTodayTaskTilesListItem();
                     });
                   },
                   isScrollable: true,

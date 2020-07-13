@@ -4,63 +4,101 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:todoapp/doit_database_bus/doit_database_helper.dart';
-import 'package:todoapp/doit_database_models/doit_lists_data.dart';
-import 'package:todoapp/doit_database_models/doit_tasks_data.dart';
+import 'package:todoapp/custom_ui_widgets/custom_list_tile.dart';
+import 'package:todoapp/ui_variables/dates_list_variables.dart';
 
 // ignore: must_be_immutable
 class DatesListScreen extends StatefulWidget {
   @override
   _DatesListScreenState createState() => _DatesListScreenState();
-}
 
-DatabaseHelper _databaseHelper = DatabaseHelper();
+  // Hàm để add các widget chứa task
+  addTodayTaskTilesListItem() async {
+    await refreshTodayTask();
+    todayTaskTilesList = [];
+    for (int i = 0; i < todayTask.length; i++) {
+      todayTaskTilesList.add(
+        TaskTile(
+          taskData: todayTask[i],
+        ),
+      );
+    }
+  }
 
-class _DatesListScreenState extends State<DatesListScreen> {
-  List<TaskData> todayTask;
-  List<TaskData> tomorrowTask;
-  List<TaskData> laterTask;
-
+  DatabaseHelper _databaseHelper = DatabaseHelper();
   refreshTodayTask() async {
     await _databaseHelper.getTodayTask().then((value) {
       todayTask = value;
     });
   }
 
-  _getTask() {}
+  getTask() {}
 
-  refreshTmrTask() {
-    setState(() {
-      _databaseHelper.getTmrTask().then((value) {
-        tomorrowTask = value;
-      });
+  refreshTmrTask() async {
+    await _databaseHelper.getTmrTask().then((value) {
+      tomorrowTask = value;
     });
   }
 
-  refreshLaterTask() {
-    setState(() {
-      _databaseHelper.getLaterTask().then((value) {
-        laterTask = value;
-      });
+  refreshLaterTask() async {
+    await _databaseHelper.getLaterTask().then((value) {
+      laterTask = value;
     });
   }
+}
+
+class _DatesListScreenState extends State<DatesListScreen> {
+  DatabaseHelper _databaseHelper = DatabaseHelper();
+
+  // Hàm để add các widget chứa task
+  // _addTodayTaskTilesListItem() async {
+  //   await refreshTodayTask();
+  //   todayTaskTilesList = [];
+  //   for (int i = 0; i < todayTask.length; i++) {
+  //     todayTaskTilesList.add(
+  //       TaskTile(
+  //         taskData: todayTask[i],
+  //       ),
+  //     );
+  //   }
+  // }
+
+  // refreshTodayTask() async {
+  //   await _databaseHelper.getTodayTask().then((value) {
+  //     todayTask = value;
+  //   });
+  // }
+
+  // getTask() {}
+
+  // refreshTmrTask() async {
+  //   await _databaseHelper.getTmrTask().then((value) {
+  //     tomorrowTask = value;
+  //   });
+  // }
+
+  // refreshLaterTask() async {
+  //   await _databaseHelper.getLaterTask().then((value) {
+  //     laterTask = value;
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
-    todayTask = [];
-    tomorrowTask = [];
-    laterTask = [];
-    refreshTodayTask();
-    //refreshTmrTask();
-    //refreshLaterTask();
+    // todayTask = [];
+    // tomorrowTask = [];
+    // laterTask = [];
+    //_refreshTmrTask();
+    //_refreshLaterTask();
   }
 
   @override
   Widget build(BuildContext context) {
     double _paddingLeftAndRight = MediaQuery.of(context).size.width / 9.0;
     double _screenWidth = MediaQuery.of(context).size.width;
-
     return ListView(
       physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
       children: <Widget>[
@@ -121,94 +159,25 @@ class _DatesListScreenState extends State<DatesListScreen> {
       margin: EdgeInsets.symmetric(
         vertical: 15.0,
       ),
-      child: ListView.builder(
+      child: ListView.separated(
         padding: EdgeInsets.symmetric(
           horizontal: 20.0,
         ),
         physics: NeverScrollableScrollPhysics(),
-        itemExtent: 80.0,
         itemCount: todayTask.length,
         itemBuilder: (BuildContext ctxt, int index) {
-          return TaskTile(taskData: todayTask[index]);
+          return Container(
+            child: Container(
+              child: todayTaskTilesList[index],
+              height: 80.0,
+            ),
+          );
         },
-      ),
-    );
-  }
-}
-
-class TaskTile extends StatefulWidget {
-  final TaskData taskData;
-  TaskTile({Key key, this.taskData}) : super(key: key);
-  @override
-  _TaskTileState createState() => _TaskTileState();
-}
-
-class _TaskTileState extends State<TaskTile> {
-  String colorStr = "0xFFFFFFFF";
-  Color _taskColor;
-  List<ListData> _queryData;
-
-  _getListColor(int listid) async {
-    print("list id: $listid");
-    await _databaseHelper.getListColor(listid).then((value) {
-      for (var i = 0; i < value.length; i++) {
-        colorStr = value[i].values.toList()[i] ?? "Color(0xFFFFFFFF)";
-        print(value[i].values.toList()[i]);
-      }
-    });
-
-    print("colorStr: $colorStr");
-  }
-
-  void _hexToColor() async {
-    _taskColor = Color(int.parse(_queryData[0].listColor.substring(10, 16), radix: 16) + 0xFF000000);
-  }
-
-  void _getListData() async {
-    await _databaseHelper.getListByListID(widget.taskData.listId).then((value) {
-      _queryData = value;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    _getListData();
-    _hexToColor();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    _hexToColor();
-
-    return Container(
-      decoration: BoxDecoration(
-        color: _taskColor,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Align(
-        alignment: Alignment.center,
-        child: ListTile(
-          subtitle: Text(
-            widget.taskData.taskDate,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 12.0,
-              fontFamily: 'Roboto',
-              color: Colors.grey,
-            ),
-          ),
-          title: Text(
-            widget.taskData.taskName,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 22.0,
-              fontFamily: 'Roboto',
-            ),
-          ),
-        ),
+        separatorBuilder: (context, index) {
+          return SizedBox(
+            height: 10.0,
+          );
+        },
       ),
     );
   }

@@ -4,7 +4,7 @@ import 'package:todoapp/ui/new_list_screen.dart';
 // var typeColors = [Colors.red, Colors.black]; //
 var verticalListWidgets = []; // mảng lưu trữ các item của list view
 var listTitles = [""]; // mảng lưu trữ các title của các list
-var listId = [];
+var listIds = [];
 
 // Biến dùng cho animation ẩn list view screen khi người dùng ấn add list
 var listScreenOpacity = 1.0;

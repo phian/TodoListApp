@@ -74,7 +74,6 @@ class _TasksListScreenState extends State<TasksListScreen> {
       _databaseHelper.getListsMap().then((value) {
         for (int i = 0; i < value.length; i++) {
           var listInfo = value[i].values.toList();
-          listId.add(listInfo[0]);
           listTitles.add(listInfo[1]);
           listColors.add(Color(int.parse(listInfo[2].substring(10, 16), radix: 16) + 0xFF000000));
           verticalListWidgets.add(verticalListWidget(
@@ -450,7 +449,7 @@ class _TasksListScreenState extends State<TasksListScreen> {
                       horizontalListWidgets.removeAt(dragIndex);
                       listTitles.removeAt(dragIndex);
                       listColors.removeAt(dragIndex + 1);
-                      listId.removeAt(dragIndex - 1);
+                      listIds.removeAt(dragIndex - 1);
 
                       setState(() {
                         previousLength--;

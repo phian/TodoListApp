@@ -42,7 +42,8 @@ class DatabaseHelper {
 
   factory DatabaseHelper() {
     if (_doitDatabaseHelper == null) {
-      _doitDatabaseHelper = DatabaseHelper._createInstance(); // Thực thi một lần duy nhất, singleton object
+      _doitDatabaseHelper = DatabaseHelper
+          ._createInstance(); // Thực thi một lần duy nhất, singleton object
     }
 
     return _doitDatabaseHelper;
@@ -60,11 +61,13 @@ class DatabaseHelper {
   // Hàm để khởi tạo database
   Future<Database> initDoitDatabase() async {
     // Lấy đường dẫn iOS và Android để lưu trữ database
-    Directory doitDatabaseStoredDirectory = await getApplicationDocumentsDirectory();
+    Directory doitDatabaseStoredDirectory =
+        await getApplicationDocumentsDirectory();
     String doitDatabasePath = doitDatabaseStoredDirectory.path + 'doit.db';
 
     // Mở hoặc khởi tạo database tại đường dẫn được đưa trc
-    var doitDatabase = await openDatabase(doitDatabasePath, version: 1, onCreate: _createDoitDatabase);
+    var doitDatabase = await openDatabase(doitDatabasePath,
+        version: 1, onCreate: _createDoitDatabase);
 
     return doitDatabase;
   }
@@ -136,7 +139,8 @@ class DatabaseHelper {
   Future<int> insertDataToScheduleTable(RepeatData scheduleData) async {
     Database doitDatabase = await this.getDoitDatabase;
 
-    var insertResult = await doitDatabase.insert(tabRepeat, scheduleData.toMap());
+    var insertResult =
+        await doitDatabase.insert(tabRepeat, scheduleData.toMap());
     return insertResult;
   }
   //----------------------------------------------------------------------------------------//
@@ -147,8 +151,8 @@ class DatabaseHelper {
   Future<int> updateListData(ListData listData) async {
     var doitDatabase = await this.getDoitDatabase;
 
-    var updateResult =
-        await doitDatabase.update(tabList, listData.toMap(), where: '$colListId = ?', whereArgs: [listData.listId]);
+    var updateResult = await doitDatabase.update(tabList, listData.toMap(),
+        where: '$colListId = ?', whereArgs: [listData.listId]);
     print(listData.listId);
     return updateResult;
   }
@@ -157,8 +161,8 @@ class DatabaseHelper {
   Future<int> updateTaskData(TaskData taskData) async {
     var doitDatabase = await this.getDoitDatabase;
 
-    var updateResult =
-        await doitDatabase.update(tabTask, taskData.toMap(), where: '$colTaskId = ?', whereArgs: [taskData.taskId]);
+    var updateResult = await doitDatabase.update(tabTask, taskData.toMap(),
+        where: '$colTaskId = ?', whereArgs: [taskData.taskId]);
     return updateResult;
   }
 
@@ -166,8 +170,8 @@ class DatabaseHelper {
   Future<int> updateScheduleData(RepeatData repeatData) async {
     var doitDatabase = await this.getDoitDatabase;
 
-    var updateResult = await doitDatabase
-        .update(tabRepeat, repeatData.toMap(), where: '$colRepeatId = ?', whereArgs: [repeatData.repeatId]);
+    var updateResult = await doitDatabase.update(tabRepeat, repeatData.toMap(),
+        where: '$colRepeatId = ?', whereArgs: [repeatData.repeatId]);
     return updateResult;
   }
   //----------------------------------------------------------------------------------------//
@@ -178,7 +182,8 @@ class DatabaseHelper {
   Future<int> deleteListData(int listId) async {
     var doitDatabase = await this.getDoitDatabase;
 
-    var deleteResult = await doitDatabase.delete(tabList, where: '$colListId = ?', whereArgs: [listId]);
+    var deleteResult = await doitDatabase
+        .delete(tabList, where: '$colListId = ?', whereArgs: [listId]);
     return deleteResult;
   }
 
@@ -186,7 +191,8 @@ class DatabaseHelper {
   Future<int> deleteTaskData(int taskId) async {
     var doitDatabase = await this.getDoitDatabase;
 
-    var deleteResult = await doitDatabase.delete(tabTask, where: '$colTaskId = ?', whereArgs: [taskId]);
+    var deleteResult = await doitDatabase
+        .delete(tabTask, where: '$colTaskId = ?', whereArgs: [taskId]);
     return deleteResult;
   }
 
@@ -194,7 +200,8 @@ class DatabaseHelper {
   Future<int> deleteRepeatData(int repeatId) async {
     var doitDatabase = await this.getDoitDatabase;
 
-    var deleteResult = await doitDatabase.delete(tabRepeat, where: '$colRepeatId = ?', whereArgs: [repeatId]);
+    var deleteResult = await doitDatabase
+        .delete(tabRepeat, where: '$colRepeatId = ?', whereArgs: [repeatId]);
     return deleteResult;
   }
   //----------------------------------------------------------------------------------------//
@@ -204,7 +211,8 @@ class DatabaseHelper {
   // Hàm để lấy số lượng phần tử từ bảng list
   Future<int> getListObjectsCount() async {
     var doitDatabase = await this.getDoitDatabase;
-    List<Map<String, dynamic>> listTableObjects = await doitDatabase.rawQuery('Select COUNT (*) FROM $tabList');
+    List<Map<String, dynamic>> listTableObjects =
+        await doitDatabase.rawQuery('Select COUNT (*) FROM $tabList');
 
     int countResult = Sqflite.firstIntValue(listTableObjects);
     return countResult;
@@ -214,14 +222,15 @@ class DatabaseHelper {
   Future<int> getNewRepeatID() async {
     var doitDatabase = await this.getDoitDatabase;
 
-    return Future.value(
-        Sqflite.firstIntValue(await doitDatabase.rawQuery('SELECT max($colRepeatId) from $tabRepeat')));
+    return Future.value(Sqflite.firstIntValue(await doitDatabase
+        .rawQuery('SELECT max($colRepeatId) from $tabRepeat')));
   }
 
   // Hàm để lấy số lượng phần tử từ bảng task
   Future<int> getTaskObjectsCount() async {
     var doitDatabase = await this.getDoitDatabase;
-    List<Map<String, dynamic>> taskTableObjects = await doitDatabase.rawQuery('Select COUNT (*) FROM $tabTask');
+    List<Map<String, dynamic>> taskTableObjects =
+        await doitDatabase.rawQuery('Select COUNT (*) FROM $tabTask');
 
     int countResult = Sqflite.firstIntValue(taskTableObjects);
     return countResult;
@@ -230,7 +239,8 @@ class DatabaseHelper {
   // Hàm để lấy số lượng phần tử từ bảng schedule
   Future<int> getScheduleObjectsCount() async {
     var doitDatabase = await this.getDoitDatabase;
-    List<Map<String, dynamic>> scheduleTableObjects = await doitDatabase.rawQuery('Select COUNT (*) FROM $tabRepeat');
+    List<Map<String, dynamic>> scheduleTableObjects =
+        await doitDatabase.rawQuery('Select COUNT (*) FROM $tabRepeat');
 
     int countResult = Sqflite.firstIntValue(scheduleTableObjects);
     return countResult;
@@ -240,7 +250,8 @@ class DatabaseHelper {
   Future<List<Map<String, dynamic>>> getListName(int listId) async {
     var doitDatabase = await this.getDoitDatabase;
 
-    var rs = await doitDatabase.rawQuery('Select $colListName FROM $tabList WHERE $colListId = ?', [listId]);
+    var rs = await doitDatabase.rawQuery(
+        'Select $colListName FROM $tabList WHERE $colListId = ?', [listId]);
 
     return rs;
   }
@@ -260,7 +271,8 @@ class DatabaseHelper {
 
   Future<List<ListData>> getListByListID(int listid) async {
     var db = await this.getDoitDatabase;
-    List<Map> maps = await db.rawQuery('Select * from $tabList where $colListId = ?', [listid]) ?? List<Map>();
+    List<Map> maps = await db
+        .rawQuery('Select * from $tabList where $colListId = ?', [listid]);
     List<ListData> rs = [];
     rs.add(ListData.fromListMapObject(maps[0]));
     return rs;
@@ -269,9 +281,12 @@ class DatabaseHelper {
 
   // get today task
   Future<List<TaskData>> getTodayTask() async {
-    var db = await this.getDoitDatabase;
-    var a = DateFormat('d/M/yyyy').format(DateTime.now());
-    List<Map> maps = await db.rawQuery('SELECT * FROM $tabTask WHERE $colTaskDate = ?', [a]);
+    var getDatabase = await this.getDoitDatabase;
+    var currentDate = DateFormat('d/M/yyyy').format(DateTime.now());
+    List<Map> maps = await getDatabase.rawQuery(
+      'SELECT * FROM $tabTask WHERE $colTaskDate = ?',
+      [currentDate],
+    );
     List<TaskData> rs = [];
     if (maps.length > 0) {
       for (int i = 0; i < maps.length; i++) {
@@ -284,8 +299,12 @@ class DatabaseHelper {
   // get tomorrow task
   Future<List<TaskData>> getTmrTask() async {
     var db = await this.getDoitDatabase;
-    var a = DateFormat('d/M/yyyy').format(DateTime.now().add(Duration(days: 1)));
-    List<Map> maps = await db.rawQuery('SELECT * FROM $tabTask WHERE $colTaskDate =?', [a]);
+    var a =
+        DateFormat('d/M/yyyy').format(DateTime.now().add(Duration(days: 1)));
+    List<Map> maps = await db.rawQuery(
+      'SELECT * FROM $tabTask WHERE $colTaskDate =?',
+      [a],
+    );
     List<TaskData> rs = [];
     if (maps.length > 0) {
       for (int i = 0; i < maps.length; i++) {
@@ -298,8 +317,10 @@ class DatabaseHelper {
   //get later task
   Future<List<TaskData>> getLaterTask() async {
     var db = await this.getDoitDatabase;
-    var a = DateFormat('d/M/yyyy').format(DateTime.now().add(Duration(days: 1)));
-    List<Map> maps = await db.rawQuery('SELECT * FROM $tabTask WHERE $colTaskDate >?', [a]);
+    var a =
+        DateFormat('d/M/yyyy').format(DateTime.now().add(Duration(days: 1)));
+    List<Map> maps =
+        await db.rawQuery('SELECT * FROM $tabTask WHERE $colTaskDate >?', [a]);
     List<TaskData> rs = [];
     if (maps.length > 0) {
       for (int i = 0; i < maps.length; i++) {
