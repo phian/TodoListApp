@@ -7,21 +7,20 @@ class TaskData {
   int taskType;
   String taskReminderTime;
   String taskDate;
-  //String listName;
-  //String listColor;
+  String listName;
+  String listColor;
 
-  TaskData({
-    this.taskId,
-    this.listId,
-    this.repeatId,
-    this.taskName,
-    this.taskStatus,
-    this.taskType,
-    this.taskReminderTime,
-    this.taskDate,
-    //this.listName,
-    //this.listColor
-  });
+  TaskData(
+      {this.taskId,
+      this.listId,
+      this.repeatId,
+      this.taskName,
+      this.taskStatus,
+      this.taskType,
+      this.taskReminderTime,
+      this.taskDate,
+      this.listName,
+      this.listColor});
 
   // Hàm để convert list data vào 1 map object để lưu trữ
   Map<String, dynamic> toMap() {
@@ -51,5 +50,7 @@ class TaskData {
     this.taskType = taskMap['TASK_TYPE'];
     this.taskReminderTime = taskMap['TASK_REMINDER_TIME'];
     this.taskDate = taskMap['TASK_DATE'];
+    this.listName = taskMap['LIST_NAME'];
+    this.listColor = taskMap['LIST_COLOR'];
   }
 }
