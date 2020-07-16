@@ -79,6 +79,8 @@ class DatabaseHelper {
 
     await doitDatabase.execute(
         "CREATE TABLE $tabRepeat($colRepeatId INTEGER PRIMARY KEY AUTOINCREMENT,  $colRepeatStatus INTEGER, $colFrequencyChoice INTEGER, $colRepeatEvery INTEGER, $colRepeatOnWeek TEXT, $colRepeatOnMonth TEXT, $colRepeatEndChoice INTEGER, $colRepeatEndAfterXTimes INTEGER, $colRepeatEndOnDate TEXT)");
+    await doitDatabase.execute(
+        'CREATE TRIGGER xoa_task_truoc_khi_xoa_list BEFORE DELETE ON LIST_TABLE BEGIN Delete from TASK_TABLE where LIST_ID = OLD.LIST_ID; END;');
   }
 
   // Hàm để remove List table
@@ -275,8 +277,8 @@ class DatabaseHelper {
     List<Map> maps = await db.rawQuery(
         'SELECT $colTaskId, $colTaskDate, $colTaskName, $tabTask.$colTaskListId, $colTaskReminderTime, $colTaskRepeatId, $colTaskStatus, $colTaskType, $colListColor, $colListName' +
             ' FROM $tabTask LEFT JOIN $tabList ON $tabTask.$colTaskListId = $tabList.$colTaskListId' +
-            ' WHERE $colTaskDate = ?',
-        [a]);
+            ' WHERE $colTaskDate = ? AND $colTaskType = ?',
+        [a, 0]);
     List<TaskData> rs = [];
     if (maps.length > 0) {
       for (int i = 0; i < maps.length; i++) {

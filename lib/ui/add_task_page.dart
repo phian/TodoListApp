@@ -30,11 +30,7 @@ class AddTaskPage extends StatefulWidget {
 
 class _AddTaskPageState extends State<AddTaskPage> {
   String _selectedChoice = "";
-  List<String> _choicesList = [
-    'Normal task',
-    'Special task',
-    'Achievement task'
-  ];
+  List<String> _choicesList = ['Normal task', 'Special task', 'Achievement task'];
   List<Widget> _choices = List();
   List<bool> _visibilities = [true, true, true, false];
 
@@ -109,8 +105,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 children: <Widget>[
                   Container(
                     alignment: Alignment.center,
-                    padding:
-                        EdgeInsets.only(left: 25, right: 25, top: 8, bottom: 8),
+                    padding: EdgeInsets.only(left: 25, right: 25, top: 8, bottom: 8),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8),
@@ -244,15 +239,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
                           // Reset lại các giá trị đã set trong schedule sheet
                           setState(
                             () {
-                              _scheduleSheet.repeatChoiceData =
-                                  RepeatChoiceData();
-                              _specialScheduleSheet.specialRepeatChoiceData =
-                                  SpecialRepeatChoiceData();
+                              _scheduleSheet.repeatChoiceData = RepeatChoiceData();
+                              _specialScheduleSheet.specialRepeatChoiceData = SpecialRepeatChoiceData();
 
-                              _repeatsChoiceData =
-                                  _scheduleSheet.repeatChoiceData;
-                              _specialRepeatChoiceData =
-                                  _specialScheduleSheet.specialRepeatChoiceData;
+                              _repeatsChoiceData = _scheduleSheet.repeatChoiceData;
+                              _specialRepeatChoiceData = _specialScheduleSheet.specialRepeatChoiceData;
                             },
                           );
 
@@ -267,7 +258,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                         child: Icon(Icons.done),
                         onPressed: () async {
                           if (_selectedIndex == 0) {
-                            _saveNormalTask();
+                            if (_textController.text != '') _saveNormalTask();
                           }
                         },
                       ),
@@ -308,8 +299,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
         padding: const EdgeInsets.all(2.0),
         child: ChoiceChip(
           label: Text(_choicesList[i]),
-          labelStyle: TextStyle(
-              color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
+          labelStyle: TextStyle(color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.bold),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
           ),
@@ -371,8 +361,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
   void _onSchedulePress() {
     if (_scheduleSheet.schedulePickedDate == null) {
-      _scheduleSheet =
-          ScheduleSheet(data: _repeatsChoiceData, initTime: DateTime.now());
+      _scheduleSheet = ScheduleSheet(data: _repeatsChoiceData, initTime: DateTime.now());
     } else {
       _scheduleSheet = ScheduleSheet(
         initTime: _scheduleSheet.schedulePickedDate,
@@ -428,8 +417,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
         repeatRepeatOnWeek: strWeekChoice,
         repeatRepeatOnMonth: _repeatsChoiceData.monthlyRepeatChoice.toString(),
         repeatEndChoice: _repeatsChoiceData.endsChoice,
-        repeatEndOnDate:
-            DateFormat('d/M/yyyy').format(_repeatsChoiceData.endsDateChoice),
+        repeatEndOnDate: DateFormat('d/M/yyyy').format(_repeatsChoiceData.endsDateChoice),
         repeatEndAfterXTimes: _repeatsChoiceData.endsAfetrNumberOfTimesChoice,
       ),
     );
@@ -437,10 +425,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
     _databaseHelper.insertDataToTaskTable(
       TaskData(
         taskDate: () {
-          if (_scheduleSheet.schedulePickedDate == null)
-            return DateFormat('d/M/yyyy').format(DateTime.now());
-          return DateFormat('d/M/yyyy')
-              .format(_scheduleSheet.schedulePickedDate);
+          if (_scheduleSheet.schedulePickedDate == null) return DateFormat('d/M/yyyy').format(DateTime.now());
+          return DateFormat('d/M/yyyy').format(_scheduleSheet.schedulePickedDate);
         }(),
         taskName: _textController.text,
         listId: () {
@@ -457,8 +443,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
   void _onSchedule2Press() {
     if (_specialScheduleSheet.schedulePickedDate == null) {
-      _specialScheduleSheet = SpecialScheduleSheet(
-          data: _specialRepeatChoiceData, initTime: DateTime.now());
+      _specialScheduleSheet = SpecialScheduleSheet(data: _specialRepeatChoiceData, initTime: DateTime.now());
     } else {
       _specialScheduleSheet = SpecialScheduleSheet(
         initTime: _specialScheduleSheet.schedulePickedDate,
@@ -475,8 +460,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
       },
     ).whenComplete(() {
       setState(() {
-        _specialRepeatChoiceData =
-            _specialScheduleSheet.specialRepeatChoiceData;
+        _specialRepeatChoiceData = _specialScheduleSheet.specialRepeatChoiceData;
       });
     });
   }

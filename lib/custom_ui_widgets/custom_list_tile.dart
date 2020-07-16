@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:todoapp/doit_database_bus/doit_database_helper.dart';
 import 'package:todoapp/doit_database_models/doit_tasks_data.dart';
-import 'package:todoapp/ui_variables/dates_list_variables.dart';
 
 class TaskTile extends StatefulWidget {
   final TaskData taskData;
@@ -18,6 +16,7 @@ class _TaskTileState extends State<TaskTile> {
 
   String _listname = '';
   var _taskdate;
+  Color _textColor = Colors.white;
   @override
   void initState() {
     super.initState();
@@ -29,26 +28,32 @@ class _TaskTileState extends State<TaskTile> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: widget.taskData.listId == null ? Colors.white : _hexToColor(widget.taskData.listColor),
-        borderRadius: BorderRadius.circular(10),
+        color: widget.taskData.listId == null
+            ? () {
+                _textColor = Colors.black;
+                return Colors.white;
+              }()
+            : _hexToColor(widget.taskData.listColor),
+        borderRadius: BorderRadius.circular(7),
       ),
       child: Align(
         alignment: Alignment.center,
         child: ListTile(
           subtitle: Text(
-            _listname + DateFormat("MMMM d").format(_taskdate).toString(),
+            _listname.toUpperCase() + DateFormat("EEE, d MMM").format(_taskdate).toString().toUpperCase(),
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 15.0,
+              fontSize: 12.0,
               fontFamily: 'Roboto',
-              color: Colors.grey,
+              color: _textColor,
             ),
           ),
           title: Text(
             widget.taskData.taskName,
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontWeight: FontWeight.w400,
+              color: _textColor,
+              fontWeight: FontWeight.w500,
               fontSize: 22.0,
               fontFamily: 'Roboto',
             ),

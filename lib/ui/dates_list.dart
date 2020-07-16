@@ -14,41 +14,10 @@ import 'package:todoapp/ui_variables/dates_list_variables.dart';
 class DatesListScreen extends StatefulWidget {
   @override
   _DatesListScreenState createState() => _DatesListScreenState();
-
-  // Hàm để add các widget chứa task
-  // addTodayTaskTilesListItem() async {
-  //   await refreshTodayTask();
-  // todayTaskTilesList = [];
-
-  // for (int i = 0; i < todayTask.length; i++) {
-  //   Color a = await getListColor(todayTask[i].listId);
-  //   todayTaskTilesList.add(
-  //     TaskTile(
-  //       taskData: todayTask[i],
-  //       taskColor: a,
-  //     ),
-  //   );
-  // }
-  // }
-
-  DatabaseHelper _databaseHelper = DatabaseHelper();
 }
 
 class _DatesListScreenState extends State<DatesListScreen> {
   DatabaseHelper _databaseHelper = DatabaseHelper();
-  Color _color;
-
-  // refreshTmrTask() async {
-  //   await _databaseHelper.getTmrTask().then((value) {
-  //     tomorrowTask = value;
-  //   });
-  // }
-
-  // refreshLaterTask() async {
-  //   await _databaseHelper.getLaterTask().then((value) {
-  //     laterTask = value;
-  //   });
-  // }
 
   refreshTodayTask() {
     todayTask = _databaseHelper.getTodayTask();
@@ -116,20 +85,39 @@ class _DatesListScreenState extends State<DatesListScreen> {
     return FutureBuilder(
       future: todayTask,
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.none || snapshot.connectionState == ConnectionState.waiting) {
-          print('Đã ghé ở đây...');
-          return Text('Loading...');
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15),
+            child: Center(
+                child: Text(
+              'Loading...',
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 20.0,
+                fontFamily: 'Roboto',
+              ),
+            )),
+          );
+        } else if (snapshot.hasData == null) {
+          // TODO: điều kiện chỗ này sai, chưa biết fix ...
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15),
+            child: Center(
+                child: Text(
+              'You have no task today!',
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 20.0,
+                fontFamily: 'Roboto',
+              ),
+            )),
+          );
         }
         List<TaskData> todayTaskList = snapshot.data;
         return Container(
-          height: todayTaskList.length * 100.0,
-          margin: EdgeInsets.symmetric(
-            vertical: 15.0,
-          ),
+          height: todayTaskList.length * 85.0,
+          margin: EdgeInsets.symmetric(vertical: 15, horizontal: 28),
           child: ListView.separated(
-            padding: EdgeInsets.symmetric(
-              horizontal: 20.0,
-            ),
             physics: NeverScrollableScrollPhysics(),
             itemCount: todayTaskList.length,
             itemBuilder: (BuildContext ctxt, int index) {
@@ -144,7 +132,7 @@ class _DatesListScreenState extends State<DatesListScreen> {
             },
             separatorBuilder: (context, index) {
               return SizedBox(
-                height: 10.0,
+                height: 5.0,
               );
             },
           ),
