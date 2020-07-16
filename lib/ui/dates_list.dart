@@ -4,7 +4,6 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:todoapp/doit_database_bus/doit_database_helper.dart';
 import 'package:todoapp/custom_ui_widgets/custom_list_tile.dart';
 import 'package:todoapp/doit_database_models/doit_tasks_data.dart';
@@ -99,7 +98,7 @@ class _DatesListScreenState extends State<DatesListScreen> {
             )),
           );
         } else if (snapshot.hasData == null) {
-          // TODO: điều kiện chỗ này sai, chưa biết fix ...
+          // Điều kiện chỗ này sai, chưa biết fix ...
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 15),
             child: Center(

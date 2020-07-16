@@ -29,6 +29,10 @@ class _AddChildListForMotherListScreenState
 
   @override
   Widget build(BuildContext context) {
+    if (childListBinTransformValue == null)
+      setState(() {
+        childListBinTransformValue = MediaQuery.of(context).size.height;
+      });
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,

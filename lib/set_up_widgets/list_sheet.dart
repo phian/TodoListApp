@@ -261,7 +261,7 @@ class _ListSheetState extends State<ListSheet> with TickerProviderStateMixin {
         widget.listSheetListTitles[widget.listSheetListTitles.length - 1],
         widget.listSheetListColors[widget.listSheetListColors.length - 1],
         widget.listSheetListColors[widget.listSheetListColors.length - 1] ==
-                Colors.white
+                Color(0xFFFAFAFA)
             ? Colors.black
             : Colors.white));
   }
