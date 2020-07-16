@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:todoapp/ui/getting_started_second_screen.dart';
 import '../data/main_screen_data.dart';
 import '../presentation/forward_arrow_icon.dart';
@@ -35,6 +36,7 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
   @override
   void initState() {
     super.initState();
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
 
     _initAnimationForForwardButton();
     _initAnimationForFirstText();
@@ -88,7 +90,7 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
                                 fontFamily: 'Roboto',
                                 fontSize: 30.0,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.brown),
+                                color: Color(0xFF425195)),
                           ),
                         ),
                       ),
@@ -110,7 +112,7 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
                               style: TextStyle(
                                   fontFamily: 'Roboto',
                                   fontSize: 16.0,
-                                  color: Colors.brown),
+                                  color: Color(0xFF425195)),
                             ),
                           ),
                         ),
@@ -318,8 +320,8 @@ class _GettingStartedScreenState extends State<GettingStartedScreen>
   // Hàm để chuyển trang
   Future<Widget> buildPageAsync() async {
     return Future.microtask(() {
-      MainScreenData data =
-          MainScreenData(isBack: true, lastFocusedScreen: widget.lastFocusedScreen);
+      MainScreenData data = MainScreenData(
+          isBack: true, lastFocusedScreen: widget.lastFocusedScreen);
       return HomeScreen(
         data: data,
       );

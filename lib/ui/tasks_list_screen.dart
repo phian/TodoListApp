@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:todoapp/doit_database_bus/doit_database_helper.dart';
+import 'package:todoapp/ui/achievement_lists_screen.dart';
 import 'package:todoapp/ui/choose_list_color_screen.dart';
 import 'package:todoapp/ui/new_list_screen.dart';
 import 'package:todoapp/ui_variables/list_screen_variables.dart';
@@ -42,10 +44,10 @@ class _TasksListScreenState extends State<TasksListScreen> {
           listScreenOpacity = 1.0;
         });
       },
-      child: SafeArea(
-        child: Scaffold(
-          backgroundColor: Color(0xFFFAF3F0),
-          body: AnimatedOpacity(
+      child: Scaffold(
+        body: Container(
+          color: Color(0xFFFFE4D4),
+          child: AnimatedOpacity(
             duration: Duration(milliseconds: 350),
             opacity: listScreenOpacity,
             child: Stack(
@@ -53,6 +55,7 @@ class _TasksListScreenState extends State<TasksListScreen> {
                 _listScreenLists(),
                 _buildListsScreenHeader(),
                 _buildChoiceButtons(),
+                _buildOpenAchievementListScreenButton(),
                 _buildDeleteBinWidget(),
               ],
             ),
@@ -283,7 +286,7 @@ class _TasksListScreenState extends State<TasksListScreen> {
               decoration: TextDecoration.none,
               fontFamily: 'Roboto',
               fontSize: 40,
-              color: Colors.red,
+              color: Color(0xFFD34157),
               fontWeight: FontWeight.w900),
         ),
       );
@@ -291,16 +294,20 @@ class _TasksListScreenState extends State<TasksListScreen> {
   // Các nút chọn dạng hiển thị
   Widget _buildChoiceButtons() => Container(
         alignment: Alignment.topRight,
-        padding: EdgeInsets.only(top: 18.0, right: 30.0),
+        padding: EdgeInsets.only(top: 6.0, right: 10.0),
         child: Container(
-          width: 50.0,
-          height: 50.0,
-          child: IconButton(
-            alignment: Alignment.center,
-            icon: Container(
+          width: 80.0,
+          height: 80.0,
+          child: FlatButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(90.0),
+              ),
+            ),
+            child: Container(
                 child: Image.asset(
               'images/swap.png',
-              color: Colors.grey,
+              color: Color(0xFF425195),
               fit: BoxFit.cover,
             )),
             onPressed: () {
@@ -309,6 +316,41 @@ class _TasksListScreenState extends State<TasksListScreen> {
                 _changeListItemSizes(isVertical);
                 scrollDirection = isVertical ? Axis.vertical : Axis.horizontal;
               });
+            },
+          ),
+        ),
+      );
+
+  // Open achievement task screen button
+  Widget _buildOpenAchievementListScreenButton() => Container(
+        alignment: Alignment.topRight,
+        padding: EdgeInsets.only(top: 4.0, right: 90.0),
+        child: Container(
+          width: 80.0,
+          height: 80.0,
+          child: FlatButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(90.0),
+              ),
+            ),
+            child: Container(
+                child: Image.asset(
+              'images/achievement.png',
+              color: Color(0xFF425195),
+              fit: BoxFit.cover,
+            )),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                PageTransition(
+                  child: AchievementListsScreen(
+                    lastFocusedIndex: 2,
+                  ),
+                  type: PageTransitionType.fade,
+                  duration: Duration(milliseconds: 300),
+                ),
+              );
             },
           ),
         ),

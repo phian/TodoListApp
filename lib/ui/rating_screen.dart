@@ -1,10 +1,9 @@
-import 'dart:io';
-
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:todoapp/animation/flare_controller.dart';
+import 'package:todoapp/animation/rating_face_controller.dart';
 import 'package:todoapp/animation/rating_background_color.dart';
 import 'package:todoapp/slider_widgets/rating_slider_painter.dart';
 import 'package:todoapp/slider_widgets/rating_title.dart';
@@ -48,7 +47,7 @@ class _RatingScreenState extends State<RatingScreen>
 
     _flareController = FlareRateController();
     _slideState = SlideState.VeryBad;
-    // SystemChrome.setEnabledSystemUIOverlays([]);
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
 
     _ratingAnimatonController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 750))
@@ -56,7 +55,7 @@ class _RatingScreenState extends State<RatingScreen>
 
     _buttonAniController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 200),
+      duration: Duration(milliseconds: 150),
       lowerBound: 0.0,
       upperBound: 0.1,
     )..addListener(() {
@@ -76,15 +75,16 @@ class _RatingScreenState extends State<RatingScreen>
   Widget build(BuildContext context) {
     _buttonScale = 1 - _buttonAniController.value;
 
-    return SafeArea(
-      child: WillPopScope(
-        onWillPop: () async {
-          _backToAboutScreen();
-        },
-        child: AnimatedContainer(
-          duration: Duration(milliseconds: 300),
-          transform:
-              Matrix4.translationValues(0.0, _transitionForRatingScreen, 0.0),
+    return WillPopScope(
+      // ignore: missing_return
+      onWillPop: () async {
+        _backToAboutScreen();
+      },
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 300),
+        transform:
+            Matrix4.translationValues(0.0, _transitionForRatingScreen, 0.0),
+        child: SafeArea(
           child: Scaffold(
             backgroundColor: ratingBackgroundTween
                 .evaluate(AlwaysStoppedAnimation(_dragPercent)),
@@ -392,8 +392,7 @@ class _RatingScreenState extends State<RatingScreen>
 
   // Hàm để check xem trạng thái rating là gì và gọi hàm tương ứng
   void _checkSlideStateAndSendToEmail() {
-    String address = "phiannguyen1806@gmail.com",
-        address1 = "",
+    String address = "phiannguyen1806@gmail.com, 17520392@gm.uit.edu.vn",
         subject = "[Rating for DOIT]",
         body = "Your app is ";
 
@@ -415,7 +414,7 @@ class _RatingScreenState extends State<RatingScreen>
         break;
     }
 
-    _launchURL("$address", "$subject", "$body");
-    _launchURL("$address1", "$subject", "$body");
+    Future.delayed(Duration(milliseconds: 300),
+        () => _launchURL("$address", "$subject", "$body"));
   }
 }

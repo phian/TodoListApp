@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:todoapp/ui/sign_in_or_create_account_screen.dart';
 
 import '../data/main_screen_data.dart';
 import 'main_screen.dart';
@@ -18,6 +20,19 @@ class _AccountScreenState extends State<AccountScreen> {
   double _accountScreenOpacity = 1.0;
 
   @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(Duration(milliseconds: 350), () {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) {
+          SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+        },
+      );
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: WillPopScope(
@@ -26,7 +41,7 @@ class _AccountScreenState extends State<AccountScreen> {
           _backToMainScreen();
         },
         child: Scaffold(
-          backgroundColor: Color(0xFFFAF3F0),
+          backgroundColor: Color(0xFFFFE4D4),
           body: Stack(
             children: <Widget>[
               _buildAccountScreenHeader(),
@@ -43,15 +58,24 @@ class _AccountScreenState extends State<AccountScreen> {
         children: <Widget>[
           Align(
             alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 8.0),
+            child: Container(
+              transform: Matrix4.translationValues(
+                0.0,
+                -3.0,
+                0.0,
+              ),
+              width: 70.0,
+              height: 70.0,
               child: FlatButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(90.0),
+                ),
                 onPressed: () async {
                   _backToMainScreen();
                 },
                 child: Icon(
                   Icons.arrow_back,
-                  color: Colors.lightBlueAccent,
+                  color: Color(0xFF425195),
                   size: 32.0,
                 ),
               ),
@@ -67,7 +91,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     fontSize: 30.0,
                     fontWeight: FontWeight.w300,
                     fontFamily: 'Roboto',
-                    color: Colors.lightBlueAccent),
+                    color: Color(0xFF425195)),
               ),
             ),
           ),
@@ -79,7 +103,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   "images/account.png",
                   width: 45.0,
                   height: 45.0,
-                  color: Colors.lightBlueAccent,
+                  color: Color(0xFF425195),
                 )),
           ),
         ],
@@ -101,6 +125,15 @@ class _AccountScreenState extends State<AccountScreen> {
                 setState(() {
                   _accountScreenOpacity = 1.0;
                 });
+
+                Navigator.pushReplacement(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.rightToLeftWithFade,
+                        child: SignInOrCreateAccountScreen(
+                          lastFocusedScreen: widget.lastFocusedScreen,
+                        ),
+                        duration: Duration(milliseconds: 400)));
               },
               onTapCancel: () {
                 setState(() {

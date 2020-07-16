@@ -60,7 +60,7 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Color(0xFFFAF3F0),
+        color: Color(0xDDFFE4D4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -71,7 +71,7 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
                   width: MediaQuery.of(context).size.width,
                   height: 200.0,
                   decoration: BoxDecoration(
-                      color: Color(0xFFFAF3F0),
+                      color: Color(0xFFFFE4D4),
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       boxShadow: [
                         BoxShadow(
@@ -87,7 +87,8 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
                         child: ClipRRect(
                           child: Image.asset(
                             'images/calendar_background.png',
-                            fit: BoxFit.fill,
+                            width: MediaQuery.of(context).size.width,
+                            fit: BoxFit.cover,
                           ),
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -230,6 +231,7 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
                             style: TextStyle(fontSize: 25.0),
                           ),
                           Container(
+                            margin: EdgeInsets.only(top: 3.0),
                             height: 3.0,
                             width: 40.0,
                             decoration: BoxDecoration(
@@ -247,6 +249,7 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
                           style: TextStyle(fontSize: 25.0),
                         ),
                         Container(
+                          margin: EdgeInsets.only(top: 3.0),
                           height: 3.0,
                           width: 40.0,
                           decoration: BoxDecoration(
@@ -263,6 +266,7 @@ class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin
                           style: TextStyle(fontSize: 25.0),
                         ),
                         Container(
+                          margin: EdgeInsets.only(top: 3.0),
                           height: 3.0,
                           width: 40.0,
                           decoration: BoxDecoration(

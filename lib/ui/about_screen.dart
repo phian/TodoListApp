@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:todoapp/ui/rating_screen.dart';
 
@@ -19,6 +20,12 @@ class _AboutScreenState extends State<AboutScreen> {
   double _transitionForAboutScreen = 0.0;
 
   @override
+  void initState() {
+    super.initState();
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: WillPopScope(
@@ -31,7 +38,7 @@ class _AboutScreenState extends State<AboutScreen> {
           transform:
               Matrix4.translationValues(0.0, _transitionForAboutScreen, 0.0),
           child: Scaffold(
-            backgroundColor: Color(0xFFFAF3F0),
+            backgroundColor: Color(0xFFFFE4D4),
             body: Container(
               child: Stack(
                 children: <Widget>[
@@ -53,11 +60,16 @@ class _AboutScreenState extends State<AboutScreen> {
         Align(
           alignment: Alignment.topLeft,
           child: Container(
-            padding: const EdgeInsets.only(top: 15.0),
+            margin: const EdgeInsets.only(top: 3.0),
+            width: 70.0,
+            height: 70.0,
             child: FlatButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(90.0),
+              ),
               child: Icon(
                 Icons.arrow_back,
-                color: Colors.lightBlueAccent,
+                color: Color(0xFF425195),
                 size: 40.0,
               ),
               onPressed: () async {
@@ -73,9 +85,10 @@ class _AboutScreenState extends State<AboutScreen> {
             child: Text(
               "ABOUT",
               style: TextStyle(
-                  fontSize: 35.0,
-                  fontWeight: FontWeight.w300,
-                  color: Colors.lightBlueAccent),
+                fontSize: 35.0,
+                fontWeight: FontWeight.w300,
+                color: Color(0xFF425195),
+              ),
             ),
           ),
         ),
@@ -105,7 +118,7 @@ class _AboutScreenState extends State<AboutScreen> {
                 fit: BoxFit.cover,
                 width: 45.0,
                 height: 45.0,
-                color: Colors.lightBlueAccent,
+                color: Color(0xFF425195),
               ),
             ),
           ),

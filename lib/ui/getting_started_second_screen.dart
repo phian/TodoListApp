@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:todoapp/presentation/forward_arrow_icon.dart';
 import 'package:todoapp/ui/getting_started_screen.dart';
 
@@ -63,8 +64,8 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
 
     _initAnimationForCardColumn();
     _initFirstAnimationStateForCard();
@@ -75,7 +76,6 @@ class _GettingStartedSecondScreenState extends State<GettingStartedSecondScreen>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
 
     _controllerForCardColumn.dispose();

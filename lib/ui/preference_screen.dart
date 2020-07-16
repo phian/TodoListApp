@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:todoapp/ui/doit_preference_setting_screen.dart';
+import 'package:todoapp/ui/habbits_setting_screen.dart';
 import 'package:todoapp/ui/main_screen.dart';
 import 'package:todoapp/ui_variables/prefrence_screen_variables.dart';
 
@@ -24,7 +26,7 @@ class _PreferenceScreenState extends State<PreferenceScreen> {
           _backToMainScreen();
         },
         child: Scaffold(
-          backgroundColor: Color(0xFFFAF3F0),
+          backgroundColor: Color(0xFFFFE4D4),
           body: Stack(
             children: <Widget>[
               _builsPreferenceScreenHeader(),
@@ -41,15 +43,24 @@ class _PreferenceScreenState extends State<PreferenceScreen> {
         children: <Widget>[
           Align(
             alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 8.0),
+            child: Container(
+              transform: Matrix4.translationValues(
+                0.0,
+                -3.0,
+                0.0,
+              ),
+              width: 70.0,
+              height: 70.0,
               child: FlatButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(90.0),
+                ),
                 onPressed: () async {
                   _backToMainScreen();
                 },
                 child: Icon(
                   Icons.arrow_back,
-                  color: Colors.lightBlueAccent,
+                  color: Color(0xFF425195),
                   size: 32.0,
                 ),
               ),
@@ -64,7 +75,7 @@ class _PreferenceScreenState extends State<PreferenceScreen> {
                 style: TextStyle(
                     fontFamily: 'Roboto',
                     fontSize: 30.0,
-                    color: Colors.lightBlueAccent,
+                    color: Color(0xFF425195),
                     fontWeight: FontWeight.w300),
               ),
             ),
@@ -81,10 +92,21 @@ class _PreferenceScreenState extends State<PreferenceScreen> {
             InkWell(
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
-              onTap: () => _changeFocusMenuWidgetColor(0, false),
-              onTapCancel: () => _changeFocusMenuWidgetColor(0, false),
+              onTap: () {
+                _changeFocusedMenuWidgetColor(0, false);
+
+                Navigator.pushReplacement(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.rightToLeftWithFade,
+                        child: DOITPreferenceSettingScreen(
+                          lastFocusedScreen: widget.lastFocusedScreen,
+                        ),
+                        duration: Duration(milliseconds: 300)));
+              },
+              onTapCancel: () => _changeFocusedMenuWidgetColor(0, false),
               onHighlightChanged: (isChanged) {
-                if (isChanged) _changeFocusMenuWidgetColor(0, true);
+                if (isChanged) _changeFocusedMenuWidgetColor(0, true);
               },
               child: Container(
                 child: Text("DOIT",
@@ -104,13 +126,24 @@ class _PreferenceScreenState extends State<PreferenceScreen> {
             InkWell(
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
-              onTap: () => _changeFocusMenuWidgetColor(1, false),
-              onTapCancel: () => _changeFocusMenuWidgetColor(1, false),
+              onTap: () {
+                _changeFocusedMenuWidgetColor(1, false);
+
+                Navigator.pushReplacement(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.rightToLeftWithFade,
+                        child: HabbitsSettingScreen(
+                          lastFocusedScreen: widget.lastFocusedScreen,
+                        ),
+                        duration: Duration(milliseconds: 300)));
+              },
+              onTapCancel: () => _changeFocusedMenuWidgetColor(1, false),
               onHighlightChanged: (isChanged) {
-                if (isChanged) _changeFocusMenuWidgetColor(1, true);
+                if (isChanged) _changeFocusedMenuWidgetColor(1, true);
               },
               child: Container(
-                child: Text("Daily habbits setting",
+                child: Text("Daily habits setting",
                     style: TextStyle(
                       color:
                           Colors.black.withOpacity(preferenceMenuOpacities[1]),
@@ -155,7 +188,7 @@ class _PreferenceScreenState extends State<PreferenceScreen> {
   }
 
   // Hàm để reset màu của icon và text của menu widget dc chọn
-  void _changeFocusMenuWidgetColor(int focusedIndex, bool isFocused) {
+  void _changeFocusedMenuWidgetColor(int focusedIndex, bool isFocused) {
     setState(() {
       if (isFocused)
         preferenceMenuOpacities[focusedIndex] = 0.25;

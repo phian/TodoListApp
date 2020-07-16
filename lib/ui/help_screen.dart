@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../data/main_screen_data.dart';
 import '../presentation/facebook_icon.dart';
 import 'package:package_info/package_info.dart';
+import 'package:full_screen_menu/full_screen_menu.dart';
 
 import 'main_screen.dart';
 
@@ -66,7 +67,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
           _backToMainScreen();
         },
         child: Scaffold(
-          backgroundColor: Color(0xFFFAF3F0),
+          backgroundColor: Color(0xFFFFE4D4),
           body: Container(
             child: Stack(
               children: <Widget>[
@@ -93,15 +94,19 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
         children: <Widget>[
           Align(
             alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 9.0),
+            child: Container(
+              width: 70.0,
+              height: 70.0,
               child: FlatButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(90.0),
+                ),
                 onPressed: () async {
                   _backToMainScreen();
                 },
                 child: Icon(
                   Icons.arrow_back,
-                  color: Colors.lightBlueAccent,
+                  color: Color(0xFF425195),
                   size: 32.0,
                 ),
               ),
@@ -116,7 +121,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
                 style: TextStyle(
                   fontFamily: 'Roboto',
                   fontSize: 30.0,
-                  color: Colors.lightBlueAccent,
+                  color: Color(0xFF425195),
                   fontWeight: FontWeight.w300,
                 ),
               ),
@@ -130,7 +135,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
                 'images/help.gif',
                 width: 50.0,
                 height: 50.0,
-                color: Colors.lightBlueAccent,
+                color: Color(0xFF425195),
               ),
             ),
           )
@@ -211,7 +216,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
             },
             onTapUp: (details) {
               _onTapUp(details, 1);
-              _openWhatsApp();
+              _openFacebookContactMenu();
             },
             child: Transform.scale(
               scale: _scales[1],
@@ -342,7 +347,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
             fontFamily: 'Roboto',
             fontSize: 30.0,
             fontWeight: FontWeight.w100,
-            color: Colors.black,
+            color: Color(0xFF425195),
           ),
         ),
       );
@@ -481,11 +486,12 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
     }
   }
 
-  // Hàm để mở ứng dụng WhatsApp
-  void _openWhatsApp() async {
+  // Run FAQ support link,
+  void _openFAQLink() async {
     try {
-      var whatsappUrl = "whatsapp://send?phone=0346275955";
-      await launch(whatsappUrl);
+      var faqUrl =
+          "https://github.com/angapkpro0123/TodoListApp/blob/master/README.md";
+      await launch(faqUrl);
     } catch (e) {
       showDialog(
           context: context,
@@ -495,7 +501,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
                   fit: BoxFit.fitHeight,
                 ),
                 title: Text(
-                  "Oops! There is no WhatsApp available!",
+                  "Something when wrong",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 30.0,
@@ -518,12 +524,71 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
     }
   }
 
-  // Run FAQ support link,
-  void _openFAQLink() async {
+  void _openFacebookContactMenu() {
+    FullScreenMenu.show(
+      context,
+      backgroundColor: Colors.grey,
+      items: [
+        Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              InkWell(
+                onTap: () {
+                  _openAnOrDuyFacebook(0);
+                },
+                child: Container(
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10.0),
+                          topRight: Radius.circular(10.0))),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text("Contact to Ân's Facebook"),
+                      Icon(Icons.keyboard_arrow_right, color: Colors.black),
+                    ],
+                  ),
+                ),
+              ),
+              Divider(
+                height: 0.0,
+              ),
+              InkWell(
+                onTap: () {
+                  _openAnOrDuyFacebook(1);
+                },
+                child: Container(
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(10.0),
+                          bottomRight: Radius.circular(10.0))),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text("Contact to Duy's Facebook"),
+                      Icon(Icons.keyboard_arrow_right, color: Colors.black),
+                    ],
+                  ),
+                ),
+              ),
+            ]),
+      ],
+    );
+  }
+
+  void _openAnOrDuyFacebook(int userChoice) async {
+    var facebookUrl;
     try {
-      var faqUrl =
-          "https://github.com/angapkpro0123/TodoListApp/blob/master/README.md";
-      await launch(faqUrl);
+      if (userChoice == 0)
+        facebookUrl = "https://www.facebook.com/profile.php?id=100006720403618";
+      else
+        facebookUrl = "https://www.facebook.com/profile.php?id=100010490101458";
+      await launch(facebookUrl);
     } catch (e) {
       showDialog(
           context: context,
@@ -533,7 +598,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
                   fit: BoxFit.fitHeight,
                 ),
                 title: Text(
-                  "Something when wrong",
+                  "Oops! Something when wrong!",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 30.0,

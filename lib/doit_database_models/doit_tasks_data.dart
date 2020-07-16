@@ -41,7 +41,9 @@ class TaskData {
   }
 
   // Constructor để phân tách ListData object từ một Map object
-  TaskData.fromTaskMapObject(Map<String, dynamic> taskMap) {
+
+
+  TaskData.fromTaskMapObject(Map<String, dynamic> taskMap) { 
     this.taskId = taskMap['TASK_ID'];
     this.listId = taskMap['LIST_ID'];
     this.repeatId = taskMap['REPEAT_ID'];
@@ -53,4 +55,3 @@ class TaskData {
     this.listName = taskMap['LIST_NAME'];
     this.listColor = taskMap['LIST_COLOR'];
   }
-}
