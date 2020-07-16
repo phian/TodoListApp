@@ -8,14 +8,11 @@ class TasksScreen extends StatefulWidget {
   _TasksScreenState createState() => _TasksScreenState();
 }
 
-class _TasksScreenState extends State<TasksScreen>
-    with TickerProviderStateMixin {
+class _TasksScreenState extends State<TasksScreen> with TickerProviderStateMixin {
   TabController _tabController;
   List<String> _weekDates = []; // List để lưu 7 ngày trong tuần đó để hiển thị
-  List<DateTime> _weekDatesDT =
-      []; // List để lưu giá trị 7 ngày trong tuần lại theo dạng DateTime
-  List<Widget> _dateCardList =
-      []; // List chứa các widget hiển thị card ngày trên Calendar
+  List<DateTime> _weekDatesDT = []; // List để lưu giá trị 7 ngày trong tuần lại theo dạng DateTime
+  List<Widget> _dateCardList = []; // List chứa các widget hiển thị card ngày trên Calendar
   List<Widget> _dateNameList = []; // List chứa các widget để hiển thị
   List<String> _weekDateNames = [
     "S",
@@ -28,8 +25,7 @@ class _TasksScreenState extends State<TasksScreen>
   ]; // List để chứa các chữ cái đầu của tên của thứ trong tuần
 
   int _currentDateIndex; // Biến để chứa vị trí của ngày hiện tại trong tuần
-  int _lastFocusDate =
-      0; // Biến để check xem giá trị ngày trc đó đang dc chọn là ngày nào
+  int _lastFocusDate = 0; // Biến để check xem giá trị ngày trc đó đang dc chọn là ngày nào
 
   String _dayName; // biến để hiển thị ngày header trên Calendar
 
@@ -38,12 +34,14 @@ class _TasksScreenState extends State<TasksScreen>
   @override
   void initState() {
     super.initState();
-
     _tabController = TabController(vsync: this, length: 3);
     _tabController.addListener(() {
       if (_tabController.index != _tabController.previousIndex) {
         setState(() {
           _selectedTabIndex = _tabController.index;
+
+          DatesListScreen _dateListScreen = DatesListScreen();
+          //_dateListScreen.addTodayTaskTilesListItem();
         });
       }
     });
@@ -84,9 +82,7 @@ class _TasksScreenState extends State<TasksScreen>
                   child: Stack(
                     children: <Widget>[
                       Container(
-                        decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30))),
+                        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(30))),
                         height: 250,
                         child: ClipRRect(
                           child: Image.asset(
@@ -107,10 +103,7 @@ class _TasksScreenState extends State<TasksScreen>
                                 padding: EdgeInsets.only(left: 20.0, top: 20.0),
                                 child: Text(
                                   '$_dayName',
-                                  style: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      fontSize: 30,
-                                      color: Colors.white),
+                                  style: TextStyle(fontFamily: 'Roboto', fontSize: 30, color: Colors.white),
                                 ),
                               ),
                             ],
@@ -120,13 +113,10 @@ class _TasksScreenState extends State<TasksScreen>
                               Container(
                                 padding: EdgeInsets.only(
                                     top: 20.0,
-                                    left:
-                                        MediaQuery.of(context).size.width / 25,
-                                    right:
-                                        MediaQuery.of(context).size.width / 27),
+                                    left: MediaQuery.of(context).size.width / 25,
+                                    right: MediaQuery.of(context).size.width / 27),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: <Widget>[
                                     _dateNameList[0],
                                     _dateNameList[1],
@@ -140,15 +130,11 @@ class _TasksScreenState extends State<TasksScreen>
                               ),
                               Container(
                                 padding: EdgeInsets.only(
-                                    left:
-                                        MediaQuery.of(context).size.width / 25,
-                                    right:
-                                        MediaQuery.of(context).size.width / 25,
-                                    top: MediaQuery.of(context).size.height /
-                                        100),
+                                    left: MediaQuery.of(context).size.width / 25,
+                                    right: MediaQuery.of(context).size.width / 25,
+                                    top: MediaQuery.of(context).size.height / 100),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: <Widget>[
                                     InkWell(
                                       child: _dateCardList[0],
@@ -219,6 +205,9 @@ class _TasksScreenState extends State<TasksScreen>
                   onTap: (index) {
                     setState(() {
                       _selectedTabIndex = index;
+
+                      DatesListScreen _dateListScreen = DatesListScreen();
+                      //_dateListScreen.addTodayTaskTilesListItem();
                     });
                   },
                   isScrollable: true,
@@ -246,11 +235,8 @@ class _TasksScreenState extends State<TasksScreen>
                             height: 3.0,
                             width: 40.0,
                             decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10.0)),
-                                color: _selectedTabIndex == 0
-                                    ? Colors.blue.shade900
-                                    : Colors.transparent),
+                                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                color: _selectedTabIndex == 0 ? Colors.blue.shade900 : Colors.transparent),
                           ),
                         ],
                       ),
@@ -267,11 +253,8 @@ class _TasksScreenState extends State<TasksScreen>
                           height: 3.0,
                           width: 40.0,
                           decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0)),
-                              color: _selectedTabIndex == 1
-                                  ? Colors.blue.shade900
-                                  : Colors.transparent),
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                              color: _selectedTabIndex == 1 ? Colors.blue.shade900 : Colors.transparent),
                         ),
                       ],
                     )),
@@ -287,11 +270,8 @@ class _TasksScreenState extends State<TasksScreen>
                           height: 3.0,
                           width: 40.0,
                           decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0)),
-                              color: _selectedTabIndex == 2
-                                  ? Colors.blue.shade900
-                                  : Colors.transparent),
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                              color: _selectedTabIndex == 2 ? Colors.blue.shade900 : Colors.transparent),
                         ),
                       ],
                     )),
@@ -318,8 +298,7 @@ class _TasksScreenState extends State<TasksScreen>
   // Hàm để khởi tạo format ngày để hiển thị trên header ngày
   void _initCalendarTime() {
     // Lấy ngày hiện tại để hiển thị lên header ngày
-    String formattedDate =
-        DateFormat('EEEEEEEE dd MMMM').format(DateTime.now());
+    String formattedDate = DateFormat('EEEEEEEE dd MMMM').format(DateTime.now());
     setState(() {
       _dayName = formattedDate;
     });
@@ -330,16 +309,12 @@ class _TasksScreenState extends State<TasksScreen>
     return Container(
       width: 50,
       height: 70,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: Color(0xFFBDBDBD).withOpacity(opacity)),
+      decoration:
+          BoxDecoration(borderRadius: BorderRadius.circular(15), color: Color(0xFFBDBDBD).withOpacity(opacity)),
       child: Center(
         child: Text(
           "$dateNum",
-          style: TextStyle(
-              fontFamily: 'Roboto',
-              fontSize: 17.0,
-              color: color == null ? Colors.white : color),
+          style: TextStyle(fontFamily: 'Roboto', fontSize: 17.0, color: color == null ? Colors.white : color),
         ),
       ),
     );
@@ -376,10 +351,8 @@ class _TasksScreenState extends State<TasksScreen>
         }
       } else {
         if (int.parse(_weekDates[selectedIndex]) != _lastFocusDate) {
-          _dateCardList[0] =
-              _dateCard(_weekDates[0].toString(), 0.3, Colors.yellow.shade500);
-          _dateCardList[selectedIndex] =
-              _dateCard(_weekDates[selectedIndex], 0.85);
+          _dateCardList[0] = _dateCard(_weekDates[0].toString(), 0.3, Colors.yellow.shade500);
+          _dateCardList[selectedIndex] = _dateCard(_weekDates[selectedIndex], 0.85);
           _lastFocusDate = int.parse(_weekDates[selectedIndex]);
 
           for (int i = 1; i < 7; i++) {
@@ -395,16 +368,14 @@ class _TasksScreenState extends State<TasksScreen>
   // Hàm để update ngày trên header khi người dùng ấn chọn ngày khác
   void _changeDateNameText(int selectedIndex) {
     setState(() {
-      _dayName =
-          DateFormat('EEEEEEEE dd MMMM').format(_weekDatesDT[selectedIndex]);
+      _dayName = DateFormat('EEEEEEEE dd MMMM').format(_weekDatesDT[selectedIndex]);
     });
   }
 
   // Hàm để khởi tạo giá trị ngày cho calendar cards
   void _initCalendarCardsDate() {
     for (int i = 0; i < 7; i++) {
-      _weekDates.add(
-          DateFormat('dd').format(DateTime.now().add(new Duration(days: i))));
+      _weekDates.add(DateFormat('dd').format(DateTime.now().add(new Duration(days: i))));
       _weekDatesDT.add(DateTime.now().add(new Duration(days: i)));
     }
 

@@ -16,7 +16,7 @@ class HabbitsSettingScreen extends StatefulWidget {
 class _HabbitsSettingScreenState extends State<HabbitsSettingScreen> {
   // Biến lấy thời gian hiện tại để hiển thị câu chào
   DateTime _currentTime;
-  // Lời chào thay đổi theo
+  // Lời chào thay đổi theo thời gian trong ngày
   String _greetingTitle;
   // List chứa các danh sách habit
   List<Widget> _habitCardsList;
@@ -454,3 +454,4 @@ class _HabbitsSettingScreenState extends State<HabbitsSettingScreen> {
     }
   }
 }
+

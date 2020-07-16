@@ -1,6 +1,9 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:todoapp/data/main_screen_data.dart';
 import 'package:todoapp/data/repeat_choice_data.dart';
@@ -10,6 +13,7 @@ import 'package:todoapp/doit_database_models/doit_tasks_data.dart';
 import 'package:todoapp/set_up_widgets/list_sheet.dart';
 import 'package:todoapp/set_up_widgets/schedule_sheet.dart';
 import 'package:todoapp/set_up_widgets/special_schedule_sheet.dart';
+import 'package:todoapp/ui_variables/list_screen_variables.dart';
 import 'package:todoapp/ui_variables/task_screen_variables.dart';
 import 'package:todoapp/doit_database_bus/doit_database_helper.dart';
 
@@ -38,7 +42,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
   TimeOfDay _time = TimeOfDay.now();
   final _textController = TextEditingController();
-  int _selectedIndex; // index của loại task
+  int _selectedIndex = 0; // index của loại task
 
   ScheduleSheet _scheduleSheet = ScheduleSheet();
   SpecialScheduleSheet _specialScheduleSheet = SpecialScheduleSheet();
@@ -54,7 +58,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
   @override
   void dispose() {
     // Clean up the controller when the widget is disposed.
-    _textController.dispose();
+    // _textController.dispose();
     super.dispose();
   }
 
@@ -220,6 +224,52 @@ class _AddTaskPageState extends State<AddTaskPage> {
                               onTap: _onSchedule2Press,
                             ),
                           ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                ],
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2 - 2,
+                      child: FlatButton(
+                        color: Colors.white,
+                        child: Icon(Icons.close),
+                        onPressed: () {
+                          // Reset lại các giá trị đã set trong schedule sheet
+                          setState(
+                            () {
+                              _scheduleSheet.repeatChoiceData = RepeatChoiceData();
+                              _specialScheduleSheet.specialRepeatChoiceData = SpecialRepeatChoiceData();
+
+                              _repeatsChoiceData = _scheduleSheet.repeatChoiceData;
+                              _specialRepeatChoiceData = _specialScheduleSheet.specialRepeatChoiceData;
+                            },
+                          );
+
+                          _backToMainScreen();
+                        },
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 2 - 2,
+                      child: FlatButton(
+                        color: Colors.white,
+                        child: Icon(Icons.done),
+                        onPressed: () async {
+                          if (_selectedIndex == 0) {
+                            if (_textController.text != '') _saveNormalTask();
+                          }
+                        },
+                      ),
                         ],
                       ),
                     ),
@@ -415,6 +465,64 @@ class _AddTaskPageState extends State<AddTaskPage> {
         _repeatsChoiceData = _scheduleSheet.repeatChoiceData;
       });
     });
+  }
+
+  int _listId; // Biến để lưu list id và lưu vào db
+  // Hàm đọc các list id đang có trong db để so sánh
+  Future<Null> _getListIdFromDb() async {
+    // Reset list id để đọc lại data cho chính xác
+    listIds = [];
+
+    if (_choseListIndex != null && _choseListIndex != 0) {
+      await _databaseHelper.getListsMap().then((value) {
+        for (int i = 0; i < value.length; i++) {
+          var listInfo = value[i].values.toList();
+          listIds.add(listInfo[0]);
+        }
+      });
+      _listId = listIds[_choseListIndex - 1];
+    } else
+      _listId = null;
+  }
+
+  // Hàm để lưu normal task vào db
+  void _saveNormalTask() async {
+    await _getListIdFromDb();
+
+    var strWeekChoice = convertArrayToString(
+      _repeatsChoiceData.weekRepeatDateChoiceIndex,
+    );
+
+    _databaseHelper.insertDataToScheduleTable(
+      RepeatData(
+        repeatStatus: _repeatsChoiceData.isOnOrOff,
+        repeatFrequencyChoice: _repeatsChoiceData.frequencyChoice,
+        repeatEvery: _repeatsChoiceData.repeatTimes,
+        repeatRepeatOnWeek: strWeekChoice,
+        repeatRepeatOnMonth: _repeatsChoiceData.monthlyRepeatChoice.toString(),
+        repeatEndChoice: _repeatsChoiceData.endsChoice,
+        repeatEndOnDate: DateFormat('d/M/yyyy').format(_repeatsChoiceData.endsDateChoice),
+        repeatEndAfterXTimes: _repeatsChoiceData.endsAfetrNumberOfTimesChoice,
+      ),
+    );
+
+    _databaseHelper.insertDataToTaskTable(
+      TaskData(
+        taskDate: () {
+          if (_scheduleSheet.schedulePickedDate == null) return DateFormat('d/M/yyyy').format(DateTime.now());
+          return DateFormat('d/M/yyyy').format(_scheduleSheet.schedulePickedDate);
+        }(),
+        taskName: _textController.text,
+        listId: () {
+          print("_listId: $_listId");
+          return _listId;
+        }(),
+        taskStatus: 0,
+        taskType: _selectedIndex,
+        taskReminderTime: _time.toString(),
+        repeatId: await _databaseHelper.getNewRepeatID(),
+      ),
+    );
   }
 
   void _onSchedule2Press() {

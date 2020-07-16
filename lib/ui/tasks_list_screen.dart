@@ -67,10 +67,8 @@ class _TasksListScreenState extends State<TasksListScreen> {
 
   // Hàm khởi tạo card đầu tiên
   void _initFirstCard() {
-    verticalListWidgets.add(verticalListWidget(
-        "", listColors[0], taskTitles, listTitleTextColors[1], Icons.add));
-    horizontalListWidgets.add(horizontalListWidget(
-        "", listColors[0], listTitleTextColors[1], Icons.add));
+    verticalListWidgets.add(verticalListWidget("", listColors[0], taskTitles, listTitleTextColors[1], Icons.add));
+    horizontalListWidgets.add(horizontalListWidget("", listColors[0], listTitleTextColors[1], Icons.add));
   }
 
   // Hàm để khởi tạo các widget từ data dc đọc lên từ database
@@ -80,9 +78,7 @@ class _TasksListScreenState extends State<TasksListScreen> {
         for (int i = 0; i < value.length; i++) {
           var listInfo = value[i].values.toList();
           listTitles.add(listInfo[1]);
-          listColors.add(Color(
-              int.parse(listInfo[2].substring(10, 16), radix: 16) +
-                  0xFF000000));
+          listColors.add(Color(int.parse(listInfo[2].substring(10, 16), radix: 16) + 0xFF000000));
           verticalListWidgets.add(verticalListWidget(
               listInfo[1],
               listColors[listColors.length - 1],
@@ -104,11 +100,9 @@ class _TasksListScreenState extends State<TasksListScreen> {
   // Widget hiển thị danh sách list đang có
   Widget _listScreenLists() => Container(
         padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height -
-                (MediaQuery.of(context).size.height * 0.88),
+            top: MediaQuery.of(context).size.height - (MediaQuery.of(context).size.height * 0.88),
             bottom: isVertical == false
-                ? MediaQuery.of(context).size.height -
-                    (MediaQuery.of(context).size.height * 0.96)
+                ? MediaQuery.of(context).size.height - (MediaQuery.of(context).size.height * 0.96)
                 : 0.0),
         child: ListView.separated(
           scrollDirection: scrollDirection,
@@ -116,11 +110,8 @@ class _TasksListScreenState extends State<TasksListScreen> {
             left: 20.0,
             right: 20.0,
           ),
-          itemCount: isVertical
-              ? verticalListWidgets.length
-              : horizontalListWidgets.length,
-          physics:
-              AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+          itemCount: isVertical ? verticalListWidgets.length : horizontalListWidgets.length,
+          physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
           itemBuilder: (context, index) {
             return GestureDetector(
               child: Hero(
@@ -140,21 +131,18 @@ class _TasksListScreenState extends State<TasksListScreen> {
                           onDragStarted: () {
                             setState(() {
                               dragIndex = index;
-                              binTransformValue =
-                                  -(MediaQuery.of(context).size.height * 0.06);
+                              binTransformValue = -(MediaQuery.of(context).size.height * 0.06);
                             });
                           },
                           onDragEnd: (details) {
                             setState(() {
                               // dragIndex = 0;
-                              binTransformValue =
-                                  MediaQuery.of(context).size.height;
+                              binTransformValue = MediaQuery.of(context).size.height;
                             });
                           },
                           onDragCompleted: () {
                             setState(() {
-                              binTransformValue =
-                                  MediaQuery.of(context).size.height;
+                              binTransformValue = MediaQuery.of(context).size.height;
                             });
                           },
                           data: index,
@@ -182,22 +170,19 @@ class _TasksListScreenState extends State<TasksListScreen> {
                       onDragStarted: () {
                         setState(() {
                           dragIndex = index;
-                          binTransformValue =
-                              -(MediaQuery.of(context).size.height * 0.06);
+                          binTransformValue = -(MediaQuery.of(context).size.height * 0.06);
                         });
                       },
                       onDragEnd: (details) {
                         setState(() {
                           // dragIndex = 0;
-                          binTransformValue =
-                              MediaQuery.of(context).size.height;
+                          binTransformValue = MediaQuery.of(context).size.height;
                         });
                       },
                       onDragCompleted: () {
                         setState(() {
                           // dragIndex = 0;
-                          binTransformValue =
-                              MediaQuery.of(context).size.height;
+                          binTransformValue = MediaQuery.of(context).size.height;
                         });
                       },
                       data: index,
@@ -206,8 +191,7 @@ class _TasksListScreenState extends State<TasksListScreen> {
                       childWhenDragging: Opacity(
                         opacity: 0.7,
                         child: Container(
-                          height: MediaQuery.of(context).size.height -
-                              (MediaQuery.of(context).size.height * 0.2),
+                          height: MediaQuery.of(context).size.height - (MediaQuery.of(context).size.height * 0.2),
                           width: listWidgetWidth,
                           child: horizontalListWidgets[index],
                         ),
@@ -215,8 +199,7 @@ class _TasksListScreenState extends State<TasksListScreen> {
                       feedback: Opacity(
                         opacity: 0.7,
                         child: Container(
-                          height: MediaQuery.of(context).size.height -
-                              (MediaQuery.of(context).size.height * 0.2),
+                          height: MediaQuery.of(context).size.height - (MediaQuery.of(context).size.height * 0.2),
                           width: listWidgetWidth,
                           child: horizontalListWidgets[index],
                         ),
@@ -229,10 +212,10 @@ class _TasksListScreenState extends State<TasksListScreen> {
                   setState(() {
                     listScreenOpacity = 0.0;
 
-                    verticalListWidgets.add(verticalListWidget(listTitles[0],
-                        listColors[1], taskTitles, listTitleTextColors[1]));
-                    horizontalListWidgets.add(horizontalListWidget(
-                        listTitles[0], listColors[1], listTitleTextColors[1]));
+                    verticalListWidgets
+                        .add(verticalListWidget(listTitles[0], listColors[1], taskTitles, listTitleTextColors[1]));
+                    horizontalListWidgets
+                        .add(horizontalListWidget(listTitles[0], listColors[1], listTitleTextColors[1]));
 
                     Future.delayed(Duration(milliseconds: 350), () {
                       _addNewList();
@@ -273,9 +256,7 @@ class _TasksListScreenState extends State<TasksListScreen> {
               },
               onTapDown: (details) {
                 setState(() {
-                  if (index != 0)
-                    binTransformValue =
-                        -(MediaQuery.of(context).size.height * 0.06);
+                  if (index != 0) binTransformValue = -(MediaQuery.of(context).size.height * 0.06);
                 });
               },
               onTapUp: (details) {
@@ -379,8 +360,7 @@ class _TasksListScreenState extends State<TasksListScreen> {
   void _addNewList() {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
         ),
         isScrollControlled: true,
         context: context,
@@ -421,8 +401,7 @@ class _TasksListScreenState extends State<TasksListScreen> {
               listTitle: listTitles[listTitles.length - 1],
             );
           }));
-        } else if (listTitles.length == previousLength &&
-            verticalListWidgets.length > 1) {
+        } else if (listTitles.length == previousLength && verticalListWidgets.length > 1) {
           // Nếu ko có title mới dc add thì ta sẽ xoá item cuối của list widget
           verticalListWidgets.removeAt(verticalListWidgets.length - 1);
           horizontalListWidgets.removeAt(horizontalListWidgets.length - 1);
@@ -446,15 +425,9 @@ class _TasksListScreenState extends State<TasksListScreen> {
 
         for (int i = 0; i < verticalListWidgets.length; i++) {
           verticalListWidgets[i] = i == 0
-              ? verticalListWidget(listTitles[0], listColors[0], taskTitles,
-                  listTitleTextColors[1], Icons.add)
-              : verticalListWidget(
-                  listTitles[i],
-                  listColors[i + 1],
-                  taskTitles,
-                  listColors[i + 1] == Color(0xfffafafa)
-                      ? listTitleTextColors[0]
-                      : listTitleTextColors[1]);
+              ? verticalListWidget(listTitles[0], listColors[0], taskTitles, listTitleTextColors[1], Icons.add)
+              : verticalListWidget(listTitles[i], listColors[i + 1], taskTitles,
+                  listColors[i + 1] == Color(0xfffafafa) ? listTitleTextColors[0] : listTitleTextColors[1]);
 
           lastListChoseIndex = temp;
         }
@@ -465,14 +438,9 @@ class _TasksListScreenState extends State<TasksListScreen> {
 
         for (int i = 0; i < horizontalListWidgets.length; i++) {
           horizontalListWidgets[i] = i == 0
-              ? horizontalListWidget(listTitles[0], listColors[0],
-                  listTitleTextColors[1], Icons.add)
-              : horizontalListWidget(
-                  listTitles[i],
-                  listColors[i + 1],
-                  listColors[i + 1] == Color(0xfffafafa)
-                      ? listTitleTextColors[0]
-                      : listTitleTextColors[1]);
+              ? horizontalListWidget(listTitles[0], listColors[0], listTitleTextColors[1], Icons.add)
+              : horizontalListWidget(listTitles[i], listColors[i + 1],
+                  listColors[i + 1] == Color(0xfffafafa) ? listTitleTextColors[0] : listTitleTextColors[1]);
 
           lastListChoseIndex = temp;
         }
@@ -523,6 +491,7 @@ class _TasksListScreenState extends State<TasksListScreen> {
                       horizontalListWidgets.removeAt(dragIndex);
                       listTitles.removeAt(dragIndex);
                       listColors.removeAt(dragIndex + 1);
+                      listIds.removeAt(dragIndex - 1);
 
                       setState(() {
                         previousLength--;

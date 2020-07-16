@@ -1,59 +1,59 @@
-class ScheduleData {
-  int scheduleId;
-  String scheduleRepeatDate;
-  int scheduleSetUpStatus;
-  int scheduleFrequencyChoice;
-  int scheduleRerepeatTimes;
-  String scheduleWeeklyChoiceDates;
-  String scheduleMonthlyChoice;
-  int scheduleEndsNeverChoice;
-  int scheduleEndsNumberOfTimes;
-  String scheduleEndsDate;
+class RepeatData {
+  int repeatId;
+  //String scheduleRepeatDate;
+  int repeatStatus;
+  int repeatFrequencyChoice;
+  int repeatEvery;
+  String repeatRepeatOnWeek;
+  String repeatRepeatOnMonth;
+  int repeatEndChoice;
+  int repeatEndAfterXTimes;
+  String repeatEndOnDate;
 
-  ScheduleData(
-      {this.scheduleId,
-      this.scheduleRepeatDate,
-      this.scheduleSetUpStatus,
-      this.scheduleFrequencyChoice,
-      this.scheduleRerepeatTimes,
-      this.scheduleWeeklyChoiceDates,
-      this.scheduleMonthlyChoice,
-      this.scheduleEndsNeverChoice,
-      this.scheduleEndsNumberOfTimes,
-      this.scheduleEndsDate});
+  RepeatData(
+      {this.repeatId,
+      //this.scheduleRepeatDate,
+      this.repeatStatus,
+      this.repeatFrequencyChoice,
+      this.repeatEvery,
+      this.repeatRepeatOnWeek,
+      this.repeatRepeatOnMonth,
+      this.repeatEndChoice,
+      this.repeatEndAfterXTimes,
+      this.repeatEndOnDate});
 
 // Hàm để convert list data vào 1 map object để lưu trữ
   Map<String, dynamic> toMap() {
-    var scheduleMap = Map<String, dynamic>();
+    var repeatMap = Map<String, dynamic>();
 
-    if (scheduleId != null) {
-      scheduleMap['SCHEDULE_ID'] = scheduleId;
+    if (repeatId != null) {
+      repeatMap['REPEAT_ID'] = repeatId;
     }
-    scheduleMap['REPEAT_DATE'] = scheduleRepeatDate;
-    scheduleMap['SCHEDULE_STATUS'] = scheduleSetUpStatus;
-    scheduleMap['FREQUENCY_CHOICE'] = scheduleFrequencyChoice;
-    scheduleMap['REPEAT_TIMES'] = scheduleRerepeatTimes;
-    scheduleMap['WEEKLY_CHOICE_DATES'] = scheduleWeeklyChoiceDates;
-    scheduleMap['MONTHLY_CHOICE'] = scheduleMonthlyChoice;
-    scheduleMap['NEVER_CHOICE'] = scheduleEndsNeverChoice;
-    scheduleMap['NUMBER_OF_TIMES'] = scheduleEndsNumberOfTimes;
-    scheduleMap['ENDS_DATE'] = scheduleEndsDate;
+    //scheduleMap['REPEAT_DATE'] = scheduleRepeatDate;
+    repeatMap['REPEAT_STATUS'] = repeatStatus;
+    repeatMap['REPEAT_FREQUENCY_CHOICE'] = repeatFrequencyChoice;
+    repeatMap['REPEAT_EVERY'] = repeatEvery;
+    repeatMap['REPEAT_ON_WEEK'] = repeatRepeatOnWeek;
+    repeatMap['REPEAT_ON_MONTH'] = repeatRepeatOnMonth;
+    repeatMap['END_CHOICE'] = repeatEndChoice;
+    repeatMap['END_AFTER_X_TIMES'] = repeatEndAfterXTimes;
+    repeatMap['END_ON_DATE'] = repeatEndOnDate;
 
-    return scheduleMap;
+    return repeatMap;
   }
 
   // Constructor để phân tách ListData object từ một Map object
-  ScheduleData.fromScheduleMapObject(Map<String, dynamic> scheduleMap) {
-    this.scheduleId = scheduleMap['SCHEDULE_ID'];
+  RepeatData.fromScheduleMapObject(Map<String, dynamic> repeatMap) {
+    this.repeatId = repeatMap['REPEAT_ID'];
 
-    this.scheduleRepeatDate = scheduleMap['REPEAT_DATE'];
-    this.scheduleSetUpStatus = scheduleMap['SCHEDULE_STATUS'];
-    this.scheduleFrequencyChoice = scheduleMap['FREQUENCY_CHOICE'];
-    this.scheduleRerepeatTimes = scheduleMap['REPEAT_TIMES']; //TODO: đặt lại tên biến .................................
-    this.scheduleWeeklyChoiceDates = scheduleMap['WEEKLY_CHOICE_DATES'];
-    this.scheduleMonthlyChoice = scheduleMap['MONTHLY_CHOICE'];
-    this.scheduleEndsNeverChoice = scheduleMap['NEVER_CHOICE'];
-    this.scheduleEndsNumberOfTimes = scheduleMap['NUMBER_OF_TIMES'];
-    this.scheduleEndsDate = scheduleMap['ENDS_DATE'];
+    //this.scheduleRepeatDate = scheduleMap['REPEAT_DATE'];
+    this.repeatStatus = repeatMap['REPEAT_STATUS'];
+    this.repeatFrequencyChoice = repeatMap['REPEAT_FREQUENCY_CHOICE'];
+    this.repeatEvery = repeatMap['REPEAT_EVERY'];
+    this.repeatRepeatOnWeek = repeatMap['REPEAT_ON_WEEK'];
+    this.repeatRepeatOnMonth = repeatMap['REPEAT_ON_MONTH'];
+    this.repeatEndChoice = repeatMap['END_CHOICE'];
+    this.repeatEndAfterXTimes = repeatMap['END_AFTER_X_TIMES'];
+    this.repeatEndOnDate = repeatMap['END_ON_DATE'];
   }
 }
