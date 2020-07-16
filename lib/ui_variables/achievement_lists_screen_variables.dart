@@ -1,59 +1,63 @@
-import 'package:flutter/material.dart';
-import 'package:todoapp/ui/new_list_screen.dart';
-
-// var typeColors = [Colors.red, Colors.black]; //
-var verticalListWidgets = []; // mảng lưu trữ các item của list view
-var listTitles = [""]; // mảng lưu trữ các title của các list
-
-// Biến dùng cho animation ẩn list view screen khi người dùng ấn add list
-var listScreenOpacity = 1.0;
-var listTitleTextColors = [
-  Colors.black,
-  Colors.white
-]; // mảng lưu trữ màu của title của các list item
-var listColors = [
-  Color(0xFFF883B8),
-  Colors.white
-]; // mảng lưu trữ màu của các list item
-
-var scrollDirection = Axis.vertical; // Điều chỉnh hướng scroll của list view
-// Hai biến dùng cho kích thước của một list item
-var listWidgetHeight = 90.0;
-var listWidgetWidth;
-
-// Biến để check xem list title có dc add thêm dữ liệu mới hay chưa?
-var previousLength = 1;
-var isVertical = true; // Biến check xem ng dùng đang chọn chiều ngang hay dọc
-
-// Biến để lưu trữ vị trí ng dùng chọn để nếu ng dùng có đổi màu thì có thể cập nhật theo vị trí này
-var lastListChoseIndex = 0;
-var taskTitles = 0; // Biến dếm số lượn task đang có trang database
-var isChangeColorClicked = false; // Biến để check xem ng dùng có đổi màu hay ko
-
-// Mảng chứa các item của list khi người dùng chuyển sang chiều ngang
-var horizontalListWidgets = [];
-// Mảng chứa các item của task của 1 list khi người dùng chuyển sang chiều ngang
-var horizontalTaskWidgets = [];
-
-// Biến để lưu trữ lại vị trí màn hình mà trc đó ng dùng đang focus để sử dụng cho trang new list dùng khi chuyển qua trang add task
-var mainScreenLastFocusedIndex = 0;
-var mainScreenSettingScreenIndex = -1;
-
-// Biến để lưu trữ vị trí màu mà ng dùng chọn để dùng cho phần insert
-var selectedColorIndex;
-
-// Biến để thay đổi transform cho trash icon và thay đổi hình ảnh icon khi ng dùng drag item đến bin
-var binTransformValue;
-var binWidgetImage;
-var dragIndex; // Biến để xét xem list item nào đang dc drag
-
 // Widget để tạo ra UI cho list
-Widget verticalListWidget(String listTitle, Color listColor, int numberOfTasks,
-        Color listTitleColor,
+import 'package:flutter/material.dart';
+
+// Mảng lưu trữ các mother List widget
+List<Widget> motherListWidgets = [];
+// Biến lưu trữ 2 màu mặc đinh cho list
+List<Color> motherListColors = [
+  Color(0xFFF883B8),
+  Colors.white,
+];
+// Biến lưu trữ số lượng các list con và task con đang có trong db
+List<int> totalChildLists = [], totalChildListTasks = [];
+// Biến lưu trữ số lượng các list đang có trước đó trong motherListWidgets và childListWidgets
+int previousMotherListTitlesLength = 0, previousChildListTitlesLegnth = 0;
+// Biến lưu trữ các title đã dc add
+List<String> motherListTitles = [""];
+// Mảng chứa các widget của list con
+List<List<Widget>> childListWidgets = [];
+// Biến để lưu trữ các widget chứa nội dung các task con trong list con
+List<Widget> childTasksList = [];
+// Mảng chứa các titles của list con
+List<String> childListTitles = [""];
+// Mảng chứa các màu của các list con
+List<Color> childListColors = [
+  Color(0xFFF883B8),
+  Colors.white,
+];
+// Mảng chứa các màu cho các title của list con
+List<Color> childListTitleColors = [Colors.black, Colors.white];
+// Biến thay đổi opacity cho màn hình child list
+double childListScreenOpacity = 1.0;
+// Biến chứa số cộ của màn hình chọn màu
+int childListChooseColorScreenColumnCount = 3;
+// Biến lưu vị trí task con trc đó mà ng dùng chọn
+int lastChildListChoseIndex = 0, lastChoseMotherWidgetIndex = 0;
+// Biến để lưu trữ tag của list con mà ng dùng add trc đó để có thể trả về khi pick màu xong
+Object lastChildListTag;
+// Biến để check xem ng dùng có chọn sửa mau hay ko
+bool isChildScreenChangeColorClicked = false;
+// Biến để check xem ng dùng đã hoàn thành việc pick màu hay chưa
+var isChildPickColorFinished = false;
+// Biến để xét xem list item nào đang dc drag (mother list và child list)
+var motherListDragIndex;
+var childDragIndex;
+// Các biến cho animation của bin
+var motherListBinTransformValue;
+var motherListBinImage;
+var childListBinTransformValue;
+var childListBinImage;
+
+// Widget hiển thị các widget của mother list
+Widget achievementMotherListWidget(String listTitle, Color listColor,
+        int numberOfLists, Color listTitleColor,
         [IconData listIcon]) =>
     Container(
-      width: listWidgetWidth,
-      height: listWidgetHeight,
+      margin: EdgeInsets.only(
+        left: 10.0,
+        right: 10.0,
+      ),
+      height: 90.0,
       child: Stack(
         children: <Widget>[
           Align(
@@ -85,7 +89,7 @@ Widget verticalListWidget(String listTitle, Color listColor, int numberOfTasks,
             alignment: Alignment.centerRight,
             padding: EdgeInsets.only(right: 30.0),
             child: Text(
-              listIcon != null ? "" : "$numberOfTasks",
+              listIcon != null ? "" : "$numberOfLists",
               style: TextStyle(
                 fontSize: 30.0,
                 color: listTitleColor,
@@ -101,12 +105,10 @@ Widget verticalListWidget(String listTitle, Color listColor, int numberOfTasks,
       ),
     );
 
-// Widget để tạo ra UI cho list theo chiều ngang
-Widget horizontalListWidget(
-        String listTitle, Color listColor, Color listTitleColor,
+// Widget để tạo ra UI cho list con theo chiều ngang
+Widget childListWidget(String listTitle, Color listColor, Color listTitleColor,
         [IconData listIcon]) =>
     Container(
-      width: listWidgetWidth,
       child: Stack(
         children: <Widget>[
           Align(
@@ -119,7 +121,7 @@ Widget horizontalListWidget(
                         width: 40.0,
                         height: 40.0,
                       )
-                    : horizontalTaskWidgets.length == 0
+                    : childTasksList.length == 0
                         ? Text(
                             "You have no DOIT in this list yet",
                             style: TextStyle(
@@ -135,24 +137,8 @@ Widget horizontalListWidget(
                         : ListView.separated(
                             itemBuilder: (context, index) {
                               return GestureDetector(
-                                onTap: () {
-                                  lastListChoseIndex = index;
-
-                                  print(listColors[lastListChoseIndex + 1]);
-
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (_) {
-                                    return NewListScreen(
-                                      listTiltle:
-                                          listTitles[lastListChoseIndex],
-                                      listColor:
-                                          listColors[lastListChoseIndex + 1],
-                                      listIcon: null,
-                                      index: lastListChoseIndex,
-                                    );
-                                  }));
-                                },
-                                child: horizontalTaskWidgets[index],
+                                onTap: () {},
+                                child: childTasksList[index],
                               );
                             },
                             separatorBuilder: (context, index) {
@@ -160,7 +146,7 @@ Widget horizontalListWidget(
                                 height: 7.0,
                               );
                             },
-                            itemCount: horizontalTaskWidgets.length)),
+                            itemCount: childTasksList.length)),
           ),
           Align(
             alignment: Alignment.bottomCenter,

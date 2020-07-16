@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:todoapp/doit_database_bus/doit_database_helper.dart';
+import 'package:todoapp/ui/achievement_lists_screen.dart';
 import 'package:todoapp/ui/choose_list_color_screen.dart';
 import 'package:todoapp/ui/new_list_screen.dart';
 import 'package:todoapp/ui_variables/list_screen_variables.dart';
@@ -44,7 +46,7 @@ class _TasksListScreenState extends State<TasksListScreen> {
       },
       child: Scaffold(
         body: Container(
-          color: Color(0xDDFFE4D4),
+          color: Color(0xFFFFE4D4),
           child: AnimatedOpacity(
             duration: Duration(milliseconds: 350),
             opacity: listScreenOpacity,
@@ -53,6 +55,7 @@ class _TasksListScreenState extends State<TasksListScreen> {
                 _listScreenLists(),
                 _buildListsScreenHeader(),
                 _buildChoiceButtons(),
+                _buildOpenAchievementListScreenButton(),
                 _buildDeleteBinWidget(),
               ],
             ),
@@ -310,10 +313,10 @@ class _TasksListScreenState extends State<TasksListScreen> {
   // Các nút chọn dạng hiển thị
   Widget _buildChoiceButtons() => Container(
         alignment: Alignment.topRight,
-        padding: EdgeInsets.only(bottom: 10.0, right: 10.0),
+        padding: EdgeInsets.only(top: 6.0, right: 10.0),
         child: Container(
-          width: 90.0,
-          height: 90.0,
+          width: 80.0,
+          height: 80.0,
           child: FlatButton(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
@@ -332,6 +335,41 @@ class _TasksListScreenState extends State<TasksListScreen> {
                 _changeListItemSizes(isVertical);
                 scrollDirection = isVertical ? Axis.vertical : Axis.horizontal;
               });
+            },
+          ),
+        ),
+      );
+
+  // Open achievement task screen button
+  Widget _buildOpenAchievementListScreenButton() => Container(
+        alignment: Alignment.topRight,
+        padding: EdgeInsets.only(top: 4.0, right: 90.0),
+        child: Container(
+          width: 80.0,
+          height: 80.0,
+          child: FlatButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(90.0),
+              ),
+            ),
+            child: Container(
+                child: Image.asset(
+              'images/achievement.png',
+              color: Color(0xFF425195),
+              fit: BoxFit.cover,
+            )),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                PageTransition(
+                  child: AchievementListsScreen(
+                    lastFocusedIndex: 2,
+                  ),
+                  type: PageTransitionType.fade,
+                  duration: Duration(milliseconds: 300),
+                ),
+              );
             },
           ),
         ),

@@ -1,1 +1,1 @@
-var isPickColorFinished = false;
+var isPickColorFinished = false; // Biến để check xem ng dùng đã hoàn thành việc pick màu hay chưa
