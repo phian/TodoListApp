@@ -99,183 +99,179 @@ class _AddTaskPageState extends State<AddTaskPage> {
       },
       child: Scaffold(
         body: SafeArea(
-          child: Stack(
-            children: <Widget>[
-              ListView(
-                padding: EdgeInsets.only(top: 20, left: 15, right: 15),
-                physics: AlwaysScrollableScrollPhysics(
-                  parent: BouncingScrollPhysics(),
-                ),
-                children: <Widget>[
-                  Container(
-                    alignment: Alignment.center,
-                    padding: EdgeInsets.only(
-                        left: 25, right: 25, top: 8, bottom: 8.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 6,
-                          spreadRadius: 5,
-                          color: Colors.grey[200],
-                        )
-                      ],
-                    ),
-                    child: TextField(
-                      //autofocus: true,
-                      controller: _textController,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintStyle: TextStyle(
-                          color: Colors.black12,
+          child: Container(
+            color: Color(0xFFFFE4D4),
+            child: Stack(
+              children: <Widget>[
+                ListView(
+                  padding: EdgeInsets.only(top: 20, left: 15, right: 15),
+                  physics: AlwaysScrollableScrollPhysics(
+                    parent: BouncingScrollPhysics(),
+                  ),
+                  children: <Widget>[
+                    Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.only(
+                          left: 25, right: 25, top: 8, bottom: 8.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: TextField(
+                        autofocus: true,
+                        controller: _textController,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintStyle: TextStyle(
+                            color: Colors.black38,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          hintText: "Task name",
+                        ),
+                        maxLines: null,
+                        style: TextStyle(
+                          color: Colors.black,
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
                         ),
-                        hintText: "Task name",
+                        cursorColor: Colors.black,
                       ),
-                      maxLines: null,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      children: _buildChoiceList(),
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Card(
+                      margin: EdgeInsets.all(10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      cursorColor: Colors.black,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Wrap(
-                    alignment: WrapAlignment.center,
-                    children: _buildChoiceList(),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Card(
-                    margin: EdgeInsets.all(10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Column(
-                      children: <Widget>[
-                        Visibility(
-                          visible: _visibilities[0],
-                          child: ListTile(
-                            leading: Image.asset(
-                              "images/calendar.png",
-                              width: 30.0,
-                              height: 30.0,
+                      child: Column(
+                        children: <Widget>[
+                          Visibility(
+                            visible: _visibilities[0],
+                            child: ListTile(
+                              leading: Image.asset(
+                                "images/calendar.png",
+                                width: 30.0,
+                                height: 30.0,
+                              ),
+                              title: Text("Schedule"),
+                              trailing: Icon(Icons.keyboard_arrow_right),
+                              onTap: _onSchedulePress,
                             ),
-                            title: Text("Schedule"),
-                            trailing: Icon(Icons.keyboard_arrow_right),
-                            onTap: _onSchedulePress,
                           ),
-                        ),
-                        Visibility(
-                          visible: _visibilities[1],
-                          child: ListTile(
-                            leading: Image.asset(
-                              "images/tasks.png",
-                              width: 30.0,
-                              height: 30.0,
+                          Visibility(
+                            visible: _visibilities[1],
+                            child: ListTile(
+                              leading: Image.asset(
+                                "images/tasks.png",
+                                width: 30.0,
+                                height: 30.0,
+                              ),
+                              title: Text("Choose List"),
+                              trailing: Icon(Icons.keyboard_arrow_right),
+                              onTap: _onListPress,
                             ),
-                            title: Text("Choose List"),
-                            trailing: Icon(Icons.keyboard_arrow_right),
-                            onTap: _onListPress,
                           ),
-                        ),
-                        Visibility(
-                          visible: _visibilities[2],
-                          child: ListTile(
-                            leading: Image.asset(
-                              "images/notification.png",
-                              width: 30.0,
-                              height: 30.0,
-                            ), //list icon
-                            title: Text("Reminder"),
-                            trailing: Icon(Icons.keyboard_arrow_right),
-                            onTap: () {
-                              //FocusScope.of(context).unfocus();
-                              Navigator.of(context).push(
-                                showPicker(
-                                  value: _time,
-                                  context: context,
-                                  onChange: _onTimeChanged,
-                                  is24HrFormat: false,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        Visibility(
-                          visible: _visibilities[3],
-                          child: ListTile(
-                            leading: Image.asset(
-                              "images/calendar.png",
-                              width: 30.0,
-                              height: 30.0,
+                          Visibility(
+                            visible: _visibilities[2],
+                            child: ListTile(
+                              leading: Image.asset(
+                                "images/notification.png",
+                                width: 30.0,
+                                height: 30.0,
+                              ), //list icon
+                              title: Text("Reminder"),
+                              trailing: Icon(Icons.keyboard_arrow_right),
+                              onTap: () {
+                                //FocusScope.of(context).unfocus();
+                                Navigator.of(context).push(
+                                  showPicker(
+                                    value: _time,
+                                    context: context,
+                                    onChange: _onTimeChanged,
+                                    is24HrFormat: false,
+                                  ),
+                                );
+                              },
                             ),
-                            title: Text("Schedule 2"),
-                            trailing: Icon(Icons.keyboard_arrow_right),
-                            onTap: _onSchedule2Press,
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                ],
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2 - 2,
-                      child: FlatButton(
-                        color: Colors.white,
-                        child: Icon(Icons.close),
-                        onPressed: () {
-                          // Reset lại các giá trị đã set trong schedule sheet
-                          setState(
-                            () {
-                              _scheduleSheet.repeatChoiceData =
-                                  RepeatChoiceData();
-                              _specialScheduleSheet.specialRepeatChoiceData =
-                                  SpecialRepeatChoiceData();
-
-                              _repeatsChoiceData =
-                                  _scheduleSheet.repeatChoiceData;
-                              _specialRepeatChoiceData =
-                                  _specialScheduleSheet.specialRepeatChoiceData;
-                            },
-                          );
-
-                          _backToMainScreen();
-                        },
+                          Visibility(
+                            visible: _visibilities[3],
+                            child: ListTile(
+                              leading: Image.asset(
+                                "images/calendar.png",
+                                width: 30.0,
+                                height: 30.0,
+                              ),
+                              title: Text("Schedule 2"),
+                              trailing: Icon(Icons.keyboard_arrow_right),
+                              onTap: _onSchedule2Press,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2 - 2,
-                      child: FlatButton(
-                        color: Colors.white,
-                        child: Icon(Icons.done),
-                        onPressed: () async {
-                          if (_selectedIndex == 0) {
-                            if (_textController.text != '') _saveNormalTask();
-                          }
-                        },
-                      ),
+                    SizedBox(
+                      height: 40,
                     ),
                   ],
                 ),
-              )
-            ],
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2 - 2,
+                        child: FlatButton(
+                          color: Colors.white,
+                          child: Icon(Icons.close),
+                          onPressed: () {
+                            // Reset lại các giá trị đã set trong schedule sheet
+                            setState(
+                              () {
+                                _scheduleSheet.repeatChoiceData =
+                                    RepeatChoiceData();
+                                _specialScheduleSheet.specialRepeatChoiceData =
+                                    SpecialRepeatChoiceData();
+
+                                _repeatsChoiceData =
+                                    _scheduleSheet.repeatChoiceData;
+                                _specialRepeatChoiceData = _specialScheduleSheet
+                                    .specialRepeatChoiceData;
+                              },
+                            );
+
+                            _backToMainScreen();
+                          },
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2 - 2,
+                        child: FlatButton(
+                          color: Colors.white,
+                          child: Icon(Icons.done),
+                          onPressed: () async {
+                            if (_selectedIndex == 0) {
+                              if (_textController.text != '') _saveNormalTask();
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
