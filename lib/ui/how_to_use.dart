@@ -194,7 +194,7 @@ class _HowToUseScreenState extends State<HowToUseScreen> {
                             controller: _controller,
                             count: 17,
                             effect: JumpingDotEffect(
-                              spacing: 8.0,
+                              spacing: 5.0,
                               activeDotColor: Color(0xFF425195),
                             ),
                           ),
