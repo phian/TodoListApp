@@ -11,7 +11,7 @@ List<Color> motherListColors = [
 // Biến lưu trữ số lượng các list con và task con đang có trong db
 List<int> totalChildLists = [], totalChildListTasks = [];
 // Biến lưu trữ số lượng các list đang có trước đó trong motherListWidgets và childListWidgets
-int previousMotherListTitlesLength = 0, previousChildListTitlesLegnth = 0;
+int previousMotherListTitlesLength = 1, previousChildListTitlesLegnth = 1;
 // Biến lưu trữ các title đã dc add
 List<String> motherListTitles = [""];
 // Mảng chứa các widget của list con

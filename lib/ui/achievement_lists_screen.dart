@@ -5,7 +5,6 @@ import 'package:todoapp/data/main_screen_data.dart';
 import 'package:todoapp/ui/add_achievement_child_list_screen.dart';
 import 'package:todoapp/ui/main_screen.dart';
 import 'package:todoapp/ui_variables/achievement_lists_screen_variables.dart';
-import 'package:todoapp/ui_variables/list_screen_variables.dart';
 
 class AchievementListsScreen extends StatefulWidget {
   final int lastFocusedIndex;
@@ -283,11 +282,7 @@ class _AchievementListsScreenState extends State<AchievementListsScreen> {
                     borderSide: BorderSide.none,
                   )),
               onSubmitted: (value) {
-                print("New achievement list name $value");
                 if (value.isNotEmpty) motherListTitles.add(value);
-                print("motherListTitles.length: ${motherListTitles.length}");
-                print(
-                    "previousMotherListTitlesLength $previousMotherListTitlesLength");
                 Navigator.of(context).pop();
               },
             ),
@@ -308,9 +303,10 @@ class _AchievementListsScreenState extends State<AchievementListsScreen> {
           childListWidgets.add(List());
         });
       } else {
-        if (motherListWidgets.length > 1)
+        if (motherListWidgets.length > 1) {
           motherListWidgets.removeAt(motherListWidgets.length - 1);
-        totalChildLists.removeAt(totalChildLists.length - 1);
+          totalChildLists.removeAt(totalChildLists.length - 1);
+        }
       }
     });
   }
@@ -375,9 +371,8 @@ class _AchievementListsScreenState extends State<AchievementListsScreen> {
                 totalChildLists.removeAt(motherListDragIndex - 1);
 
                 setState(() {
-                  previousMotherListTitlesLength--;
-                  print(
-                      "previousMotherListTitlesLength-- ${previousMotherListTitlesLength--}");
+                  if (previousMotherListTitlesLength > 1)
+                    previousMotherListTitlesLength--;
                   lastChoseMotherWidgetIndex = 0;
                   motherListDragIndex = 0;
                   motherListBinTransformValue =

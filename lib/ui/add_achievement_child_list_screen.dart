@@ -203,7 +203,8 @@ class _AddChildListForMotherListScreenState
                           childListTitles[0],
                           childListColors[1],
                           childListTitleColors[1]));
-                      lastChildListChoseIndex = childListWidgets.length - 1;
+                      lastChildListChoseIndex =
+                          childListWidgets[widget.tag - 1].length - 1;
 
                       Future.delayed(Duration(milliseconds: 350), () {
                         _addNewLChildist();
@@ -342,9 +343,11 @@ class _AddChildListForMotherListScreenState
           // Cập nhật là việc pick màu bắt đầu
           isChildPickColorFinished = false;
           _isAddItemClick = false;
+          print("Có vô đây");
 
           // Cập nhật số lượng list con cho hiển thị của list mẹ
-          totalChildLists[widget.tag - 1] = childListWidgets.length - 1;
+          totalChildLists[widget.tag - 1] =
+              childListWidgets[widget.tag - 1].length;
 
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
             return ChildListChooseColorScreen(
@@ -352,10 +355,10 @@ class _AddChildListForMotherListScreenState
             );
           }));
         } else {
-          if (childListWidgets.length > 1)
+          if (childListWidgets[widget.tag - 1].length > 1)
             // Nếu ko có title mới dc add thì ta sẽ xoá item cuối của list widget
             childListWidgets[widget.tag - 1]
-                .removeAt(childListWidgets.length - 1);
+                .removeAt(childListWidgets[widget.tag - 1].length - 1);
           Navigator.pop(context);
         }
       });
@@ -403,13 +406,12 @@ class _AddChildListForMotherListScreenState
                 //       _databaseHelper.deleteListData(listInfo[0]);
 
                 childListWidgets[widget.tag - 1].removeAt(childDragIndex);
-                childListTitles.removeAt(motherListDragIndex);
+                childListTitles.removeAt(childDragIndex);
                 // totalChildListTasks.removeAt(motherListDragIndex - 1);
 
                 setState(() {
-                  previousChildListTitlesLegnth--;
-                  print(
-                      "previousMotherListTitlesLength-- ${previousMotherListTitlesLength--}");
+                  if (previousChildListTitlesLegnth > 1)
+                    previousChildListTitlesLegnth--;
                   lastChildListChoseIndex = 0;
                   childDragIndex = 0;
                   childListBinTransformValue =
