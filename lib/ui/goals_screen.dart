@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class GoalsScreen extends StatefulWidget {
   @override
@@ -13,6 +14,8 @@ class _GoalsScreenState extends State<GoalsScreen>
   int _selectedTabIndex;
   // Controller cho TabBar
   TabController _tabController;
+  // List chứa các text tạm cho log book
+  List<String> tempText = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
 
   @override
   void initState() {
@@ -66,7 +69,6 @@ class _GoalsScreenState extends State<GoalsScreen>
         alignment: Alignment.topCenter,
         child: Text(
           "LOG BOOK",
-          textDirection: TextDirection.ltr,
           style: TextStyle(
             fontFamily: 'Roboto',
             fontSize: 35,
@@ -264,6 +266,26 @@ class _GoalsScreenState extends State<GoalsScreen>
           itemCount: 10,
           itemBuilder: (context, index) {
             return Container(
+              child: Center(
+                child: ListTile(
+                  title: Text(
+                    tempText[index],
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 25.0,
+                      decoration: TextDecoration.lineThrough,
+                    ),
+                  ),
+                  subtitle: Text(
+                    DateFormat("dd/MM/yyyy").format(DateTime.now()),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 12.0,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              ),
               height: 100.0,
               decoration: BoxDecoration(
                 color: Colors.white,

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:todoapp/ui/feature_requests_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../data/main_screen_data.dart';
 import '../presentation/facebook_icon.dart';
@@ -31,6 +32,8 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
   List<double> _opacities = [];
 
   int _tappedWidgetIndex = 0;
+
+  TextEditingController _confirmNameController = TextEditingController();
 
   @override
   void initState() {
@@ -312,6 +315,8 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
             },
             onTapUp: (details) {
               _onTapUp(details, 3);
+
+              _showConfirmNameNotification();
             },
             child: Transform.scale(
               scale: _scales[3],
@@ -524,6 +529,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
     }
   }
 
+  // Hàm để show link menu để ng dùng có thể chọn và mở contact
   void _openFacebookContactMenu() {
     FullScreenMenu.show(
       context,
@@ -581,6 +587,7 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
     );
   }
 
+  // Hàm để mở link fb của Ân or Duy
   void _openAnOrDuyFacebook(int userChoice) async {
     var facebookUrl;
     try {
@@ -619,5 +626,176 @@ class _HelpScreenState extends State<HelpScreen> with TickerProviderStateMixin {
                 cornerRadius: 30.0,
               ));
     }
+  }
+
+  // Hàm gọi khi ng dùng ấn vào Feature Request
+  void _showConfirmNameNotification() async {
+    var confirmNameDialog = Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      child: Container(
+        padding: EdgeInsets.only(top: 15.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        width: MediaQuery.of(context).size.width * 0.85,
+        height: MediaQuery.of(context).size.height * 0.45,
+        child: Stack(
+          children: <Widget>[
+            ListView(
+              padding: EdgeInsets.only(
+                left: 20.0,
+                right: 20.0,
+              ),
+              physics: NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                Text(
+                  "Feature Request",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Text(
+                  "Your votes and comments on Feature Request board are public.",
+                  textAlign: TextAlign.center,
+                  maxLines: 5,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                  ),
+                ),
+                SizedBox(
+                  height: 30.0,
+                ),
+                Text(
+                  "Please confirm the name you would like to use",
+                  textAlign: TextAlign.center,
+                  maxLines: 5,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                  ),
+                ),
+                SizedBox(
+                  height: 30.0,
+                ),
+                TextField(
+                  autofocus: true,
+                  controller: _confirmNameController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(
+                          12.0,
+                        ),
+                        borderSide: BorderSide(
+                          width: 1.0,
+                          style: BorderStyle.solid,
+                          color: Colors.grey,
+                        )),
+                    hintText: "The name you use",
+                    hintStyle: TextStyle(
+                      fontSize: 20.0,
+                    ),
+                  ),
+                  style: TextStyle(fontSize: 20.0),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+              ],
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.85,
+              alignment: Alignment.bottomCenter,
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                          top: BorderSide(
+                            width: 1.0,
+                            color: Colors.grey,
+                          ),
+                          right: BorderSide(
+                            width: 1.0,
+                            color: Colors.grey,
+                          )),
+                    ),
+                    width: (MediaQuery.of(context).size.width * 0.85) / 2 - 9.0,
+                    height: 50.0,
+                    child: FlatButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(20.0))),
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.grey[300],
+                      onPressed: () {
+                        Navigator.of(context).pop(false);
+                      },
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(fontSize: 15.0),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 50.0,
+                    decoration: BoxDecoration(
+                        border: Border(
+                            top: BorderSide(
+                              width: 1.0,
+                              color: Colors.grey,
+                            ),
+                            left: BorderSide(
+                              width: 1.0,
+                              color: Colors.grey,
+                            ))),
+                    width: (MediaQuery.of(context).size.width * 0.85) / 2 - 6.8,
+                    child: FlatButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(20.0))),
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.grey[300],
+                      onPressed: () {
+                        Navigator.of(context).pop(false);
+                        if (_confirmNameController.text.isNotEmpty)
+                          _moveToFeatureRequestScreen();
+                      },
+                      child: Text(
+                        "Continue",
+                        style: TextStyle(fontSize: 15.0),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+
+    showDialog(
+        context: context, builder: (BuildContext context) => confirmNameDialog);
+  }
+
+  // Hàm để chuyển qua Feature Request screen
+  void _moveToFeatureRequestScreen() {
+    Future.delayed(Duration(milliseconds: 500), () {
+      Navigator.pushReplacement(
+          context,
+          PageTransition(
+              type: PageTransitionType.rightToLeft,
+              child: FeatureRequestsScreen(
+                lastFocusedScreen: widget.lastFocusedScreen,
+              ),
+              duration: Duration(milliseconds: 300)));
+    });
   }
 }

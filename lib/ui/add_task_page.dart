@@ -202,7 +202,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                                 showPicker(
                                   value: _time,
                                   context: context,
-                                  onChange: onTimeChanged,
+                                  onChange: _onTimeChanged,
                                   is24HrFormat: false,
                                 ),
                               );
@@ -363,7 +363,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     });
   }
 
-  void onTimeChanged(TimeOfDay newTime) {
+  void _onTimeChanged(TimeOfDay newTime) {
     setState(() {
       _time = newTime;
     });

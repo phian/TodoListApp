@@ -1,12 +1,9 @@
-//import 'dart:js';
-
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todoapp/doit_database_bus/doit_database_helper.dart';
 import 'package:todoapp/custom_ui_widgets/custom_list_tile.dart';
 import 'package:todoapp/doit_database_models/doit_tasks_data.dart';
+import 'package:todoapp/set_up_widgets/task_sheet.dart';
 import 'package:todoapp/ui_variables/dates_list_variables.dart';
 
 // ignore: must_be_immutable
@@ -15,21 +12,38 @@ class DatesListScreen extends StatefulWidget {
   _DatesListScreenState createState() => _DatesListScreenState();
 }
 
-class _DatesListScreenState extends State<DatesListScreen> {
+class _DatesListScreenState extends State<DatesListScreen>
+    with TickerProviderStateMixin {
   DatabaseHelper _databaseHelper = DatabaseHelper();
 
-  refreshTodayTask() {
-    todayTask = _databaseHelper.getTodayTask();
-  }
+  // Các biến cho animation của các item
+  double _itemScale;
+  AnimationController _itemAniController;
 
   @override
   void initState() {
     super.initState();
-    refreshTodayTask();
+    _refreshTodayTask();
+
+    _itemAniController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 100),
+      lowerBound: 0.0,
+      upperBound: 0.1,
+    )..addListener(() {
+        setState(() {});
+      });
+  }
+
+  // Hàm để đọc data các task đang có trong db
+  _refreshTodayTask() {
+    todayTask = _databaseHelper.getTodayTask();
   }
 
   @override
   Widget build(BuildContext context) {
+    _itemScale = 1 - _itemAniController.value;
+
     return ListView(
       physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
       children: <Widget>[
@@ -39,6 +53,7 @@ class _DatesListScreenState extends State<DatesListScreen> {
             'Today',
             textDirection: TextDirection.ltr,
             style: TextStyle(
+              decoration: TextDecoration.none,
               fontSize: 40.0,
               fontWeight: FontWeight.bold,
               color: Colors.black,
@@ -53,6 +68,7 @@ class _DatesListScreenState extends State<DatesListScreen> {
             'Tomorrow',
             textDirection: TextDirection.ltr,
             style: TextStyle(
+              decoration: TextDecoration.none,
               fontSize: 40.0,
               fontWeight: FontWeight.bold,
               color: Colors.black,
@@ -69,6 +85,7 @@ class _DatesListScreenState extends State<DatesListScreen> {
             'Later',
             textDirection: TextDirection.ltr,
             style: TextStyle(
+              decoration: TextDecoration.none,
               fontSize: 40.0,
               fontWeight: FontWeight.bold,
               color: Colors.black,
@@ -114,7 +131,7 @@ class _DatesListScreenState extends State<DatesListScreen> {
         }
         List<TaskData> todayTaskList = snapshot.data;
         return Container(
-          height: todayTaskList.length * 85.0,
+          height: todayTaskList.length * 100.0,
           margin: EdgeInsets.symmetric(vertical: 15, horizontal: 28),
           child: ListView.separated(
             physics: NeverScrollableScrollPhysics(),
@@ -122,8 +139,16 @@ class _DatesListScreenState extends State<DatesListScreen> {
             itemBuilder: (BuildContext ctxt, int index) {
               return Container(
                 child: Container(
-                  child: TaskTile(
-                    taskData: todayTaskList[index],
+                  child: GestureDetector(
+                    onTapUp: _onTapUp,
+                    onTapDown: _onTapDown,
+                    onTapCancel: _onTapCancel,
+                    child: Transform.scale(
+                      scale: _itemScale,
+                      child: TaskTile(
+                        taskData: todayTaskList[index],
+                      ),
+                    ),
                   ),
                   height: 80.0,
                 ),
@@ -138,5 +163,34 @@ class _DatesListScreenState extends State<DatesListScreen> {
         );
       },
     );
+  }
+
+  // Hàm gọi khi ng dùng ấn vào task và show ra bottom sheet để ng dùng chỉnh
+  void _showScheduleBottomSheet() async {
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      context: context,
+      builder: (context) {
+        return TaskSheet();
+      },
+    );
+  }
+
+  // Hàm bắt sự kiện khi ng dùng bắt đầu ấn vào item
+  void _onTapUp(TapUpDetails details) {
+    _itemAniController.reverse();
+
+    _showScheduleBottomSheet();
+  }
+
+  // Hàm bắt sự kiện nếu ng dùng hoàn thành việc ấn vào item
+  void _onTapDown(TapDownDetails details) {
+    _itemAniController.forward();
+  }
+
+  // Hàm sự kiện nếu ng dùng ko ấn vào item nữa
+  void _onTapCancel() {
+    _itemAniController.reverse();
   }
 }

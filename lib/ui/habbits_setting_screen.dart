@@ -323,9 +323,14 @@ class _HabbitsSettingScreenState extends State<HabbitsSettingScreen> {
                       borderRadius: BorderRadius.circular(10.0)),
                   child: Stack(
                     children: <Widget>[
-                      Image.asset(
-                        imagePaths[index],
-                        fit: BoxFit.cover,
+                      Container(
+                        alignment: Alignment.topCenter,
+                        child: Image.asset(
+                          imagePaths[index],
+                          fit: BoxFit.contain,
+                          height:
+                              (MediaQuery.of(context).size.height * 0.5) / 1.4,
+                        ),
                       ),
                       Container(
                         padding: EdgeInsets.only(bottom: 30.0),
@@ -365,35 +370,35 @@ class _HabbitsSettingScreenState extends State<HabbitsSettingScreen> {
     // Images path
     _healthHabitImagePaths = [
       "images/drink_water.png",
-      "images/drink_water.png",
-      "images/drink_water.png",
-      "images/drink_water.png",
-      "images/drink_water.png",
-      "images/drink_water.png",
+      "images/washing_hands.png",
+      "images/have_a_snack.png",
+      "images/healthy_drink.png",
+      "images/smile_face.png",
+      "images/give_up_bad_habits.png",
     ];
     _careerHabitImagePaths = [
-      "images/career_habit.png",
-      "images/career_habit.png",
-      "images/career_habit.png",
-      "images/career_habit.png",
-      "images/career_habit.png",
-      "images/career_habit.png",
+      "images/take_a_short_rest.png",
+      "images/leave_work.png",
+      "images/neck_rotate.png",
+      "images/relax_hands.png",
+      "images/summary_job.png",
+      "images/remember_your_goals.png",
     ];
     _fitnessHabitImagesPaths = [
       "images/fitness.png",
-      "images/fitness.png",
-      "images/fitness.png",
-      "images/fitness.png",
-      "images/fitness.png",
-      "images/fitness.png",
+      "images/have_a_walk.png",
+      "images/sport.png",
+      "images/physic_excercise.png",
+      "images/eat_vegetable.png",
+      "images/go_pushups.png",
     ];
     _reduceStressImagePaths = [
-      "images/reduce_stress.png",
-      "images/reduce_stress.png",
-      "images/reduce_stress.png",
-      "images/reduce_stress.png",
-      "images/reduce_stress.png",
-      "images/reduce_stress.png",
+      "images/relax_body.png",
+      "images/listen_to_music.png",
+      "images/talk_to_a_friend.png",
+      "images/do_your_hobbies.png",
+      "images/meditation.png",
+      "images/deep_breath.png"
     ];
     _allHabitImagePaths = [];
     _allHabitImagePaths.add(_healthHabitImagePaths);
@@ -404,35 +409,35 @@ class _HabbitsSettingScreenState extends State<HabbitsSettingScreen> {
     // Habit titles
     _healthHabitTitles = [
       "Drink Water",
-      "Drink Water",
-      "Drink Water",
-      "Drink Water",
-      "Drink Water",
-      "Drink Water",
+      "Washing Hands",
+      "Have A Snack",
+      "Have A Healthy Drink",
+      "Let's Smile",
+      "Give Up Bad Habits",
     ];
     _careerHabitsTitles = [
       "Take A Short Rest",
-      "Take A Short Rest",
-      "Take A Short Rest",
-      "Take A Short Rest",
-      "Take A Short Rest",
-      "Take A Short Rest",
+      "Leave Work For A While",
+      "Rotate Your Neck",
+      "Relax Your Hands",
+      "Summary Your Jobs",
+      "Remember Your Goals",
     ];
     _fitnessHabitTitles = [
       "Do A Small Yoga Excercise",
-      "Do A Small Yoga Excercise",
-      "Do A Small Yoga Excercise",
-      "Do A Small Yoga Excercise",
-      "Do A Small Yoga Excercise",
-      "Do A Small Yoga Excercise",
+      "Have A Walk",
+      "Play Sports",
+      "Do Physic Excercises",
+      "Eat Some Vegetables",
+      "Go Pushups",
     ];
     _reduceStressHabitTitles = [
       "Relax Your Body",
-      "Relax Your Body",
-      "Relax Your Body",
-      "Relax Your Body",
-      "Relax Your Body",
-      "Relax Your Body",
+      "Listen To A Song",
+      "Talk To Someone",
+      "Do Your Hobbies",
+      "Meditation",
+      "Have A Deep Breath",
     ];
     _allHabitTitles = [];
     _allHabitTitles.add(_healthHabitTitles);
@@ -454,4 +459,3 @@ class _HabbitsSettingScreenState extends State<HabbitsSettingScreen> {
     }
   }
 }
-

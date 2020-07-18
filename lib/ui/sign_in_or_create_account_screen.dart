@@ -106,7 +106,7 @@ class _SignInOrCreateAccountScreenState
             duration: Duration(milliseconds: 400)));
   }
 
-  // Sign in screen header
+  // Close button
   Widget _buildLoginScreenHeader() => Container(
         height: 70.0,
         child: Container(

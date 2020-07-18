@@ -2,36 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:todoapp/data/repeat_choice_data.dart';
-import 'package:todoapp/set_up_widgets/repeat_sheet.dart';
+import 'package:todoapp/set_up_widgets/task_repeat_sheet.dart';
 
-class ScheduleSheet extends StatefulWidget {
+class TaskScheduleSheet extends StatefulWidget {
   DateTime schedulePickedDate;
   final DateTime initTime;
   RepeatChoiceData repeatChoiceData = RepeatChoiceData();
 
-  ScheduleSheet({this.initTime, RepeatChoiceData data}) {
+  TaskScheduleSheet({this.initTime, RepeatChoiceData data}) {
     schedulePickedDate = initTime;
     repeatChoiceData = data;
   }
 
   @override
-  _ScheduleSheetState createState() => _ScheduleSheetState();
+  _TaskScheduleSheetState createState() => _TaskScheduleSheetState();
 }
 
-class _ScheduleSheetState extends State<ScheduleSheet> {
+class _TaskScheduleSheetState extends State<TaskScheduleSheet> {
   List<String> _scheduleTittle = [
+    'Unscheduled',
     'Today',
     'Tomorrow',
     'This week',
     'Later',
-    'Choose date'
+    'Choose date',
   ];
 
   int _selectedScheduleIndex = 0;
   String _scheduleChoseDateText;
   DateTime _scheduleChoseDateTime;
 
-  RepeatSheet _repeatSheet;
+  TaskRepeatSheet _taskRepeatSheet;
 
   @override
   void initState() {
@@ -43,7 +44,7 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
     _scheduleChoseDateText =
         DateFormat("EEEEEEEE dd MMMM yyyy").format(_scheduleChoseDateTime);
 
-    _repeatSheet = RepeatSheet(
+    _taskRepeatSheet = TaskRepeatSheet(
       initChoiceData: widget.repeatChoiceData,
     );
 
@@ -52,6 +53,10 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
 
   @override
   Widget build(BuildContext context) {
+    _taskRepeatSheet = TaskRepeatSheet(
+      initChoiceData: widget.repeatChoiceData,
+    );
+    
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -77,7 +82,8 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
               ),
             ],
           ),
-          Expanded(
+          Container(
+            height: (MediaQuery.of(context).size.height * 0.9) / 2.15,
             child: ListView.builder(
               physics: BouncingScrollPhysics(),
               itemCount: _scheduleTittle.length,
@@ -96,10 +102,10 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
                             child: Icon(Icons.check),
                           ),
                     title: Text(_scheduleTittle[index]),
-                    trailing: (_selectedScheduleIndex == index && index == 0)
+                    trailing: (_selectedScheduleIndex == index && index == 1)
                         ? Text(DateFormat("EEEEEEEE dd MMMM yyyy")
                             .format(DateTime.now()))
-                        : (_selectedScheduleIndex == index && index == 1)
+                        : (_selectedScheduleIndex == index && index == 2)
                             ? Text(DateFormat("EEEEEEEE dd MMMM yyyy")
                                 .format(DateTime.now().add(Duration(days: 1))))
                             : (_selectedScheduleIndex == index &&
@@ -137,19 +143,19 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
                             //------------------------------------------------//
 
                             // Xét điều kiện xem người dùng có chọn trùng với ngày của 4 choice menu trên hay không
-                            //--------------Phần xét Today + Tmorrow-----------//
+                            //--------------Phần xét Today + Tomorrow-----------//
                             if (DateFormat("dd MMMM yyyy")
                                     .format(_scheduleChoseDateTime) ==
                                 DateFormat("dd MMMM yyyy")
                                     .format(DateTime.now())) {
-                              _selectedScheduleIndex = 0;
+                              _selectedScheduleIndex = 1;
 
                               return;
                             } else if (DateFormat("dd MMMM yyyy")
                                     .format(_scheduleChoseDateTime) ==
                                 DateFormat("dd MMMM yyyy").format(
                                     DateTime.now().add(Duration(days: 1)))) {
-                              _selectedScheduleIndex = 1;
+                              _selectedScheduleIndex = 2;
 
                               return;
                             }
@@ -164,7 +170,7 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
                                     .format(_scheduleChoseDateTime) ==
                                 DateFormat("dd MMMM yyyy")
                                     .format(temp.add(Duration(days: 6)))) {
-                              _selectedScheduleIndex = 2;
+                              _selectedScheduleIndex = 3;
                               return;
                             }
                             //------------------------------------------------//
@@ -173,22 +179,21 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
                             // Dời về CN tuần trc để xét
                             var temp2 = DateTime.now()
                                 .add(Duration(days: -(DateTime.now().weekday)));
-
                             if (DateFormat("dd MMMM yyyy")
                                     .format(_scheduleChoseDateTime) ==
                                 DateFormat("dd MMMM yyyy")
                                     .format(temp2.add(Duration(days: 15)))) {
-                              _selectedScheduleIndex = 3;
+                              _selectedScheduleIndex = 4;
 
                               return;
                             }
                             //------------------------------------------------//
                           });
                         });
-                      } else if (index == 0 || index == 1) {
+                      } else if (index == 1 || index == 2) {
                         // Today + Tomorrow
                         setState(() {
-                          _scheduleChoseDateTime = index == 0
+                          _scheduleChoseDateTime = index == 1
                               ? DateTime.now()
                               : DateTime.now().add(Duration(days: 1));
                           _scheduleChoseDateText =
@@ -200,7 +205,7 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
                       } else {
                         setState(() {
                           // This week
-                          if (index == 2) {
+                          if (index == 3) {
                             _scheduleChoseDateTime = DateTime.now().add(
                                 Duration(days: -(DateTime.now().weekday - 1)));
                             _scheduleChoseDateTime =
@@ -211,8 +216,9 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
                                     .format(_scheduleChoseDateTime);
 
                             widget.schedulePickedDate = _scheduleChoseDateTime;
-                          } else {
+                          } else if (index == 4) {
                             // Later
+                            // Dời về CN tuần trc để xét
                             var temp = DateTime.now()
                                 .add(Duration(days: -(DateTime.now().weekday)));
                             _scheduleChoseDateTime =
@@ -269,8 +275,8 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
     showModalBottomSheet(
         backgroundColor: Colors.transparent,
         context: context,
-        builder: (context) => _repeatSheet).whenComplete(() {
-      widget.repeatChoiceData = _repeatSheet.repeatChoiceData;
+        builder: (context) => _taskRepeatSheet).whenComplete(() {
+      widget.repeatChoiceData = _taskRepeatSheet.repeatChoiceData;
     });
 
     setState(() {
@@ -283,24 +289,23 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
     //----------------------Các trường hợp today, tomorrow--------------------//
     if (DateFormat("dd MMMM yyyy").format(widget.schedulePickedDate) ==
         DateFormat("dd MMMM yyyy").format(DateTime.now())) {
-      _selectedScheduleIndex = 0;
+      _selectedScheduleIndex = 1;
       return;
     } else if (DateFormat("dd MMMM yyyy").format(widget.schedulePickedDate) ==
         DateFormat("dd MMMM yyyy")
             .format(DateTime.now().add(Duration(days: 1)))) {
-      _selectedScheduleIndex = 1;
+      _selectedScheduleIndex = 2;
       return;
     }
     //------------------------------------------------------------------------//
 
-    //------------------Nếu trạng thái ng dùng chọn là this week--------------//
     // Chuyển ngày chọn về thứ 2 của tuần đó sau đó cộng lên chủ nhật của tuần đó và xét xem chủ nhật tuần đó có trùng với ngày pick hay ko
     var temp =
         DateTime.now().add(Duration(days: -(DateTime.now().weekday - 1)));
 
     if (DateFormat("dd MMMM yyyy").format(widget.schedulePickedDate) ==
         DateFormat("dd MMMM yyyy").format(temp.add(Duration(days: 6)))) {
-      _selectedScheduleIndex = 2;
+      _selectedScheduleIndex = 3;
       return;
     }
     //------------------------------------------------------------------------//
@@ -315,12 +320,12 @@ class _ScheduleSheetState extends State<ScheduleSheet> {
       _scheduleChoseDateText =
           DateFormat("EEEEEEEE dd MMMM yyyy").format(_scheduleChoseDateTime);
 
-      _selectedScheduleIndex = 3;
+      _selectedScheduleIndex = 4;
       return;
     }
     //------------------------------------------------------------------------//
 
     //---------------------Trường hợp còn lại (Choose date)-------------------//
-    _selectedScheduleIndex = 4;
+    _selectedScheduleIndex = 5;
   }
 }
