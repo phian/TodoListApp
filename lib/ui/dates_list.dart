@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todoapp/doit_database_bus/doit_database_helper.dart';
 import 'package:todoapp/custom_ui_widgets/custom_list_tile.dart';
 import 'package:todoapp/doit_database_models/doit_tasks_data.dart';
@@ -145,8 +146,87 @@ class _DatesListScreenState extends State<DatesListScreen>
                     onTapCancel: _onTapCancel,
                     child: Transform.scale(
                       scale: _itemScale,
-                      child: TaskTile(
-                        taskData: todayTaskList[index],
+                      child: Slidable(
+                        actionPane: SlidableDrawerActionPane(),
+                        child: TaskTile(
+                          taskData: todayTaskList[index],
+                        ),
+                        actions: <Widget>[
+                          IconSlideAction(
+                            iconWidget: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.remove_circle_outline,
+                                  size: 25.0,
+                                  color: Colors.black,
+                                ),
+                                SizedBox(
+                                  height: 10.0,
+                                ),
+                                Text(
+                                  "Delete",
+                                  style: TextStyle(
+                                    fontSize: 15.0,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            color: Colors.transparent,
+                            onTap: () {},
+                          ),
+                          IconSlideAction(
+                            iconWidget: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.access_time,
+                                  size: 25.0,
+                                  color: Colors.black,
+                                ),
+                                SizedBox(
+                                  height: 10.0,
+                                ),
+                                Text(
+                                  "Reschedule",
+                                  style: TextStyle(
+                                    fontSize: 15.0,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            color: Colors.transparent,
+                            onTap: () {},
+                          ),
+                        ],
+                        secondaryActions: <Widget>[
+                          IconSlideAction(
+                            iconWidget: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.done,
+                                  size: 25.0,
+                                  color: Colors.black,
+                                ),
+                                SizedBox(
+                                  height: 10.0,
+                                ),
+                                Text(
+                                  "Complete",
+                                  style: TextStyle(
+                                    fontSize: 15.0,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            color: Colors.transparent,
+                            onTap: () {},
+                          ),
+                        ],
                       ),
                     ),
                   ),
